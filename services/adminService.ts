@@ -1,6 +1,7 @@
 import { createClient } from "@lib/supabase/client";
 import type { Database } from "@app-types/database.types";
 import type { FullProfile } from "./profileService";
+import type { PostgrestError } from "@supabase/supabase-js";
 
 export type AuditLogRow = Database["public"]["Tables"]["audit_logs"]["Row"];
 
@@ -109,7 +110,7 @@ export class AdminService {
       .from("roles")
       .select("id")
       .ilike("name", roleName)
-      .single() as { data: { id: string } | null, error: any };
+      .single() as { data: { id: string } | null, error: PostgrestError | null };
       
     if (roleError || !roleData) {
       throw new Error(`Role not found: ${roleName}`);
