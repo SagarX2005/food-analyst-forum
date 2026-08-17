@@ -1,0 +1,21 @@
+import Link from "next/link";
+
+interface AuthFooterProps {
+  label: string;
+  linkText: string;
+  linkHref: string;
+}
+
+export function AuthFooter({ label, linkText, linkHref }: AuthFooterProps) {
+  return (
+    <div className="mt-6 text-center text-xs text-muted-foreground">
+      <span>{label} </span>
+      <Link
+        href={linkHref}
+        className="font-bold text-[#4a9d23] hover:underline underline-offset-4 transition-colors"
+      >
+        {linkText}
+      </Link>
+    </div>
+  );
+}

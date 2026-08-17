@@ -1,0 +1,10 @@
+.next
+node_modules
+build
+dist
+public
+coverage
+*.min.js
+*.min.css
+pnpm-lock.yaml
+supabase/.temp
