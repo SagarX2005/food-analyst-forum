@@ -12,10 +12,10 @@ interface FlaskLoaderProps {
 }
 
 const sizeConfig = {
-  sm:  { px: 32,  label: "text-xs" },
-  md:  { px: 56,  label: "text-sm" },
-  lg:  { px: 96,  label: "text-sm" },
-  xl:  { px: 140, label: "text-base" },
+  sm: { px: 32, label: "text-xs" },
+  md: { px: 56, label: "text-sm" },
+  lg: { px: 96, label: "text-sm" },
+  xl: { px: 140, label: "text-base" },
 };
 
 export function FlaskLoader({
@@ -32,16 +32,9 @@ export function FlaskLoader({
       aria-label={label}
       className={cn("inline-flex flex-col items-center justify-center gap-2", className)}
     >
-      <Lottie
-        animationData={flaskAnimation}
-        loop
-        autoplay
-        style={{ width: px, height: px }}
-      />
+      <Lottie animationData={flaskAnimation} loop autoplay style={{ width: px, height: px }} />
 
-      {showLabel && (
-        <p className={cn("font-semibold text-[#0a2a4a]", labelClass)}>{label}</p>
-      )}
+      {showLabel && <p className={cn("font-semibold text-[#0a2a4a]", labelClass)}>{label}</p>}
 
       <span className="sr-only">{label}</span>
     </div>

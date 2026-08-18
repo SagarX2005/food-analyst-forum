@@ -14,7 +14,7 @@ export function LoadingState({ message = "Loading...", variant = "spinner" }: Lo
         <div className="flex justify-center">
           <FlaskPageLoader message={message} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <Skeleton className="h-48 w-full rounded-2xl" />
           <Skeleton className="h-48 w-full rounded-2xl" />
           <Skeleton className="h-48 w-full rounded-2xl" />

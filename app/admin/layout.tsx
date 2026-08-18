@@ -5,9 +5,12 @@ import { AdminLayout as Shell } from "@components/admin/admin-layout";
 
 export default async function AdminLayout({ children }: { children: ReactNode }) {
   const supabase = await createClient();
-  
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     redirect("/login");
   }

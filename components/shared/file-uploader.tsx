@@ -68,8 +68,8 @@ export function FileUploader({
       <div
         onClick={() => fileInputRef.current?.click()}
         className={cn(
-          "relative flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-border/80 bg-accent/30 p-6 text-center transition-all hover:border-[#4a9d23] hover:bg-accent/60 cursor-pointer group",
-          isUploading && "pointer-events-none opacity-60"
+          "border-border/80 bg-accent/30 hover:bg-accent/60 group relative flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed p-6 text-center transition-all hover:border-[#4a9d23]",
+          isUploading && "pointer-events-none opacity-60",
         )}
       >
         <input
@@ -86,20 +86,24 @@ export function FileUploader({
             <img src={preview} alt="Preview" className="h-full w-full object-cover" />
           </div>
         ) : (
-          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] mb-3 group-hover:scale-110 transition-transform">
-            {isUploading ? <Loader2 className="h-6 w-6 animate-spin" /> : <Upload className="h-6 w-6" />}
+          <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] transition-transform group-hover:scale-110">
+            {isUploading ? (
+              <Loader2 className="h-6 w-6 animate-spin" />
+            ) : (
+              <Upload className="h-6 w-6" />
+            )}
           </div>
         )}
 
         <div className="space-y-1">
-          <p className="text-xs font-bold text-[#0a2a4a] dark:text-foreground">{label}</p>
-          <p className="text-[11px] text-muted-foreground">Click to browse file (Max 5MB)</p>
+          <p className="dark:text-foreground text-xs font-bold text-[#0a2a4a]">{label}</p>
+          <p className="text-muted-foreground text-[11px]">Click to browse file (Max 5MB)</p>
         </div>
 
         {isUploading && (
-          <div className="w-full mt-3 bg-muted rounded-full h-1.5 overflow-hidden max-w-xs">
+          <div className="bg-muted mt-3 h-1.5 w-full max-w-xs overflow-hidden rounded-full">
             <div
-              className="bg-[#4a9d23] h-full transition-all duration-300"
+              className="h-full bg-[#4a9d23] transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -107,7 +111,7 @@ export function FileUploader({
       </div>
 
       {error && (
-        <div className="flex items-center gap-1.5 text-xs text-destructive font-semibold">
+        <div className="text-destructive flex items-center gap-1.5 text-xs font-semibold">
           <AlertCircle className="h-4 w-4" /> {error}
         </div>
       )}

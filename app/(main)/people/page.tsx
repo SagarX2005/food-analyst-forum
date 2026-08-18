@@ -18,12 +18,12 @@ export default function PeopleDirectoryPage() {
       setProfiles(data);
       setLoading(false);
     }
-    
+
     // Add a slight debounce for typing
     const timeoutId = setTimeout(() => {
       loadData();
     }, 300);
-    
+
     return () => clearTimeout(timeoutId);
   }, [searchTerm]);
 
@@ -32,19 +32,19 @@ export default function PeopleDirectoryPage() {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Users className="h-7 w-7 text-[#4a9d23]" />
-          <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground">
+          <h1 className="dark:text-foreground text-3xl font-extrabold text-[#0a2a4a]">
             Professional Network Directory
           </h1>
         </div>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Connect with certified food analysts, laboratory professionals, and industry experts.
         </p>
       </div>
 
       {/* SEARCH BAR */}
-      <div className="flex flex-col sm:flex-row items-center gap-3">
-        <div className="relative flex-1 w-full">
-          <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+      <div className="flex flex-col items-center gap-3 sm:flex-row">
+        <div className="relative w-full flex-1">
+          <Search className="text-muted-foreground absolute top-3.5 left-3.5 h-4 w-4" />
           <Input
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -56,17 +56,19 @@ export default function PeopleDirectoryPage() {
 
       {/* PEOPLE GRID */}
       {loading ? (
-        <div className="py-12 text-center text-sm text-muted-foreground flex flex-col items-center gap-4">
-          <div className="h-6 w-6 border-2 border-slate-200 border-t-[#4a9d23] rounded-full animate-spin" />
+        <div className="text-muted-foreground flex flex-col items-center gap-4 py-12 text-center text-sm">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-slate-200 border-t-[#4a9d23]" />
           Loading professionals...
         </div>
       ) : profiles.length === 0 ? (
-        <div className="py-12 text-center text-sm text-muted-foreground space-y-2 bg-white rounded-lg border border-slate-200">
+        <div className="text-muted-foreground space-y-2 rounded-lg border border-slate-200 bg-white py-12 text-center text-sm">
           <p className="font-bold text-[#0a2a4a]">No professionals found matching your search.</p>
-          <p className="text-xs">Try searching for &quot;Microbiology&quot;, &quot;HPLC&quot;, or &quot;Manager&quot;.</p>
+          <p className="text-xs">
+            Try searching for &quot;Microbiology&quot;, &quot;HPLC&quot;, or &quot;Manager&quot;.
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {profiles.map((profile) => (
             <ProfileCard key={profile.id} profile={profile} />
           ))}

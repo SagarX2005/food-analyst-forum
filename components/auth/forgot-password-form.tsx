@@ -48,9 +48,7 @@ export function ForgotPasswordForm() {
         <FormSuccess message={successMessage} />
 
         <div>
-          <label className="text-xs font-semibold text-foreground mb-1 block">
-            Email Address
-          </label>
+          <label className="text-foreground mb-1 block text-xs font-semibold">Email Address</label>
           <Input
             {...register("email")}
             type="email"
@@ -58,9 +56,7 @@ export function ForgotPasswordForm() {
             autoComplete="email"
             aria-invalid={!!errors.email}
           />
-          {errors.email && (
-            <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-destructive mt-1 text-xs">{errors.email.message}</p>}
         </div>
 
         <Button
@@ -71,14 +67,20 @@ export function ForgotPasswordForm() {
           className="w-full justify-center gap-2"
         >
           {isSubmitting ? (
-            <><FlaskLoader size="sm" /><span>Sending Link...</span></>
+            <>
+              <FlaskLoader size="sm" />
+              <span>Sending Link...</span>
+            </>
           ) : (
-            <><Mail className="h-4 w-4" />Send Reset Link</>
+            <>
+              <Mail className="h-4 w-4" />
+              Send Reset Link
+            </>
           )}
         </Button>
       </form>
 
-      <div className="text-center pt-2">
+      <div className="pt-2 text-center">
         <Link
           href="/login"
           className="inline-flex items-center gap-1.5 text-xs font-bold text-[#4a9d23] hover:underline"

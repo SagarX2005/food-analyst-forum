@@ -54,21 +54,25 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 py-4">
+    <div className="mx-auto max-w-4xl space-y-6 py-4">
       <div>
-        <Link href="/forum" className="inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline mb-2">
+        <Link
+          href="/forum"
+          className="mb-2 inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline"
+        >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to Discussions
         </Link>
-        <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+        <h1 className="dark:text-foreground flex items-center gap-2 text-3xl font-extrabold text-[#0a2a4a]">
           <PlusCircle className="h-7 w-7 text-[#4a9d23]" /> Ask a Technical Question
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Share analytical challenges, methodology inquiries, or regulatory compliance questions with certified analysts.
+        <p className="text-muted-foreground mt-1 text-sm">
+          Share analytical challenges, methodology inquiries, or regulatory compliance questions
+          with certified analysts.
         </p>
       </div>
 
       {error && (
-        <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-xs font-semibold text-destructive">
+        <div className="bg-destructive/10 border-destructive/20 text-destructive rounded-xl border p-4 text-xs font-semibold">
           {error}
         </div>
       )}
@@ -76,7 +80,7 @@ export default function CreatePostPage() {
       {categories.length > 0 ? (
         <PostEditor categories={categories} onSubmit={handleSubmit} isSubmitting={isSubmitting} />
       ) : (
-        <div className="p-8 text-center text-xs text-muted-foreground">Loading categories...</div>
+        <div className="text-muted-foreground p-8 text-center text-xs">Loading categories...</div>
       )}
     </div>
   );

@@ -9,8 +9,8 @@ export function AuthCard({ children, className, ...props }: AuthCardProps) {
   return (
     <div
       className={cn(
-        "w-full max-w-md rounded-3xl border border-border/60 bg-card p-8 shadow-xl text-card-foreground transition-all",
-        className
+        "border-border/60 bg-card text-card-foreground w-full max-w-md rounded-3xl border p-8 shadow-xl transition-all",
+        className,
       )}
       {...props}
     >

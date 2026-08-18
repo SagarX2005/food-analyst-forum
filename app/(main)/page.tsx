@@ -16,22 +16,25 @@ export default function HomePage() {
   return (
     <div className="space-y-16 py-4">
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-50 via-white to-slate-100 p-8 sm:p-12 lg:p-16 border border-slate-200/80 shadow-sm">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-6">
-            <Badge variant="green" className="px-3 py-1 text-xs gap-1.5 font-bold uppercase tracking-wider">
+      <section className="relative overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-8 shadow-sm sm:p-12 lg:p-16">
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
+          <div className="space-y-6 lg:col-span-7">
+            <Badge
+              variant="green"
+              className="gap-1.5 px-3 py-1 text-xs font-bold tracking-wider uppercase"
+            >
               <Sparkles className="h-3.5 w-3.5" /> India’s Premier Laboratory Network
             </Badge>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0a2a4a] leading-[1.25]">
+            <h1 className="text-3xl leading-[1.25] font-extrabold tracking-tight text-[#0a2a4a] sm:text-4xl lg:text-5xl">
               Where Food Analysis Professionals{" "}
-              <span className="text-[#4a9d23]">
-                Connect, Learn & Grow.
-              </span>
+              <span className="text-[#4a9d23]">Connect, Learn & Grow.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl">
-              FAF brings together food analysts, laboratory professionals, researchers, quality teams, organizations, and industry experts through trusted knowledge, professional opportunities, and specialized learning.
+            <p className="text-muted-foreground max-w-2xl text-base leading-relaxed sm:text-lg">
+              FAF brings together food analysts, laboratory professionals, researchers, quality
+              teams, organizations, and industry experts through trusted knowledge, professional
+              opportunities, and specialized learning.
             </p>
 
             <div className="flex flex-wrap gap-4 pt-2">
@@ -48,7 +51,7 @@ export default function HomePage() {
             </div>
 
             {/* Trust Badges */}
-            <div className="pt-6 border-t border-border/60 grid grid-cols-3 gap-4 text-xs font-semibold text-muted-foreground">
+            <div className="border-border/60 text-muted-foreground grid grid-cols-3 gap-4 border-t pt-6 text-xs font-semibold">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-[#4a9d23]" />
                 <span>5000+ Analysts</span>
@@ -64,18 +67,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md lg:max-w-none overflow-hidden rounded-2xl shadow-2xl border-4 border-white dark:border-gray-800">
+          <div className="relative lg:col-span-5">
+            <div className="relative mx-auto max-w-md overflow-hidden rounded-2xl border-4 border-white shadow-2xl lg:max-w-none dark:border-gray-800">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/hero-lab.jpg"
                 alt="Food Analyst Laboratory Professional"
-                className="w-full h-[380px] object-cover transition-transform duration-500 hover:scale-105"
+                className="h-[380px] w-full object-cover transition-transform duration-500 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a2a4a]/80 via-transparent to-transparent flex items-end p-6">
-                <div className="text-white space-y-1">
-                  <p className="text-xs font-bold text-[#4a9d23] uppercase tracking-wider">ISO 17025 Compliant</p>
-                  <p className="text-sm font-semibold">Standardized Chemical & Microbiological Protocols</p>
+              <div className="absolute inset-0 flex items-end bg-gradient-to-t from-[#0a2a4a]/80 via-transparent to-transparent p-6">
+                <div className="space-y-1 text-white">
+                  <p className="text-xs font-bold tracking-wider text-[#4a9d23] uppercase">
+                    ISO 17025 Compliant
+                  </p>
+                  <p className="text-sm font-semibold">
+                    Standardized Chemical & Microbiological Protocols
+                  </p>
                 </div>
               </div>
             </div>
@@ -84,52 +91,63 @@ export default function HomePage() {
       </section>
 
       {/* CORE FEATURES GRID */}
-      <section id="explore" className="space-y-8 scroll-mt-24">
-        <div className="text-center space-y-2 max-w-3xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0a2a4a]">
-            What FAF Offers
-          </h2>
+      <section id="explore" className="scroll-mt-24 space-y-8">
+        <div className="mx-auto max-w-3xl space-y-2 text-center">
+          <h2 className="text-2xl font-extrabold text-[#0a2a4a] sm:text-3xl">What FAF Offers</h2>
           <p className="text-muted-foreground text-sm sm:text-base">
-            An exclusive professional ecosystem designed specifically for food safety analysts, lab managers, and quality assurance personnel.
+            An exclusive professional ecosystem designed specifically for food safety analysts, lab
+            managers, and quality assurance personnel.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="hover:border-[#4a9d23] transition-all group">
-            <div className="h-12 w-12 rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <Card className="group transition-all hover:border-[#4a9d23]">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] transition-transform group-hover:scale-110">
               <Users className="h-6 w-6" />
             </div>
-            <h3 className="text-xl font-bold text-[#4a9d23] mb-2">DISCUSSION FORUM</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Connect with leading experts, troubleshoot complex matrix interferences, and solve laboratory analytical challenges.
+            <h3 className="mb-2 text-xl font-bold text-[#4a9d23]">DISCUSSION FORUM</h3>
+            <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+              Connect with leading experts, troubleshoot complex matrix interferences, and solve
+              laboratory analytical challenges.
             </p>
-            <Link href="/forum" className="inline-flex items-center text-xs font-bold text-[#4a9d23] hover:underline gap-1">
+            <Link
+              href="/forum"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline"
+            >
               Join Discussions <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Card>
 
-          <Card className="hover:border-[#0a2a4a] transition-all group">
-            <div className="h-12 w-12 rounded-2xl bg-[#0a2a4a]/10 text-[#0a2a4a] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+          <Card className="group transition-all hover:border-[#0a2a4a]">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a2a4a]/10 text-[#0a2a4a] transition-transform group-hover:scale-110">
               <BookOpen className="h-6 w-6" />
             </div>
-            <h3 className="text-xl font-bold text-[#0a2a4a] mb-2">SOP LIBRARY</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Access standardized operating procedures, analytical testing methodologies, and validated uncertainty templates.
+            <h3 className="mb-2 text-xl font-bold text-[#0a2a4a]">SOP LIBRARY</h3>
+            <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+              Access standardized operating procedures, analytical testing methodologies, and
+              validated uncertainty templates.
             </p>
-            <Link href="/resources" className="inline-flex items-center text-xs font-bold text-[#0a2a4a] hover:underline gap-1">
+            <Link
+              href="/resources"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#0a2a4a] hover:underline"
+            >
               Browse SOPs <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Card>
 
-          <Card className="hover:border-[#4a9d23] transition-all group">
-            <div className="h-12 w-12 rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] flex items-center justify-center mb-4 transition-transform group-hover:scale-110">
+          <Card className="group transition-all hover:border-[#4a9d23]">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] transition-transform group-hover:scale-110">
               <FileCheck className="h-6 w-6" />
             </div>
-            <h3 className="text-xl font-bold text-[#4a9d23] mb-2">REGULATORY UPDATES</h3>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-              Stay immediately updated with FSSAI notifications, MRL revisions, NABL 17025 checklists, and global regulations.
+            <h3 className="mb-2 text-xl font-bold text-[#4a9d23]">REGULATORY UPDATES</h3>
+            <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+              Stay immediately updated with FSSAI notifications, MRL revisions, NABL 17025
+              checklists, and global regulations.
             </p>
-            <Link href="/news" className="inline-flex items-center text-xs font-bold text-[#4a9d23] hover:underline gap-1">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline"
+            >
               Read Latest News <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Card>
@@ -137,18 +155,21 @@ export default function HomePage() {
       </section>
 
       {/* QUICK STATS & FLIMS BANNER */}
-      <section className="rounded-3xl bg-[#0a2a4a] text-white p-8 sm:p-12 shadow-xl">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-8 space-y-4">
-            <Badge variant="green" className="text-xs">FLIMS Platform</Badge>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+      <section className="rounded-3xl bg-[#0a2a4a] p-8 text-white shadow-xl sm:p-12">
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12">
+          <div className="space-y-4 lg:col-span-8">
+            <Badge variant="green" className="text-xs">
+              FLIMS Platform
+            </Badge>
+            <h2 className="text-2xl font-extrabold text-white sm:text-3xl">
               Food Analyst Laboratory Information System (FLIMS)
             </h2>
-            <p className="text-gray-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-              Track samples from sample receiving to final test report dispatch. Auto-generate NABL & FSSAI compliant reports with full instrument calibration and logbook management.
+            <p className="max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
+              Track samples from sample receiving to final test report dispatch. Auto-generate NABL
+              & FSSAI compliant reports with full instrument calibration and logbook management.
             </p>
           </div>
-          <div className="lg:col-span-4 flex justify-start lg:justify-end">
+          <div className="flex justify-start lg:col-span-4 lg:justify-end">
             <Link href="/flims">
               <Button variant="green" size="lg" className="gap-2 shadow-lg">
                 <FlaskConical className="h-5 w-5" />

@@ -3,9 +3,9 @@
 import { z } from "zod";
 import { ALLOWED_APPROVAL_ROLES } from "./config";
 
-const MAX_TEXT   = 500;
+const MAX_TEXT = 500;
 const MAX_REASON = 2000;
-const URL_REGEX  = /^https?:\/\/.+\..+/;
+const URL_REGEX = /^https?:\/\/.+\..+/;
 
 // ---------------------------------------------------------------------------
 // Public: Access Request submission form
@@ -67,13 +67,11 @@ export const accessRequestSchema = z.object({
     .transform((v) => (v === "" ? undefined : v))
     .refine(
       (v) => v === undefined || URL_REGEX.test(v),
-      "LinkedIn URL must be a valid URL starting with http:// or https://"
+      "LinkedIn URL must be a valid URL starting with http:// or https://",
     )
     .refine(
-      (v) =>
-        v === undefined ||
-        v.toLowerCase().includes("linkedin.com"),
-      "LinkedIn URL must be a linkedin.com URL"
+      (v) => v === undefined || v.toLowerCase().includes("linkedin.com"),
+      "LinkedIn URL must be a linkedin.com URL",
     ),
 
   website_url: z
@@ -83,7 +81,7 @@ export const accessRequestSchema = z.object({
     .transform((v) => (v === "" ? undefined : v))
     .refine(
       (v) => v === undefined || URL_REGEX.test(v),
-      "Website URL must be a valid URL starting with http:// or https://"
+      "Website URL must be a valid URL starting with http:// or https://",
     ),
 });
 

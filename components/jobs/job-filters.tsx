@@ -37,9 +37,9 @@ export function JobFilters({
   ];
 
   return (
-    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
       {/* Employment Type Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+      <div className="flex w-full items-center gap-2 overflow-x-auto pb-2 md:w-auto md:pb-0">
         {types.map((t) => {
           const isActive = activeType === t.slug;
           return (
@@ -56,7 +56,7 @@ export function JobFilters({
       </div>
 
       {/* Sort Select & View Mode Toggle */}
-      <div className="flex items-center gap-3 w-full md:w-auto shrink-0">
+      <div className="flex w-full shrink-0 items-center gap-3 md:w-auto">
         <div className="w-full md:w-52">
           <Select
             value={activeSort}
@@ -65,7 +65,7 @@ export function JobFilters({
           />
         </div>
 
-        <div className="flex items-center gap-1 border border-border rounded-xl p-1 bg-card">
+        <div className="border-border bg-card flex items-center gap-1 rounded-xl border p-1">
           <Button
             variant={viewMode === "grid" ? "green" : "ghost"}
             size="icon"

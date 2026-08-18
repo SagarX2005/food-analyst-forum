@@ -15,11 +15,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { id } = await params;
   const supabase = await createClient();
 
-  const { data } = await supabase
-    .from("access_requests")
-    .select("full_name")
-    .eq("id", id)
-    .single();
+  const { data } = await supabase.from("access_requests").select("full_name").eq("id", id).single();
 
   return {
     title: data?.full_name
@@ -32,19 +28,15 @@ export const dynamic = "force-dynamic";
 
 async function getRequest(id: string): Promise<AccessRequest | null> {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("access_requests")
-    .select("*")
-    .eq("id", id)
-    .single();
+  const { data, error } = await supabase.from("access_requests").select("*").eq("id", id).single();
 
   if (error || !data) return null;
   return data as AccessRequest;
 }
 
 export default async function AdminInvitationDetailPage({ params }: PageProps) {
-  const { id }    = await params;
-  const request   = await getRequest(id);
+  const { id } = await params;
+  const request = await getRequest(id);
 
   if (!request) {
     notFound();

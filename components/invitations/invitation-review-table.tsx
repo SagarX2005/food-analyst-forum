@@ -19,21 +19,21 @@ interface InvitationReviewTableProps {
 }
 
 const STATUS_FILTER_OPTIONS = [
-  { value: "all",             label: "All Statuses" },
-  { value: "pending",         label: "Pending" },
-  { value: "under_review",    label: "Under Review" },
-  { value: "approved",        label: "Approved" },
-  { value: "rejected",        label: "Rejected" },
+  { value: "all", label: "All Statuses" },
+  { value: "pending", label: "Pending" },
+  { value: "under_review", label: "Under Review" },
+  { value: "approved", label: "Approved" },
+  { value: "rejected", label: "Rejected" },
   { value: "invitation_sent", label: "Invite Sent" },
-  { value: "accepted",        label: "Accepted" },
-  { value: "expired",         label: "Expired" },
+  { value: "accepted", label: "Accepted" },
+  { value: "expired", label: "Expired" },
 ];
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
-    day:   "numeric",
-    year:  "numeric",
+    day: "numeric",
+    year: "numeric",
   });
 }
 
@@ -42,7 +42,7 @@ export function InvitationReviewTable({
   isLoading = false,
   onRefresh,
 }: InvitationReviewTableProps) {
-  const [search,       setSearch]       = React.useState("");
+  const [search, setSearch] = React.useState("");
   const [statusFilter, setStatusFilter] = React.useState("all");
 
   const filtered = requests.filter((r) => {
@@ -60,15 +60,15 @@ export function InvitationReviewTable({
   return (
     <div className="space-y-4">
       {/* Toolbar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
-        <div className="flex flex-1 w-full items-center gap-3">
-          <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-400" />
+      <div className="flex flex-col items-start justify-between gap-3 rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center">
+        <div className="flex w-full flex-1 items-center gap-3">
+          <div className="relative max-w-sm flex-1">
+            <Search className="absolute top-2.5 left-2.5 h-4 w-4 text-slate-400" />
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search applicants, emails..."
-              className="pl-9 h-9 text-sm bg-slate-50 border-slate-200 focus-visible:ring-[#4a9d23] focus-visible:ring-offset-0"
+              className="h-9 border-slate-200 bg-slate-50 pl-9 text-sm focus-visible:ring-[#4a9d23] focus-visible:ring-offset-0"
             />
           </div>
           <div className="relative">
@@ -76,13 +76,13 @@ export function InvitationReviewTable({
               value={statusFilter}
               options={STATUS_FILTER_OPTIONS}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-40 h-9 text-sm bg-slate-50 border-slate-200"
+              className="h-9 w-40 border-slate-200 bg-slate-50 text-sm"
             />
           </div>
         </div>
-        
-        <div className="flex items-center gap-3 w-full sm:w-auto">
-          <span className="text-xs font-medium text-slate-500 whitespace-nowrap">
+
+        <div className="flex w-full items-center gap-3 sm:w-auto">
+          <span className="text-xs font-medium whitespace-nowrap text-slate-500">
             {filtered.length} result{filtered.length !== 1 ? "s" : ""}
           </span>
           {onRefresh && (
@@ -91,7 +91,7 @@ export function InvitationReviewTable({
               size="sm"
               onClick={onRefresh}
               disabled={isLoading}
-              className="h-9 gap-1.5 text-slate-600 border-slate-200 hover:bg-slate-50"
+              className="h-9 gap-1.5 border-slate-200 text-slate-600 hover:bg-slate-50"
             >
               <RefreshCw className={`h-3.5 w-3.5 ${isLoading ? "animate-spin" : ""}`} />
               Refresh
@@ -101,55 +101,70 @@ export function InvitationReviewTable({
       </div>
 
       {/* Table Container */}
-      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+      <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
         {isLoading ? (
-          <div className="py-24 flex flex-col items-center justify-center space-y-4">
-            <RefreshCw className="h-6 w-6 text-slate-300 animate-spin" />
+          <div className="flex flex-col items-center justify-center space-y-4 py-24">
+            <RefreshCw className="h-6 w-6 animate-spin text-slate-300" />
             <p className="text-sm text-slate-500">Loading access requests...</p>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="py-24 flex flex-col items-center justify-center text-center space-y-3 px-4">
-            <div className="h-12 w-12 rounded-full bg-slate-50 flex items-center justify-center mb-2">
+          <div className="flex flex-col items-center justify-center space-y-3 px-4 py-24 text-center">
+            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-slate-50">
               <SlidersHorizontal className="h-6 w-6 text-slate-400" />
             </div>
             <p className="text-base font-bold text-[#0a2a4a]">You&apos;re all caught up</p>
-            <p className="text-sm text-slate-500 max-w-sm">There are no membership requests matching your current filters.</p>
-            {(search || statusFilter !== 'all') && (
-              <Button variant="link" onClick={() => { setSearch(""); setStatusFilter("all"); }} className="text-[#4a9d23]">
+            <p className="max-w-sm text-sm text-slate-500">
+              There are no membership requests matching your current filters.
+            </p>
+            {(search || statusFilter !== "all") && (
+              <Button
+                variant="link"
+                onClick={() => {
+                  setSearch("");
+                  setStatusFilter("all");
+                }}
+                className="text-[#4a9d23]"
+              >
                 Clear filters
               </Button>
             )}
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead className="text-xs text-slate-500 bg-slate-50 border-b border-slate-200 uppercase tracking-widest font-semibold sticky top-0">
+            <table className="w-full text-left text-sm">
+              <thead className="sticky top-0 border-b border-slate-200 bg-slate-50 text-xs font-semibold tracking-widest text-slate-500 uppercase">
                 <tr>
-                  <th className="px-6 py-4 rounded-tl-lg font-bold">Applicant</th>
+                  <th className="rounded-tl-lg px-6 py-4 font-bold">Applicant</th>
                   <th className="px-6 py-4 font-bold">Professional Identity</th>
                   <th className="px-6 py-4 font-bold">Experience</th>
                   <th className="px-6 py-4 font-bold">Submitted</th>
                   <th className="px-6 py-4 font-bold">Status</th>
-                  <th className="px-6 py-4 rounded-tr-lg font-bold text-right">Action</th>
+                  <th className="rounded-tr-lg px-6 py-4 text-right font-bold">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {filtered.map((req) => (
-                  <tr key={req.id} className="hover:bg-slate-50/80 transition-colors group">
+                  <tr key={req.id} className="group transition-colors hover:bg-slate-50/80">
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="font-bold text-[#0a2a4a] text-sm">{req.full_name}</span>
-                        <span className="text-xs text-slate-500 mt-0.5 truncate max-w-[200px]">{req.email}</span>
+                        <span className="text-sm font-bold text-[#0a2a4a]">{req.full_name}</span>
+                        <span className="mt-0.5 max-w-[200px] truncate text-xs text-slate-500">
+                          {req.email}
+                        </span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col">
-                        <span className="font-semibold text-slate-700 text-xs">{req.professional_title}</span>
-                        <span className="text-xs text-slate-500 mt-0.5">{req.organization}</span>
+                        <span className="text-xs font-semibold text-slate-700">
+                          {req.professional_title}
+                        </span>
+                        <span className="mt-0.5 text-xs text-slate-500">{req.organization}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="text-xs font-medium text-slate-600">{req.experience_years} years</span>
+                      <span className="text-xs font-medium text-slate-600">
+                        {req.experience_years} years
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-xs text-slate-500">{formatDate(req.created_at)}</span>
@@ -159,7 +174,11 @@ export function InvitationReviewTable({
                     </td>
                     <td className="px-6 py-4 text-right">
                       <Link href={`/admin/invitations/${req.id}`}>
-                        <Button variant="ghost" size="sm" className="h-8 gap-1 text-xs font-semibold text-slate-600 group-hover:text-[#4a9d23] group-hover:bg-[#4a9d23]/10">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 gap-1 text-xs font-semibold text-slate-600 group-hover:bg-[#4a9d23]/10 group-hover:text-[#4a9d23]"
+                        >
                           Review <ChevronRight className="h-3.5 w-3.5" />
                         </Button>
                       </Link>

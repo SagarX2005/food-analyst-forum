@@ -17,7 +17,7 @@ interface MembershipGateProps {
 }
 
 export function MembershipGate({
-  title       = "Members Only",
+  title = "Members Only",
   description = "This content is available to FAF members.",
   className,
   compact = false,
@@ -27,14 +27,12 @@ export function MembershipGate({
       <div
         className={cn(
           "flex items-center justify-between gap-4 rounded-xl border border-dashed border-[#4a9d23]/40 bg-[#4a9d23]/5 px-4 py-3",
-          className
+          className,
         )}
       >
         <div className="flex items-center gap-2">
-          <Lock className="h-4 w-4 text-[#4a9d23] shrink-0" />
-          <span className="text-xs font-semibold text-[#0a2a4a] dark:text-foreground">
-            {title}
-          </span>
+          <Lock className="h-4 w-4 shrink-0 text-[#4a9d23]" />
+          <span className="dark:text-foreground text-xs font-semibold text-[#0a2a4a]">{title}</span>
         </div>
         <Link href="/request-invite">
           <Button variant="green" size="sm" className="shrink-0 gap-1.5 text-xs">
@@ -49,24 +47,22 @@ export function MembershipGate({
   return (
     <div
       className={cn(
-        "rounded-2xl border-2 border-dashed border-[#4a9d23]/30 bg-gradient-to-br from-[#4a9d23]/5 to-[#0a2a4a]/5 p-8 text-center space-y-4",
-        className
+        "space-y-4 rounded-2xl border-2 border-dashed border-[#4a9d23]/30 bg-gradient-to-br from-[#4a9d23]/5 to-[#0a2a4a]/5 p-8 text-center",
+        className,
       )}
     >
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23] mx-auto">
+      <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23]">
         <Lock className="h-7 w-7" />
       </div>
 
       <div className="space-y-2">
-        <h3 className="text-lg font-extrabold text-[#0a2a4a] dark:text-foreground">
-          {title}
-        </h3>
-        <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
+        <h3 className="dark:text-foreground text-lg font-extrabold text-[#0a2a4a]">{title}</h3>
+        <p className="text-muted-foreground mx-auto max-w-sm text-sm leading-relaxed">
           {description}
         </p>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+      <div className="flex flex-col items-center justify-center gap-3 pt-2 sm:flex-row">
         <Link href="/request-invite">
           <Button variant="green" size="lg" className="gap-2 shadow-md">
             <UserPlus className="h-4 w-4" />

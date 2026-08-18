@@ -45,16 +45,16 @@ interface FieldLabelProps {
 
 function FieldLabel({ htmlFor, children, required = true }: FieldLabelProps) {
   return (
-    <label htmlFor={htmlFor} className="text-[13px] font-bold text-slate-700 mb-1.5 block">
+    <label htmlFor={htmlFor} className="mb-1.5 block text-[13px] font-bold text-slate-700">
       {children}
-      {required && <span className="text-red-500 ml-1">*</span>}
+      {required && <span className="ml-1 text-red-500">*</span>}
     </label>
   );
 }
 
 function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="text-xs font-medium text-red-500 mt-1.5">{message}</p>;
+  return <p className="mt-1.5 text-xs font-medium text-red-500">{message}</p>;
 }
 
 export function InvitationRequestForm() {
@@ -72,16 +72,16 @@ export function InvitationRequestForm() {
     resolver: zodResolver(accessRequestSchema),
     mode: "onTouched",
     defaultValues: {
-      full_name:          "",
-      email:              "",
+      full_name: "",
+      email: "",
       professional_title: "",
-      organization:       "",
-      profession:         "",
-      experience_years:   undefined,
-      region:             "",
-      reason:             "",
-      linkedin_url:       "",
-      website_url:        "",
+      organization: "",
+      profession: "",
+      experience_years: undefined,
+      region: "",
+      reason: "",
+      linkedin_url: "",
+      website_url: "",
     },
   });
 
@@ -96,7 +96,7 @@ export function InvitationRequestForm() {
       "experience_years",
       "region",
       "linkedin_url",
-      "website_url"
+      "website_url",
     ]);
 
     if (isStep1Valid) {
@@ -114,19 +114,19 @@ export function InvitationRequestForm() {
     try {
       setServerError(null);
       const res = await fetch("/api/invitations/submit", {
-        method:  "POST",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body:    JSON.stringify(data),
+        body: JSON.stringify(data),
       });
 
-      const json = await res.json() as { success?: boolean; message?: string; code?: string };
+      const json = (await res.json()) as { success?: boolean; message?: string; code?: string };
 
       if (!res.ok || !json.success) {
         setServerError(
           json.message ??
-          (json.code === "DUPLICATE_REQUEST"
-            ? "An invitation request already exists for this email."
-            : "Submission failed. Please try again.")
+            (json.code === "DUPLICATE_REQUEST"
+              ? "An invitation request already exists for this email."
+              : "Submission failed. Please try again."),
         );
         return;
       }
@@ -141,34 +141,42 @@ export function InvitationRequestForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8" noValidate>
       {/* Header */}
       <div className="space-y-2 border-b border-slate-100 pb-6">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-[11px] font-extrabold uppercase tracking-widest text-[#4a9d23]">Step {step} of 2</p>
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-[11px] font-extrabold tracking-widest text-[#4a9d23] uppercase">
+            Step {step} of 2
+          </p>
           <div className="flex gap-1.5">
-            <div className={`h-1.5 w-6 rounded-full transition-colors ${step >= 1 ? 'bg-[#4a9d23]' : 'bg-slate-200'}`} />
-            <div className={`h-1.5 w-6 rounded-full transition-colors ${step >= 2 ? 'bg-[#4a9d23]' : 'bg-slate-200'}`} />
+            <div
+              className={`h-1.5 w-6 rounded-full transition-colors ${step >= 1 ? "bg-[#4a9d23]" : "bg-slate-200"}`}
+            />
+            <div
+              className={`h-1.5 w-6 rounded-full transition-colors ${step >= 2 ? "bg-[#4a9d23]" : "bg-slate-200"}`}
+            />
           </div>
         </div>
-        <h2 className="text-3xl font-extrabold text-[#0a2a4a] tracking-tight">
+        <h2 className="text-3xl font-extrabold tracking-tight text-[#0a2a4a]">
           {step === 1 ? "Tell us about yourself" : "Why join FAF?"}
         </h2>
-        <p className="text-sm text-slate-500 font-medium">
-          {step === 1 
-            ? "Professional details help us curate the community." 
+        <p className="text-sm font-medium text-slate-500">
+          {step === 1
+            ? "Professional details help us curate the community."
             : "We review every application manually to ensure a high-quality environment."}
         </p>
       </div>
 
       {serverError && (
-        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-600 flex items-start gap-3">
-          <div className="mt-0.5"><CheckCircle className="h-4 w-4 text-red-500" /></div>
+        <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-600">
+          <div className="mt-0.5">
+            <CheckCircle className="h-4 w-4 text-red-500" />
+          </div>
           {serverError}
         </div>
       )}
 
       {/* Step 1 Fields */}
       {step === 1 && (
-        <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-300">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <FieldLabel htmlFor="full_name">Full Name</FieldLabel>
               <Input
@@ -176,7 +184,7 @@ export function InvitationRequestForm() {
                 {...register("full_name")}
                 placeholder="Dr. Priya Sharma"
                 autoComplete="name"
-                className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                 aria-invalid={!!errors.full_name}
               />
               <FieldError message={errors.full_name?.message} />
@@ -189,21 +197,21 @@ export function InvitationRequestForm() {
                 type="email"
                 placeholder="analyst@foodlab.com"
                 autoComplete="email"
-                className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                 aria-invalid={!!errors.email}
               />
               <FieldError message={errors.email?.message} />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <FieldLabel htmlFor="professional_title">Professional Title</FieldLabel>
               <Input
                 id="professional_title"
                 {...register("professional_title")}
                 placeholder="Senior Food Analyst"
-                className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                 aria-invalid={!!errors.professional_title}
               />
               <FieldError message={errors.professional_title?.message} />
@@ -214,21 +222,21 @@ export function InvitationRequestForm() {
                 id="organization"
                 {...register("organization")}
                 placeholder="Eurofins Scientific India"
-                className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                 aria-invalid={!!errors.organization}
               />
               <FieldError message={errors.organization?.message} />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div>
               <FieldLabel htmlFor="profession">Profession / Area of Work</FieldLabel>
               <Select
                 id="profession"
                 options={PROFESSION_OPTIONS}
                 onChange={(e) => setValue("profession", e.target.value)}
-                className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                 aria-invalid={!!errors.profession}
               />
               <FieldError message={errors.profession?.message} />
@@ -242,7 +250,7 @@ export function InvitationRequestForm() {
                   const v = e.target.value;
                   if (v !== "") setValue("experience_years", parseInt(v, 10));
                 }}
-                className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                 aria-invalid={!!errors.experience_years}
               />
               <FieldError message={errors.experience_years?.message} />
@@ -255,37 +263,41 @@ export function InvitationRequestForm() {
               id="region"
               {...register("region")}
               placeholder="India — Maharashtra"
-              className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+              className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
               aria-invalid={!!errors.region}
             />
             <FieldError message={errors.region?.message} />
           </div>
 
-          <div className="pt-2 border-t border-slate-100">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">
+          <div className="border-t border-slate-100 pt-2">
+            <p className="mb-4 text-[11px] font-bold tracking-widest text-slate-400 uppercase">
               Optional Links
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
-                <FieldLabel htmlFor="linkedin_url" required={false}>LinkedIn Profile</FieldLabel>
+                <FieldLabel htmlFor="linkedin_url" required={false}>
+                  LinkedIn Profile
+                </FieldLabel>
                 <Input
                   id="linkedin_url"
                   {...register("linkedin_url")}
                   placeholder="https://linkedin.com/in/yourname"
                   type="url"
-                  className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                  className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                   aria-invalid={!!errors.linkedin_url}
                 />
                 <FieldError message={errors.linkedin_url?.message} />
               </div>
               <div>
-                <FieldLabel htmlFor="website_url" required={false}>Professional Website</FieldLabel>
+                <FieldLabel htmlFor="website_url" required={false}>
+                  Professional Website
+                </FieldLabel>
                 <Input
                   id="website_url"
                   {...register("website_url")}
                   placeholder="https://yourlab.com"
                   type="url"
-                  className="h-11 bg-slate-50 border-slate-200 focus:bg-white"
+                  className="h-11 border-slate-200 bg-slate-50 focus:bg-white"
                   aria-invalid={!!errors.website_url}
                 />
                 <FieldError message={errors.website_url?.message} />
@@ -299,7 +311,7 @@ export function InvitationRequestForm() {
               onClick={nextStep}
               variant="navy"
               size="lg"
-              className="w-full sm:w-auto min-w-[200px] justify-center gap-2 font-bold shadow-md hover:shadow-lg transition-all"
+              className="w-full min-w-[200px] justify-center gap-2 font-bold shadow-md transition-all hover:shadow-lg sm:w-auto"
             >
               Continue to Step 2
               <ArrowRight className="h-4 w-4" />
@@ -310,41 +322,42 @@ export function InvitationRequestForm() {
 
       {/* Step 2 Fields */}
       {step === 2 && (
-        <div className="space-y-6 animate-in fade-in slide-in-from-right-4 duration-300">
+        <div className="animate-in fade-in slide-in-from-right-4 space-y-6 duration-300">
           <div>
             <FieldLabel htmlFor="reason">Professional Background & Goals</FieldLabel>
-            <p className="text-xs text-slate-500 mb-3">
-              Describe your background, what you hope to gain from FAF membership, and how you plan to contribute to the community.
+            <p className="mb-3 text-xs text-slate-500">
+              Describe your background, what you hope to gain from FAF membership, and how you plan
+              to contribute to the community.
             </p>
             <Textarea
               id="reason"
               {...register("reason")}
               placeholder="e.g. I manage a food testing laboratory in Pune and specialize in LC-MS/MS pesticide residue analysis. I am looking to connect with peers and access validated SOPs..."
               rows={8}
-              className="bg-slate-50 border-slate-200 focus:bg-white resize-none text-sm p-4"
+              className="resize-none border-slate-200 bg-slate-50 p-4 text-sm focus:bg-white"
               aria-invalid={!!errors.reason}
             />
             <FieldError message={errors.reason?.message} />
           </div>
 
-          <div className="pt-6 flex flex-col sm:flex-row gap-4 items-center">
+          <div className="flex flex-col items-center gap-4 pt-6 sm:flex-row">
             <Button
               type="button"
               onClick={prevStep}
               variant="outline"
               size="lg"
-              className="w-full sm:w-auto font-bold"
+              className="w-full font-bold sm:w-auto"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <ArrowLeft className="mr-2 h-4 w-4" />
               Back
             </Button>
-            
+
             <Button
               type="submit"
               variant="green"
               size="lg"
               disabled={isSubmitting}
-              className="w-full sm:w-auto sm:flex-1 justify-center gap-2 font-bold shadow-md hover:shadow-lg transition-all"
+              className="w-full justify-center gap-2 font-bold shadow-md transition-all hover:shadow-lg sm:w-auto sm:flex-1"
             >
               {isSubmitting ? (
                 <>
@@ -354,12 +367,12 @@ export function InvitationRequestForm() {
               ) : (
                 <>
                   Submit Application
-                  <Send className="h-4 w-4 ml-1" />
+                  <Send className="ml-1 h-4 w-4" />
                 </>
               )}
             </Button>
           </div>
-          <p className="text-center sm:text-right text-[11px] font-medium text-slate-400 mt-2">
+          <p className="mt-2 text-center text-[11px] font-medium text-slate-400 sm:text-right">
             By submitting, you agree to our community guidelines.
           </p>
         </div>

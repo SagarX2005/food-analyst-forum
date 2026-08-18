@@ -51,7 +51,10 @@ export class ProfileService {
   /**
    * Update profile information
    */
-  public static async updateProfile(userId: string, updates: ProfileUpdate & Record<string, unknown>): Promise<FullProfile> {
+  public static async updateProfile(
+    userId: string,
+    updates: ProfileUpdate & Record<string, unknown>,
+  ): Promise<FullProfile> {
     const supabase = createClient();
 
     const dbPayload: Record<string, unknown> = {
@@ -100,7 +103,10 @@ export class ProfileService {
       { key: "Professional Bio", met: !!profile.bio && profile.bio.trim().length > 10 },
       { key: "Job Title", met: !!title && title.trim().length > 0 },
       { key: "Organization Mapping", met: !!profile.organization_id },
-      { key: "Skills & Expertise", met: Array.isArray(profile.skills) && profile.skills.length > 0 },
+      {
+        key: "Skills & Expertise",
+        met: Array.isArray(profile.skills) && profile.skills.length > 0,
+      },
       { key: "Location", met: !!profile.location && profile.location.trim().length > 0 },
       { key: "LinkedIn / Web Link", met: !!profile.website || !!profile.linkedin_url },
     ];
@@ -174,7 +180,9 @@ export class ProfileService {
       })),
     ];
 
-    return timeline.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    return timeline.sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+    );
   }
 
   /**

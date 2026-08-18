@@ -9,7 +9,10 @@ export async function POST(request: Request) {
   try {
     const supabase = await createClient();
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -24,15 +27,15 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Validation error", details: parsed.error.flatten().fieldErrors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const { request_id, rejection_reason } = parsed.data;
 
     const { error: rpcError } = await supabase.rpc("reject_access_request", {
-      p_request_id:       request_id,
-      p_reviewer_id:      user.id,
+      p_request_id: request_id,
+      p_reviewer_id: user.id,
       p_rejection_reason: rejection_reason,
     });
 

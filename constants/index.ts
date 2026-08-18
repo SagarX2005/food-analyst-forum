@@ -1,6 +1,7 @@
 export const APP_CONFIG = {
   name: "Food Analyst Forum",
-  description: "Enterprise SaaS platform for food industry analysis, regulatory insights, and product forum.",
+  description:
+    "Enterprise SaaS platform for food industry analysis, regulatory insights, and product forum.",
   version: "0.1.0",
   defaultPageSize: 20,
   maxPageSize: 100,

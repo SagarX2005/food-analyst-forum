@@ -43,7 +43,8 @@ export function ResetPasswordForm() {
       setSuccessMessage("Your password has been successfully updated!");
       setTimeout(() => router.push("/login"), 2000);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Password reset failed. Link may be expired.";
+      const msg =
+        err instanceof Error ? err.message : "Password reset failed. Link may be expired.";
       setServerError(msg);
     }
   };
@@ -55,9 +56,7 @@ export function ResetPasswordForm() {
         <FormSuccess message={successMessage} />
 
         <div>
-          <label className="text-xs font-semibold text-foreground mb-1 block">
-            New Password
-          </label>
+          <label className="text-foreground mb-1 block text-xs font-semibold">New Password</label>
           <Input
             {...register("password")}
             type="password"
@@ -68,12 +67,12 @@ export function ResetPasswordForm() {
           <PasswordStrength password={passwordValue} />
           <PasswordRequirements password={passwordValue} />
           {errors.password && (
-            <p className="text-xs text-destructive mt-1">{errors.password.message}</p>
+            <p className="text-destructive mt-1 text-xs">{errors.password.message}</p>
           )}
         </div>
 
         <div>
-          <label className="text-xs font-semibold text-foreground mb-1 block">
+          <label className="text-foreground mb-1 block text-xs font-semibold">
             Confirm New Password
           </label>
           <Input
@@ -84,7 +83,7 @@ export function ResetPasswordForm() {
             aria-invalid={!!errors.confirmPassword}
           />
           {errors.confirmPassword && (
-            <p className="text-xs text-destructive mt-1">{errors.confirmPassword.message}</p>
+            <p className="text-destructive mt-1 text-xs">{errors.confirmPassword.message}</p>
           )}
         </div>
 
@@ -96,9 +95,15 @@ export function ResetPasswordForm() {
           className="w-full justify-center gap-2"
         >
           {isSubmitting ? (
-            <><FlaskLoader size="sm" /><span>Updating Password...</span></>
+            <>
+              <FlaskLoader size="sm" />
+              <span>Updating Password...</span>
+            </>
           ) : (
-            <><KeyRound className="h-4 w-4" />Update Password</>
+            <>
+              <KeyRound className="h-4 w-4" />
+              Update Password
+            </>
           )}
         </Button>
       </form>

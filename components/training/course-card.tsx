@@ -18,36 +18,44 @@ export function CourseCard({ course, viewMode = "grid", progressPct }: CourseCar
 
   if (viewMode === "list") {
     return (
-      <Card className="hover:border-[#4a9d23] transition-all p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group">
-        <div className="flex items-start gap-3.5 flex-1">
-          <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#0a2a4a] to-[#4a9d23] text-white flex items-center justify-center font-black text-xs shrink-0 border border-border shadow-xs">
+      <Card className="group flex flex-col items-start justify-between gap-4 p-4 transition-all hover:border-[#4a9d23] sm:flex-row sm:items-center">
+        <div className="flex flex-1 items-start gap-3.5">
+          <div className="border-border flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border bg-gradient-to-br from-[#0a2a4a] to-[#4a9d23] text-xs font-black text-white shadow-xs">
             <BookOpen className="h-7 w-7 text-white" />
           </div>
-          <div className="space-y-1 flex-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant="green" className="text-[10px] py-0">
+          <div className="flex-1 space-y-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="green" className="py-0 text-[10px]">
                 {level}
               </Badge>
-              <Badge variant="outline" className="text-[10px] py-0 border-[#4a9d23]/30 text-[#4a9d23]">
+              <Badge
+                variant="outline"
+                className="border-[#4a9d23]/30 py-0 text-[10px] text-[#4a9d23]"
+              >
                 ISO 17025 Accredited
               </Badge>
             </div>
             <Link href={`/training/${course.id}`}>
-              <h3 className="text-base font-bold text-[#0a2a4a] dark:text-foreground group-hover:text-[#4a9d23] transition-colors leading-snug">
+              <h3 className="dark:text-foreground text-base leading-snug font-bold text-[#0a2a4a] transition-colors group-hover:text-[#4a9d23]">
                 {course.title}
               </h3>
             </Link>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium pt-0.5">
-              <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {durationFormatted}</span>
-              <span className="flex items-center gap-1 text-amber-500 font-bold"><Star className="h-3.5 w-3.5 fill-amber-500" /> {course.rating_avg}</span>
+            <div className="text-muted-foreground flex items-center gap-4 pt-0.5 text-xs font-medium">
+              <span className="flex items-center gap-1">
+                <Clock className="h-3.5 w-3.5" /> {durationFormatted}
+              </span>
+              <span className="flex items-center gap-1 font-bold text-amber-500">
+                <Star className="h-3.5 w-3.5 fill-amber-500" /> {course.rating_avg}
+              </span>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex shrink-0 items-center gap-3">
           <Link href={`/training/${course.id}`}>
-            <button className="px-4 py-2 rounded-xl bg-[#4a9d23] text-white text-xs font-bold shadow-xs hover:bg-[#3d831d] transition-colors flex items-center gap-1.5">
-              <PlayCircle className="h-4 w-4" /> {progressPct !== undefined ? "Continue Course" : "Enroll Now"}
+            <button className="flex items-center gap-1.5 rounded-xl bg-[#4a9d23] px-4 py-2 text-xs font-bold text-white shadow-xs transition-colors hover:bg-[#3d831d]">
+              <PlayCircle className="h-4 w-4" />{" "}
+              {progressPct !== undefined ? "Continue Course" : "Enroll Now"}
             </button>
           </Link>
         </div>
@@ -56,32 +64,37 @@ export function CourseCard({ course, viewMode = "grid", progressPct }: CourseCar
   }
 
   return (
-    <Card className="hover:border-[#4a9d23] transition-all p-5 flex flex-col justify-between group">
+    <Card className="group flex flex-col justify-between p-5 transition-all hover:border-[#4a9d23]">
       <div className="space-y-4">
         {/* Banner Card Header */}
-        <div className="h-36 w-full rounded-2xl bg-gradient-to-r from-[#0a2a4a] via-[#113a63] to-[#4a9d23] p-4 flex flex-col justify-between text-white shadow-inner relative overflow-hidden">
-          <div className="flex items-center justify-between relative z-10">
+        <div className="relative flex h-36 w-full flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-r from-[#0a2a4a] via-[#113a63] to-[#4a9d23] p-4 text-white shadow-inner">
+          <div className="relative z-10 flex items-center justify-between">
             <Badge variant="green" className="text-[10px] font-extrabold uppercase">
               {level}
             </Badge>
-            <span className="text-[10px] font-bold text-amber-300 flex items-center gap-1">
+            <span className="flex items-center gap-1 text-[10px] font-bold text-amber-300">
               <Award className="h-3 w-3" /> Certificate Included
             </span>
           </div>
-          <h4 className="text-sm font-extrabold text-white line-clamp-2 relative z-10 leading-snug">
+          <h4 className="relative z-10 line-clamp-2 text-sm leading-snug font-extrabold text-white">
             {course.title}
           </h4>
           <BookOpen className="absolute -right-4 -bottom-4 h-24 w-24 text-white/10" />
         </div>
 
         <div className="space-y-2">
-          <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+          <p className="text-muted-foreground line-clamp-2 text-xs leading-relaxed">
             {course.description}
           </p>
 
-          <div className="flex items-center justify-between text-xs text-muted-foreground font-semibold pt-1">
-            <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5 text-[#4a9d23]" /> {durationFormatted}</span>
-            <span className="flex items-center gap-1 text-amber-500 font-bold"><Star className="h-3.5 w-3.5 fill-amber-500" /> {course.rating_avg} ({course.rating_count})</span>
+          <div className="text-muted-foreground flex items-center justify-between pt-1 text-xs font-semibold">
+            <span className="flex items-center gap-1">
+              <Clock className="h-3.5 w-3.5 text-[#4a9d23]" /> {durationFormatted}
+            </span>
+            <span className="flex items-center gap-1 font-bold text-amber-500">
+              <Star className="h-3.5 w-3.5 fill-amber-500" /> {course.rating_avg} (
+              {course.rating_count})
+            </span>
           </div>
         </div>
       </div>
@@ -92,16 +105,23 @@ export function CourseCard({ course, viewMode = "grid", progressPct }: CourseCar
             <span className="text-muted-foreground">Course Progress</span>
             <span className="text-[#4a9d23]">{progressPct}%</span>
           </div>
-          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-            <div className="bg-[#4a9d23] h-full transition-all duration-300" style={{ width: `${progressPct}%` }} />
+          <div className="bg-muted h-2 w-full overflow-hidden rounded-full">
+            <div
+              className="h-full bg-[#4a9d23] transition-all duration-300"
+              style={{ width: `${progressPct}%` }}
+            />
           </div>
         </div>
       )}
 
-      <div className="pt-4 mt-4 border-t border-border/60 flex items-center justify-between text-xs">
+      <div className="border-border/60 mt-4 flex items-center justify-between border-t pt-4 text-xs">
         <div className="flex items-center gap-2">
-          <Avatar src={course.instructor?.avatar_url || undefined} fallback={instructorName} size="sm" />
-          <span className="font-semibold text-muted-foreground text-[11px] truncate max-w-[100px]">
+          <Avatar
+            src={course.instructor?.avatar_url || undefined}
+            fallback={instructorName}
+            size="sm"
+          />
+          <span className="text-muted-foreground max-w-[100px] truncate text-[11px] font-semibold">
             {instructorName}
           </span>
         </div>

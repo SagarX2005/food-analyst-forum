@@ -6,10 +6,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false }, // Do not index — token in URL
 };
 
-export default function AcceptInviteLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AcceptInviteLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

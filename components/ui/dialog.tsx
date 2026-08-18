@@ -14,14 +14,7 @@ interface DialogProps {
   className?: string;
 }
 
-export function Dialog({
-  isOpen,
-  onClose,
-  title,
-  description,
-  children,
-  className,
-}: DialogProps) {
+export function Dialog({ isOpen, onClose, title, description, children, className }: DialogProps) {
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -53,26 +46,24 @@ export function Dialog({
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              "relative z-50 w-full max-w-lg rounded-2xl bg-card p-6 shadow-2xl border border-border text-card-foreground",
-              className
+              "bg-card border-border text-card-foreground relative z-50 w-full max-w-lg rounded-2xl border p-6 shadow-2xl",
+              className,
             )}
           >
             <button
               onClick={onClose}
-              className="absolute right-4 top-4 rounded-full p-1.5 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:bg-accent hover:text-foreground absolute top-4 right-4 rounded-full p-1.5 transition-colors"
               aria-label="Close dialog"
             >
               <X className="h-5 w-5" />
             </button>
             {title && (
-              <h2 className="text-xl font-bold text-[#0a2a4a] dark:text-foreground pr-6 mb-1">
+              <h2 className="dark:text-foreground mb-1 pr-6 text-xl font-bold text-[#0a2a4a]">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
-                {description}
-              </p>
+              <p className="text-muted-foreground mb-4 text-sm leading-relaxed">{description}</p>
             )}
             <div>{children}</div>
           </motion.div>

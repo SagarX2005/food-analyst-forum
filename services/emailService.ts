@@ -14,13 +14,13 @@ interface EmailPayload {
 
 class EmailServiceImpl {
   private appName = env.NEXT_PUBLIC_APP_NAME ?? "Food Analyst Forum";
-  private appUrl  = env.NEXT_PUBLIC_APP_URL  ?? "http://localhost:3000";
+  private appUrl = env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
   /** Core send method — replace body with real provider SDK when ready */
   private async send(payload: EmailPayload): Promise<void> {
     if (env.NODE_ENV === "development" || env.NODE_ENV === "test") {
       console.warn("[EmailService] Would send email:", {
-        to:      payload.to,
+        to: payload.to,
         subject: payload.subject,
       });
       return;
@@ -43,12 +43,12 @@ class EmailServiceImpl {
     expiresAt: Date;
   }): Promise<void> {
     const { to, name, rawToken, assignedRole, expiresAt } = params;
-    const acceptUrl  = `${this.appUrl}/accept-invite?token=${encodeURIComponent(rawToken)}`;
+    const acceptUrl = `${this.appUrl}/accept-invite?token=${encodeURIComponent(rawToken)}`;
     const expireDate = expiresAt.toLocaleDateString("en-US", {
       weekday: "long",
-      year:    "numeric",
-      month:   "long",
-      day:     "numeric",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
 
     await this.send({
@@ -108,10 +108,7 @@ If you did not request this, please ignore this email.
   }
 
   /** Confirmation email to applicant after submission */
-  async sendRequestReceivedEmail(params: {
-    to: string;
-    name: string;
-  }): Promise<void> {
+  async sendRequestReceivedEmail(params: { to: string; name: string }): Promise<void> {
     const { to, name } = params;
 
     await this.send({

@@ -70,7 +70,9 @@ export class ForumService {
     const supabase = createClient();
     const { categorySlug, search, sortBy = "latest", page = 1, limit = 15 } = options;
 
-    let query = supabase.from("forum_posts").select("*, author:profiles(*), category:forum_categories(*)");
+    let query = supabase
+      .from("forum_posts")
+      .select("*, author:profiles(*), category:forum_categories(*)");
 
     if (categorySlug && categorySlug !== "all") {
       const { data: cat } = await supabase
@@ -143,7 +145,10 @@ export class ForumService {
     // Increment views counter via RPC
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any).rpc("increment_views", { table_name: "forum_posts", record_id: post.id });
+      await (supabase as any).rpc("increment_views", {
+        table_name: "forum_posts",
+        record_id: post.id,
+      });
     } catch {
       // Ignore RPC error
     }

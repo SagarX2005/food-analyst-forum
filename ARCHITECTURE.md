@@ -34,17 +34,21 @@ This document outlines the architectural blueprint, design patterns, and enginee
 ```
 
 ### 1. Presentation Layer (`app/`, `components/`)
+
 - **Server Components (Default)**: Fetch data on the server without client bundle overhead.
 - **Client Components (`"use client"`)**: Isolated to interactive components (forms, buttons, modals, interactive charts).
 
 ### 2. Domain Feature Layer (`features/`)
+
 Each business domain is encapsulated in a dedicated directory containing:
+
 - `components/`: UI specific to that feature domain.
 - `hooks/`: Custom React Query hooks or state logic.
 - `services/`: API client classes extending `BaseService`.
 - `types.ts`: Zod validation schemas and TypeScript definitions.
 
 ### 3. Infrastructure Layer (`lib/`, `services/`)
+
 - `ApiClient`: Standardized fetch wrapper handling request headers, error status code mapping, and JSON parsing.
 - `Supabase`: Browser (`client.ts`), Server (`server.ts`), and Middleware (`middleware.ts`) instances via `@supabase/ssr`.
 

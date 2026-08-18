@@ -7,11 +7,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#0a2a4a] text-white shadow hover:bg-[#071d34] dark:bg-[#0a2a4a] dark:hover:bg-[#123962]",
+        default:
+          "bg-[#0a2a4a] text-white shadow hover:bg-[#071d34] dark:bg-[#0a2a4a] dark:hover:bg-[#123962]",
         navy: "bg-[#0a2a4a] text-white rounded-full font-semibold shadow hover:bg-[#071d34] hover:shadow-md",
-        green: "bg-[#4a9d23] text-white rounded-full font-semibold shadow hover:bg-[#3d831d] hover:shadow-md",
+        green:
+          "bg-[#4a9d23] text-white rounded-full font-semibold shadow hover:bg-[#3d831d] hover:shadow-md",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-        outline: "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        outline:
+          "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
         secondary: "bg-[#4a9d23] text-white shadow-sm hover:bg-[#3d831d]",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-[#0a2a4a] dark:text-[#4a9d23] underline-offset-4 hover:underline",
@@ -33,8 +36,7 @@ const buttonVariants = cva(
 );
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {

@@ -75,7 +75,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 py-4">
+    <div className="mx-auto max-w-5xl space-y-8 py-4">
       {/* JSON-LD SEO */}
       <script
         type="application/ld+json"
@@ -83,49 +83,63 @@ export default async function CourseDetailPage({ params }: PageProps) {
       />
 
       <div>
-        <Link href="/training" className="inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline mb-3">
+        <Link
+          href="/training"
+          className="mb-3 inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline"
+        >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to Learning Portal
         </Link>
 
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <Badge variant="green" className="text-xs font-extrabold uppercase">{course.level || "Intermediate"}</Badge>
-          <Badge variant="outline" className="text-xs border-[#4a9d23]/40 text-[#4a9d23]">NABL ISO 17025 Track</Badge>
-          <span className="text-xs font-bold text-amber-500 flex items-center gap-1">
-            <Star className="h-3.5 w-3.5 fill-amber-500" /> {course.rating_avg} ({course.rating_count} Ratings)
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <Badge variant="green" className="text-xs font-extrabold uppercase">
+            {course.level || "Intermediate"}
+          </Badge>
+          <Badge variant="outline" className="border-[#4a9d23]/40 text-xs text-[#4a9d23]">
+            NABL ISO 17025 Track
+          </Badge>
+          <span className="flex items-center gap-1 text-xs font-bold text-amber-500">
+            <Star className="h-3.5 w-3.5 fill-amber-500" /> {course.rating_avg} (
+            {course.rating_count} Ratings)
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground leading-snug">
+        <h1 className="dark:text-foreground text-2xl leading-snug font-extrabold text-[#0a2a4a] sm:text-3xl">
           {course.title}
         </h1>
       </div>
 
       {/* COURSE HERO BANNER */}
-      <div className="rounded-3xl bg-gradient-to-r from-[#0a2a4a] via-[#113a63] to-[#4a9d23] p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
-        <div className="space-y-4 max-w-2xl relative z-10">
-          <p className="text-sm text-gray-200 leading-relaxed">
-            {course.description}
-          </p>
+      <div className="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-3xl bg-gradient-to-r from-[#0a2a4a] via-[#113a63] to-[#4a9d23] p-6 text-white shadow-xl sm:p-8 md:flex-row md:items-center">
+        <div className="relative z-10 max-w-2xl space-y-4">
+          <p className="text-sm leading-relaxed text-gray-200">{course.description}</p>
 
-          <div className="flex flex-wrap items-center gap-6 text-xs text-gray-200 font-semibold pt-2">
-            <span className="flex items-center gap-1.5"><Clock className="h-4 w-4 text-amber-300" /> {durationFormatted}</span>
-            <span className="flex items-center gap-1.5"><BookOpen className="h-4 w-4 text-amber-300" /> {course.total_lessons} Lessons</span>
-            <span className="flex items-center gap-1.5"><Users className="h-4 w-4 text-amber-300" /> {course.enrolled_count} Enrolled</span>
-            <span className="flex items-center gap-1.5 text-amber-300"><Award className="h-4 w-4" /> Certificate Granted</span>
+          <div className="flex flex-wrap items-center gap-6 pt-2 text-xs font-semibold text-gray-200">
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-4 w-4 text-amber-300" /> {durationFormatted}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <BookOpen className="h-4 w-4 text-amber-300" /> {course.total_lessons} Lessons
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Users className="h-4 w-4 text-amber-300" /> {course.enrolled_count} Enrolled
+            </span>
+            <span className="flex items-center gap-1.5 text-amber-300">
+              <Award className="h-4 w-4" /> Certificate Granted
+            </span>
           </div>
         </div>
 
         <Award className="absolute -right-6 -bottom-6 h-44 w-44 text-white/10" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* CURRICULUM MODULES */}
-        <div className="lg:col-span-8 space-y-6">
+        <div className="space-y-6 lg:col-span-8">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-bold text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+            <h3 className="dark:text-foreground flex items-center gap-2 text-lg font-bold text-[#0a2a4a]">
               <BookOpen className="h-5 w-5 text-[#4a9d23]" /> Course Curriculum & Lessons
             </h3>
-            <span className="text-xs text-muted-foreground font-semibold">
+            <span className="text-muted-foreground text-xs font-semibold">
               {course.modules?.length || 0} Modules
             </span>
           </div>
@@ -134,28 +148,33 @@ export default async function CourseDetailPage({ params }: PageProps) {
         </div>
 
         {/* INSTRUCTOR & ENROLL SIDEBAR */}
-        <div className="lg:col-span-4 space-y-6">
-          <Card className="p-5 space-y-4">
+        <div className="space-y-6 lg:col-span-4">
+          <Card className="space-y-4 p-5">
             <EnrollContainer course={course} />
           </Card>
 
-          <Card className="p-5 space-y-4">
-            <h4 className="text-xs font-extrabold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider">
+          <Card className="space-y-4 p-5">
+            <h4 className="dark:text-foreground text-xs font-extrabold tracking-wider text-[#0a2a4a] uppercase">
               About the Instructor
             </h4>
             <div className="flex items-center gap-3">
-              <Avatar src={course.instructor?.avatar_url || undefined} fallback={instructorName} size="md" />
+              <Avatar
+                src={course.instructor?.avatar_url || undefined}
+                fallback={instructorName}
+                size="md"
+              />
               <div>
-                <p className="font-bold text-sm text-[#0a2a4a] dark:text-foreground">
+                <p className="dark:text-foreground text-sm font-bold text-[#0a2a4a]">
                   {instructorName}
                 </p>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   {course.instructor?.title || "Lead Accreditation Trainer"}
                 </p>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Senior analytical chemist and Lead Assessor with over 15 years experience in NABL ISO 17025 laboratory audits.
+            <p className="text-muted-foreground text-xs leading-relaxed">
+              Senior analytical chemist and Lead Assessor with over 15 years experience in NABL ISO
+              17025 laboratory audits.
             </p>
           </Card>
         </div>

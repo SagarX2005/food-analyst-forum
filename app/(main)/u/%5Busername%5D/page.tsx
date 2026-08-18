@@ -22,7 +22,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const name = profile.full_name || "Food Analyst Professional";
   const title = profile.title || profile.headline || "Food Analyst & Laboratory Specialist";
-  const description = profile.bio || `${name} is a certified food analyst and laboratory professional on Food Analyst Forum.`;
+  const description =
+    profile.bio ||
+    `${name} is a certified food analyst and laboratory professional on Food Analyst Forum.`;
 
   return {
     title: `${name} (${title})`,
@@ -75,11 +77,11 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
       <ProfileHeader profile={profile} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-8 space-y-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="space-y-8 lg:col-span-8">
           <ProfileAbout profile={profile} />
         </div>
-        <div className="lg:col-span-4 space-y-8">
+        <div className="space-y-8 lg:col-span-4">
           <ProfileSkills profile={profile} />
         </div>
       </div>

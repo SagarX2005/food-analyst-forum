@@ -60,9 +60,7 @@ export function LoginForm() {
         <FormError message={serverError} />
 
         <div>
-          <label className="text-xs font-semibold text-foreground mb-1 block">
-            Email Address
-          </label>
+          <label className="text-foreground mb-1 block text-xs font-semibold">Email Address</label>
           <Input
             {...register("email")}
             type="email"
@@ -70,14 +68,12 @@ export function LoginForm() {
             autoComplete="email"
             aria-invalid={!!errors.email}
           />
-          {errors.email && (
-            <p className="text-xs text-destructive mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-destructive mt-1 text-xs">{errors.email.message}</p>}
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-1">
-            <label className="text-xs font-semibold text-foreground">Password</label>
+          <div className="mb-1 flex items-center justify-between">
+            <label className="text-foreground text-xs font-semibold">Password</label>
             <Link
               href="/forgot-password"
               className="text-xs font-bold text-[#4a9d23] hover:underline"
@@ -96,20 +92,23 @@ export function LoginForm() {
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
+              className="text-muted-foreground hover:text-foreground absolute top-3 right-3"
               aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>
           </div>
           {errors.password && (
-            <p className="text-xs text-destructive mt-1">{errors.password.message}</p>
+            <p className="text-destructive mt-1 text-xs">{errors.password.message}</p>
           )}
         </div>
 
         <div className="flex items-center gap-2 pt-1">
           <Checkbox id="rememberMe" {...register("rememberMe")} />
-          <label htmlFor="rememberMe" className="text-xs text-muted-foreground font-medium cursor-pointer">
+          <label
+            htmlFor="rememberMe"
+            className="text-muted-foreground cursor-pointer text-xs font-medium"
+          >
             Remember me on this device
           </label>
         </div>
@@ -119,12 +118,18 @@ export function LoginForm() {
           variant="navy"
           size="lg"
           disabled={isSubmitting}
-          className="w-full justify-center gap-2 mt-2"
+          className="mt-2 w-full justify-center gap-2"
         >
           {isSubmitting ? (
-            <><FlaskLoader size="sm" /><span>Signing in...</span></>
+            <>
+              <FlaskLoader size="sm" />
+              <span>Signing in...</span>
+            </>
           ) : (
-            <><LogIn className="h-4 w-4" />Sign In</>
+            <>
+              <LogIn className="h-4 w-4" />
+              Sign In
+            </>
           )}
         </Button>
 
@@ -133,9 +138,7 @@ export function LoginForm() {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
+            <span className="bg-background text-muted-foreground px-2">Or continue with</span>
           </div>
         </div>
 

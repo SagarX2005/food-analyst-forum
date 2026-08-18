@@ -5,7 +5,12 @@ import Link from "next/link";
 import { Upload, Search, BookOpen, Sparkles } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { ResourceService, type FullResource, type ResourceCategoryRow, type GetResourcesOptions } from "@services/resourceService";
+import {
+  ResourceService,
+  type FullResource,
+  type ResourceCategoryRow,
+  type GetResourcesOptions,
+} from "@services/resourceService";
 import { ResourceCard } from "@components/resources/resource-card";
 import { CollectionCard } from "@components/resources/collection-card";
 import { ResourceFilters } from "@components/resources/resource-filters";
@@ -48,21 +53,22 @@ export default function ResourceLibraryPage() {
   return (
     <div className="space-y-8 py-4">
       {/* HEADER CTA BANNER */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-2 border-b border-border/60">
+      <div className="border-border/60 flex flex-col items-start justify-between gap-6 border-b pb-2 md:flex-row md:items-center">
         <div>
           <div className="flex items-center gap-2">
             <BookOpen className="h-7 w-7 text-[#4a9d23]" />
-            <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground">
+            <h1 className="dark:text-foreground text-3xl font-extrabold text-[#0a2a4a]">
               Enterprise Laboratory Resource Library
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            Central repository for accredited laboratory SOPs, FSSAI regulatory compliance manuals, and LC-MS method protocols.
+          <p className="text-muted-foreground mt-1 text-sm">
+            Central repository for accredited laboratory SOPs, FSSAI regulatory compliance manuals,
+            and LC-MS method protocols.
           </p>
         </div>
 
         <Link href="/resources/upload">
-          <Button variant="green" size="lg" className="gap-2 shadow-md shrink-0">
+          <Button variant="green" size="lg" className="shrink-0 gap-2 shadow-md">
             <Upload className="h-5 w-5" /> Upload Document
           </Button>
         </Link>
@@ -70,10 +76,10 @@ export default function ResourceLibraryPage() {
 
       {/* CURATED KNOWLEDGE COLLECTIONS */}
       <div className="space-y-3">
-        <h3 className="text-sm font-extrabold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider flex items-center gap-1.5">
+        <h3 className="dark:text-foreground flex items-center gap-1.5 text-sm font-extrabold tracking-wider text-[#0a2a4a] uppercase">
           <Sparkles className="h-4 w-4 text-[#4a9d23]" /> Curated Knowledge Kits & Collections
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {collections.map((col) => (
             <CollectionCard
               key={col.id}
@@ -86,12 +92,12 @@ export default function ResourceLibraryPage() {
 
       {/* SEARCH BAR */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+        <Search className="text-muted-foreground absolute top-3.5 left-3.5 h-4 w-4" />
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search SOP documents, FSSAI regulations, measurement uncertainty spreadsheets..."
-          className="pl-10 h-11"
+          className="h-11 pl-10"
         />
       </div>
 
@@ -109,16 +115,17 @@ export default function ResourceLibraryPage() {
       {/* RESOURCES FEED GRID/LIST */}
       <div className="space-y-4">
         {loading ? (
-          <div className="py-16 text-center text-sm text-muted-foreground">
+          <div className="text-muted-foreground py-16 text-center text-sm">
             Loading knowledge repository...
           </div>
         ) : resources.length === 0 ? (
-          <div className="py-16 text-center space-y-3 border-2 border-dashed border-border rounded-3xl p-8">
-            <p className="text-base font-bold text-[#0a2a4a] dark:text-foreground">
+          <div className="border-border space-y-3 rounded-3xl border-2 border-dashed p-8 py-16 text-center">
+            <p className="dark:text-foreground text-base font-bold text-[#0a2a4a]">
               No knowledge resources found matching your search.
             </p>
-            <p className="text-xs text-muted-foreground">
-              Be the first to upload an accredited laboratory SOP or validation protocol to the repository!
+            <p className="text-muted-foreground text-xs">
+              Be the first to upload an accredited laboratory SOP or validation protocol to the
+              repository!
             </p>
             <Link href="/resources/upload" className="inline-block pt-2">
               <Button variant="green" size="default" className="gap-2">
@@ -130,7 +137,7 @@ export default function ResourceLibraryPage() {
           <div
             className={
               viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
                 : "space-y-4"
             }
           >

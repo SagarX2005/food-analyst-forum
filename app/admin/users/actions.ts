@@ -7,8 +7,10 @@ import { revalidatePath } from "next/cache";
 export async function deleteUserAccount(userId: string) {
   // 1. Verify caller is authenticated
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     throw new Error("Unauthorized: Please log in.");
   }
@@ -25,9 +27,8 @@ export async function deleteUserAccount(userId: string) {
     .eq("id", user.id)
     .single();
 
-
   const roleName = profile?.roles?.name?.toLowerCase();
-  
+
   if (roleName !== "super admin" && roleName !== "admin") {
     throw new Error("Forbidden: You lack permissions to delete user accounts.");
   }

@@ -10,13 +10,14 @@ interface ErrorFallbackProps {
 export function ErrorFallback({ error, reset }: ErrorFallbackProps) {
   return (
     <div className="flex min-h-[400px] flex-col items-center justify-center p-6 text-center">
-      <div className="rounded-full bg-destructive/10 p-4 text-destructive">⚠️</div>
-      <h2 className="mt-4 font-bold text-2xl tracking-tight">Something went wrong!</h2>
-      <p className="mt-2 max-w-md text-sm text-muted-foreground">
-        {error.message || "An unexpected application error has occurred. Our engineers have been notified."}
+      <div className="bg-destructive/10 text-destructive rounded-full p-4">⚠️</div>
+      <h2 className="mt-4 text-2xl font-bold tracking-tight">Something went wrong!</h2>
+      <p className="text-muted-foreground mt-2 max-w-md text-sm">
+        {error.message ||
+          "An unexpected application error has occurred. Our engineers have been notified."}
       </p>
       {error.digest && (
-        <code className="mt-2 rounded bg-muted px-2 py-1 font-mono text-xs text-muted-foreground">
+        <code className="bg-muted text-muted-foreground mt-2 rounded px-2 py-1 font-mono text-xs">
           Digest: {error.digest}
         </code>
       )}

@@ -39,14 +39,14 @@ export function EnrollContainer({ course }: EnrollContainerProps) {
   return (
     <div className="space-y-3">
       {error && (
-        <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-xs font-semibold text-destructive">
+        <div className="bg-destructive/10 border-destructive/20 text-destructive rounded-xl border p-3 text-xs font-semibold">
           {error}
         </div>
       )}
 
       {isEnrolled ? (
         <div className="space-y-2">
-          <div className="p-3 rounded-xl bg-[#4a9d23]/10 border border-[#4a9d23]/30 text-xs font-bold text-[#4a9d23] flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 rounded-xl border border-[#4a9d23]/30 bg-[#4a9d23]/10 p-3 text-xs font-bold text-[#4a9d23]">
             <CheckCircle2 className="h-4 w-4" /> You are enrolled in this course!
           </div>
           <Button
@@ -68,7 +68,8 @@ export function EnrollContainer({ course }: EnrollContainerProps) {
           disabled={isSubmitting}
           className="w-full gap-2 shadow-md"
         >
-          <PlayCircle className="h-4 w-4" /> {isSubmitting ? "Enrolling..." : "Enroll in Course — Free"}
+          <PlayCircle className="h-4 w-4" />{" "}
+          {isSubmitting ? "Enrolling..." : "Enroll in Course — Free"}
         </Button>
       )}
     </div>

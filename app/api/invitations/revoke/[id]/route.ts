@@ -18,7 +18,10 @@ export async function POST(_request: Request, { params }: RouteContext) {
 
     const supabase = await createClient();
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -30,7 +33,7 @@ export async function POST(_request: Request, { params }: RouteContext) {
 
     const { error: rpcError } = await supabase.rpc("revoke_invitation", {
       p_invitation_id: id,
-      p_admin_id:      user.id,
+      p_admin_id: user.id,
     });
 
     if (rpcError) {

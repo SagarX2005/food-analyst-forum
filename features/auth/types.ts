@@ -2,7 +2,13 @@ import type { User as SupabaseUser } from "@supabase/supabase-js";
 import type { ProfileWithRoleAndOrg, RoleName } from "@services/authService";
 import type { LoginInput, ForgotPasswordInput, ResetPasswordInput } from "./schemas";
 
-export type { RoleName, ProfileWithRoleAndOrg, LoginInput, ForgotPasswordInput, ResetPasswordInput };
+export type {
+  RoleName,
+  ProfileWithRoleAndOrg,
+  LoginInput,
+  ForgotPasswordInput,
+  ResetPasswordInput,
+};
 
 export interface AuthState {
   user: SupabaseUser | null;

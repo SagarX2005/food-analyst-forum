@@ -32,7 +32,9 @@ export class NotificationService {
   public static async markAsRead(notificationId: string): Promise<void> {
     const supabase = createClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase.from("notifications") as any).update({ is_read: true }).eq("id", notificationId);
+    await (supabase.from("notifications") as any)
+      .update({ is_read: true })
+      .eq("id", notificationId);
   }
 
   /**

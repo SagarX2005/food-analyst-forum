@@ -23,15 +23,20 @@ export function CurriculumViewer({ modules, onSelectLesson }: CurriculumViewerPr
   return (
     <div className="space-y-4">
       {modules.map((mod) => (
-        <div key={mod.id} className="rounded-2xl border border-border/80 bg-card overflow-hidden shadow-xs">
+        <div
+          key={mod.id}
+          className="border-border/80 bg-card overflow-hidden rounded-2xl border shadow-xs"
+        >
           {/* Module Header */}
-          <div className="px-5 py-3.5 bg-muted/40 border-b border-border/60 flex items-center justify-between font-bold text-sm text-[#0a2a4a] dark:text-foreground">
+          <div className="bg-muted/40 border-border/60 dark:text-foreground flex items-center justify-between border-b px-5 py-3.5 text-sm font-bold text-[#0a2a4a]">
             <span>{mod.title}</span>
-            <span className="text-xs font-semibold text-muted-foreground">{mod.lessons?.length || 0} Lessons</span>
+            <span className="text-muted-foreground text-xs font-semibold">
+              {mod.lessons?.length || 0} Lessons
+            </span>
           </div>
 
           {/* Lessons List */}
-          <div className="divide-y divide-border/60">
+          <div className="divide-border/60 divide-y">
             {mod.lessons?.map((les) => {
               const isDone = completedLessonIds.includes(les.id);
               const durationFormatted = CourseService.formatDuration(les.duration);
@@ -39,30 +44,30 @@ export function CurriculumViewer({ modules, onSelectLesson }: CurriculumViewerPr
               return (
                 <div
                   key={les.id}
-                  className="px-5 py-3 flex items-center justify-between hover:bg-accent/30 transition-colors text-xs"
+                  className="hover:bg-accent/30 flex items-center justify-between px-5 py-3 text-xs transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <button onClick={() => toggleLessonComplete(les.id)}>
                       <CheckCircle2
                         className={`h-4 w-4 transition-colors ${
-                          isDone ? "text-[#4a9d23] fill-[#4a9d23]/20" : "text-muted-foreground/40"
+                          isDone ? "fill-[#4a9d23]/20 text-[#4a9d23]" : "text-muted-foreground/40"
                         }`}
                       />
                     </button>
                     {les.video_url ? (
                       <PlayCircle className="h-4 w-4 text-[#4a9d23]" />
                     ) : (
-                      <FileText className="h-4 w-4 text-[#0a2a4a] dark:text-primary" />
+                      <FileText className="dark:text-primary h-4 w-4 text-[#0a2a4a]" />
                     )}
                     <span
                       onClick={() => onSelectLesson?.(les.video_url || undefined)}
-                      className="font-semibold text-foreground hover:text-[#4a9d23] cursor-pointer"
+                      className="text-foreground cursor-pointer font-semibold hover:text-[#4a9d23]"
                     >
                       {les.title}
                     </span>
                   </div>
 
-                  <span className="text-muted-foreground font-medium flex items-center gap-1">
+                  <span className="text-muted-foreground flex items-center gap-1 font-medium">
                     <Clock className="h-3 w-3" /> {durationFormatted}
                   </span>
                 </div>

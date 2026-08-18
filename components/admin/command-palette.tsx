@@ -61,45 +61,41 @@ export function CommandPalette() {
     { name: "Global Settings", href: "/admin/settings", icon: Settings2 },
   ];
 
-  const filteredRoutes = routes.filter((r) =>
-    r.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredRoutes = routes.filter((r) => r.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <>
-      <div 
-        className="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200" 
-        onClick={() => setOpen(false)} 
+      <div
+        className="animate-in fade-in fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm duration-200"
+        onClick={() => setOpen(false)}
       />
-      <div className="fixed left-[50%] top-[20%] z-50 w-full max-w-xl -translate-x-1/2 rounded-xl bg-white shadow-2xl border border-slate-200 animate-in fade-in zoom-in-95 duration-200 overflow-hidden">
+      <div className="animate-in fade-in zoom-in-95 fixed top-[20%] left-[50%] z-50 w-full max-w-xl -translate-x-1/2 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-2xl duration-200">
         <div className="flex items-center border-b border-slate-100 px-3">
           <Search className="mr-2 h-4 w-4 shrink-0 text-slate-400" />
           <input
-            className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-slate-400 text-slate-700"
+            className="flex h-12 w-full rounded-md bg-transparent py-3 text-sm text-slate-700 outline-hidden placeholder:text-slate-400"
             placeholder="Type a command or search..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             autoFocus
           />
-          <kbd className="hidden sm:inline-flex h-5 items-center gap-1 rounded border border-slate-200 bg-slate-50 px-1.5 font-mono text-[10px] font-medium text-slate-500 opacity-100">
+          <kbd className="hidden h-5 items-center gap-1 rounded border border-slate-200 bg-slate-50 px-1.5 font-mono text-[10px] font-medium text-slate-500 opacity-100 sm:inline-flex">
             ESC
           </kbd>
         </div>
-        
-        <div className="max-h-[300px] overflow-y-auto p-2 scroll-smooth">
+
+        <div className="max-h-[300px] overflow-y-auto scroll-smooth p-2">
           {filteredRoutes.length === 0 ? (
-            <p className="p-4 text-center text-sm text-slate-500">
-              No results found.
-            </p>
+            <p className="p-4 text-center text-sm text-slate-500">No results found.</p>
           ) : (
             <div className="space-y-1">
-              <p className="px-2 py-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              <p className="px-2 py-1.5 text-xs font-semibold tracking-wider text-slate-500 uppercase">
                 Quick Navigation
               </p>
               {filteredRoutes.map((route, i) => (
                 <div
                   key={i}
-                  className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-2 text-sm outline-hidden hover:bg-[#4a9d23]/10 hover:text-[#0a2a4a] text-slate-700 group transition-colors"
+                  className="group relative flex cursor-pointer items-center rounded-sm px-2 py-2 text-sm text-slate-700 outline-hidden transition-colors select-none hover:bg-[#4a9d23]/10 hover:text-[#0a2a4a]"
                   onClick={() => {
                     router.push(route.href);
                     setOpen(false);

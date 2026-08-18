@@ -20,9 +20,9 @@ export default function RegisterPage() {
   return (
     <div className="flex min-h-[75vh] items-center justify-center py-10">
       <AuthCard>
-        <div className="flex flex-col items-center text-center space-y-5">
+        <div className="flex flex-col items-center space-y-5 text-center">
           {/* Icon */}
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0a2a4a]/8 dark:bg-[#0a2a4a]/30 text-[#0a2a4a] dark:text-foreground">
+          <div className="dark:text-foreground flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0a2a4a]/8 text-[#0a2a4a] dark:bg-[#0a2a4a]/30">
             <Lock className="h-7 w-7" />
           </div>
 
@@ -60,19 +60,15 @@ export default function RegisterPage() {
           </div>
 
           {/* Info notice */}
-          <div className="rounded-xl bg-muted px-4 py-3 text-xs text-muted-foreground leading-relaxed text-left w-full">
-            <strong className="text-foreground">About Membership:</strong> Applications are
-            reviewed by our team. Once approved, you will receive a secure invitation link at
-            your email address. Invitations are valid for 7 days.
+          <div className="bg-muted text-muted-foreground w-full rounded-xl px-4 py-3 text-left text-xs leading-relaxed">
+            <strong className="text-foreground">About Membership:</strong> Applications are reviewed
+            by our team. Once approved, you will receive a secure invitation link at your email
+            address. Invitations are valid for 7 days.
           </div>
         </div>
 
         <div className="mt-4">
-          <AuthFooter
-            label="Already a member?"
-            linkText="Sign In"
-            linkHref="/login"
-          />
+          <AuthFooter label="Already a member?" linkText="Sign In" linkHref="/login" />
         </div>
       </AuthCard>
     </div>
