@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Providers } from "@providers/index";
 import { APP_CONFIG } from "@constants/index";
 import "@styles/globals.css";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: {
@@ -34,6 +35,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           {children}
         </Providers>
+        {process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
+          <Script 
+            defer 
+            src="https://static.cloudflareinsights.com/beacon.min.js" 
+            data-cf-beacon={`{"token": "${process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN}"}`}
+          />
+        )}
       </body>
     </html>
   );
