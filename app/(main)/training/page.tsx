@@ -39,20 +39,21 @@ export default function LearningPortalPage() {
   return (
     <div className="space-y-8 py-4">
       {/* HEADER CTA BANNER */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-2 border-b border-border/60">
+      <div className="border-border/60 flex flex-col items-start justify-between gap-6 border-b pb-2 md:flex-row md:items-center">
         <div>
           <div className="flex items-center gap-2">
             <GraduationCap className="h-7 w-7 text-[#4a9d23]" />
-            <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground">
+            <h1 className="dark:text-foreground text-3xl font-extrabold text-[#0a2a4a]">
               Enterprise Learning & Certification LMS
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            Master ISO 17025 accreditation, FSSAI regulations, LC-MS instrumentation, and laboratory quality auditing.
+          <p className="text-muted-foreground mt-1 text-sm">
+            Master ISO 17025 accreditation, FSSAI regulations, LC-MS instrumentation, and laboratory
+            quality auditing.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex shrink-0 items-center gap-3">
           <Link href="/training/dashboard">
             <Button variant="outline" size="lg" className="gap-2">
               <BookOpen className="h-4 w-4" /> Student Dashboard
@@ -68,10 +69,11 @@ export default function LearningPortalPage() {
 
       {/* CURATED LEARNING PATHS */}
       <div className="space-y-3">
-        <h3 className="text-sm font-extrabold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider flex items-center gap-1.5">
-          <Sparkles className="h-4 w-4 text-[#4a9d23]" /> Curated Professional Certification Learning Tracks
+        <h3 className="dark:text-foreground flex items-center gap-1.5 text-sm font-extrabold tracking-wider text-[#0a2a4a] uppercase">
+          <Sparkles className="h-4 w-4 text-[#4a9d23]" /> Curated Professional Certification
+          Learning Tracks
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {learningPaths.map((path) => (
             <LearningPathCard key={path.id} path={path} onSelect={() => setActiveLevel("all")} />
           ))}
@@ -80,12 +82,12 @@ export default function LearningPortalPage() {
 
       {/* SEARCH BAR */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+        <Search className="text-muted-foreground absolute top-3.5 left-3.5 h-4 w-4" />
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search courses, ISO 17025, FSSAI examination preparation, HPLC methods..."
-          className="pl-10 h-11"
+          className="h-11 pl-10"
         />
       </div>
 
@@ -102,15 +104,15 @@ export default function LearningPortalPage() {
       {/* COURSE CATALOG FEED */}
       <div className="space-y-4">
         {loading ? (
-          <div className="py-16 text-center text-sm text-muted-foreground">
+          <div className="text-muted-foreground py-16 text-center text-sm">
             Loading course catalog...
           </div>
         ) : courses.length === 0 ? (
-          <div className="py-16 text-center space-y-3 border-2 border-dashed border-border rounded-3xl p-8">
-            <p className="text-base font-bold text-[#0a2a4a] dark:text-foreground">
+          <div className="border-border space-y-3 rounded-3xl border-2 border-dashed p-8 py-16 text-center">
+            <p className="dark:text-foreground text-base font-bold text-[#0a2a4a]">
               No courses found matching your criteria.
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Be the first trainer to publish a professional certification course on the platform!
             </p>
           </div>
@@ -118,7 +120,7 @@ export default function LearningPortalPage() {
           <div
             className={
               viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
                 : "space-y-4"
             }
           >

@@ -36,18 +36,21 @@ function validateEnv(): Env {
     console.warn(`[WARN] Environment validation warnings:\n${errors}`);
   }
 
-  return (parsed.success
-    ? parsed.data
-    : {
-        NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-        NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || "Food Analyst Forum",
-        NEXT_PUBLIC_SUPABASE_URL:
-          process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
-        NEXT_PUBLIC_SUPABASE_ANON_KEY:
-          process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-anon-key",
-        SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
-        NODE_ENV: (process.env.NODE_ENV as "development" | "test" | "production") || "development",
-      }) as Env;
+  return (
+    parsed.success
+      ? parsed.data
+      : {
+          NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+          NEXT_PUBLIC_APP_NAME: process.env.NEXT_PUBLIC_APP_NAME || "Food Analyst Forum",
+          NEXT_PUBLIC_SUPABASE_URL:
+            process.env.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
+          NEXT_PUBLIC_SUPABASE_ANON_KEY:
+            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder-anon-key",
+          SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+          NODE_ENV:
+            (process.env.NODE_ENV as "development" | "test" | "production") || "development",
+        }
+  ) as Env;
 }
 
 export const env = validateEnv();
@@ -62,7 +65,9 @@ export function getServiceRoleKey(): string {
   }
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!key) {
-    throw new Error("SUPABASE_SERVICE_ROLE_KEY is required for server admin operations but is not defined.");
+    throw new Error(
+      "SUPABASE_SERVICE_ROLE_KEY is required for server admin operations but is not defined.",
+    );
   }
   return key;
 }

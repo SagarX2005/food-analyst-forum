@@ -12,15 +12,22 @@ import {
   Database,
   MailOpen,
   AlertCircle,
-  Clock
+  Clock,
 } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Card } from "@components/ui/card";
-import { AdminService, type PlatformStats, type HealthMetric, type AuditLogRow } from "@services/adminService";
+import {
+  AdminService,
+  type PlatformStats,
+  type HealthMetric,
+  type AuditLogRow,
+} from "@services/adminService";
 import { KpiCard } from "@components/admin/kpi-card";
 
 export default function OperationsCenterHome() {
-  const [stats, setStats] = React.useState<(PlatformStats & { pendingInvitations: number }) | null>(null);
+  const [stats, setStats] = React.useState<(PlatformStats & { pendingInvitations: number }) | null>(
+    null,
+  );
   const [healthMetrics, setHealthMetrics] = React.useState<HealthMetric[]>([]);
   const [recentActivity, setRecentActivity] = React.useState<AuditLogRow[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -31,7 +38,7 @@ export default function OperationsCenterHome() {
       const [data, activity, metrics] = await Promise.all([
         AdminService.getPlatformStats(),
         AdminService.getAuditLogs(5),
-        AdminService.getHealthMetrics() // Synchronous mock currently, but keeping pattern
+        AdminService.getHealthMetrics(), // Synchronous mock currently, but keeping pattern
       ]);
       setStats(data);
       setRecentActivity(activity);
@@ -49,24 +56,24 @@ export default function OperationsCenterHome() {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
+    <div className="animate-in fade-in space-y-8 duration-500">
       {/* HEADER */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-4 border-b border-slate-200">
+      <div className="flex flex-col items-start justify-between gap-6 border-b border-slate-200 pb-4 md:flex-row md:items-center">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold text-[#0a2a4a] tracking-tight">
+            <h1 className="text-2xl font-bold tracking-tight text-[#0a2a4a]">
               Platform Operations
             </h1>
           </div>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="mt-1 text-sm text-slate-500">
             {getGreeting()}. Here&apos;s what needs your attention today.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 shrink-0 bg-emerald-50 px-3 py-1.5 rounded-md border border-emerald-100">
+        <div className="flex shrink-0 items-center gap-2 rounded-md border border-emerald-100 bg-emerald-50 px-3 py-1.5">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
           </span>
           <span className="text-xs font-semibold text-emerald-700">All systems operational</span>
         </div>
@@ -75,38 +82,48 @@ export default function OperationsCenterHome() {
       {/* NEEDS ATTENTION */}
       {stats && stats.pendingInvitations > 0 && (
         <section>
-          <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4">Needs Your Attention</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card className="p-4 border-amber-200 bg-amber-50/50 shadow-sm transition-all hover:shadow-md">
+          <h2 className="mb-4 text-sm font-bold tracking-widest text-slate-400 uppercase">
+            Needs Your Attention
+          </h2>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <Card className="border-amber-200 bg-amber-50/50 p-4 shadow-sm transition-all hover:shadow-md">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="flex items-center gap-2 text-amber-600 mb-1">
+                  <div className="mb-1 flex items-center gap-2 text-amber-600">
                     <MailOpen className="h-4 w-4" />
                     <span className="font-bold">{stats.pendingInvitations}</span>
                   </div>
                   <p className="text-sm font-medium text-slate-700">Membership requests</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Awaiting professional review</p>
+                  <p className="mt-0.5 text-xs text-slate-500">Awaiting professional review</p>
                 </div>
                 <Link href="/admin/invitations">
-                  <Button variant="ghost" size="sm" className="text-amber-700 hover:text-amber-800 hover:bg-amber-100 h-8 text-xs font-semibold">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-xs font-semibold text-amber-700 hover:bg-amber-100 hover:text-amber-800"
+                  >
                     Review <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                 </Link>
               </div>
             </Card>
 
-            <Card className="p-4 border-rose-200 bg-rose-50/50 shadow-sm transition-all hover:shadow-md">
+            <Card className="border-rose-200 bg-rose-50/50 p-4 shadow-sm transition-all hover:shadow-md">
               <div className="flex items-start justify-between">
                 <div>
-                  <div className="flex items-center gap-2 text-rose-600 mb-1">
+                  <div className="mb-1 flex items-center gap-2 text-rose-600">
                     <AlertCircle className="h-4 w-4" />
                     <span className="font-bold">2</span>
                   </div>
                   <p className="text-sm font-medium text-slate-700">Forum reports</p>
-                  <p className="text-xs text-slate-500 mt-0.5">Content flagged by members</p>
+                  <p className="mt-0.5 text-xs text-slate-500">Content flagged by members</p>
                 </div>
                 <Link href="/admin/forum">
-                  <Button variant="ghost" size="sm" className="text-rose-700 hover:text-rose-800 hover:bg-rose-100 h-8 text-xs font-semibold">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 text-xs font-semibold text-rose-700 hover:bg-rose-100 hover:text-rose-800"
+                  >
                     Moderate <ArrowRight className="ml-1 h-3 w-3" />
                   </Button>
                 </Link>
@@ -116,49 +133,93 @@ export default function OperationsCenterHome() {
         </section>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="space-y-8 lg:col-span-2">
           {/* EXECUTIVE KPIs */}
           <section>
-            <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4">Executive KPIs</h2>
+            <h2 className="mb-4 text-sm font-bold tracking-widest text-slate-400 uppercase">
+              Executive KPIs
+            </h2>
             {loading || !stats ? (
               <div className="py-8 text-center text-xs text-slate-500">Loading metrics...</div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <KpiCard title="Total Members" value={stats.totalUsers.toLocaleString()} icon={Users} trend="Active community" />
-                <KpiCard title="Pending Invitations" value={stats.pendingInvitations.toLocaleString()} icon={MailOpen} trend="Requires review" />
-                <KpiCard title="Active Organizations" value={stats.activeOrganizations.toLocaleString()} icon={Building2} trend="Verified entities" />
-                <KpiCard title="Resources" value={stats.resourcesUploaded.toLocaleString()} icon={FileText} trend="SOPs & Docs" />
-                <KpiCard title="Active Jobs" value={stats.activeJobs.toLocaleString()} icon={Briefcase} trend="Open positions" />
-                <KpiCard title="Course Enrollments" value={stats.courseEnrollments.toLocaleString()} icon={GraduationCap} trend="Active learners" />
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <KpiCard
+                  title="Total Members"
+                  value={stats.totalUsers.toLocaleString()}
+                  icon={Users}
+                  trend="Active community"
+                />
+                <KpiCard
+                  title="Pending Invitations"
+                  value={stats.pendingInvitations.toLocaleString()}
+                  icon={MailOpen}
+                  trend="Requires review"
+                />
+                <KpiCard
+                  title="Active Organizations"
+                  value={stats.activeOrganizations.toLocaleString()}
+                  icon={Building2}
+                  trend="Verified entities"
+                />
+                <KpiCard
+                  title="Resources"
+                  value={stats.resourcesUploaded.toLocaleString()}
+                  icon={FileText}
+                  trend="SOPs & Docs"
+                />
+                <KpiCard
+                  title="Active Jobs"
+                  value={stats.activeJobs.toLocaleString()}
+                  icon={Briefcase}
+                  trend="Open positions"
+                />
+                <KpiCard
+                  title="Course Enrollments"
+                  value={stats.courseEnrollments.toLocaleString()}
+                  icon={GraduationCap}
+                  trend="Active learners"
+                />
               </div>
             )}
           </section>
 
           {/* PLATFORM HEALTH */}
           <section>
-            <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4 flex items-center justify-between">
+            <h2 className="mb-4 flex items-center justify-between text-sm font-bold tracking-widest text-slate-400 uppercase">
               Platform Health
-              <Link href="/admin/health" className="text-[10px] text-[#4a9d23] hover:underline flex items-center">
+              <Link
+                href="/admin/health"
+                className="flex items-center text-[10px] text-[#4a9d23] hover:underline"
+              >
                 Detailed Telemetry <ArrowRight className="ml-1 h-3 w-3" />
               </Link>
             </h2>
             <Card className="overflow-hidden border-slate-200 shadow-sm">
               <div className="divide-y divide-slate-100">
                 {healthMetrics.length === 0 ? (
-                  <div className="p-4 text-xs text-slate-500 text-center">Telemetry unavailable</div>
+                  <div className="p-4 text-center text-xs text-slate-500">
+                    Telemetry unavailable
+                  </div>
                 ) : (
                   healthMetrics.map((m) => (
-                    <div key={m.service} className="p-4 flex items-center justify-between hover:bg-slate-50 transition-colors">
+                    <div
+                      key={m.service}
+                      className="flex items-center justify-between p-4 transition-colors hover:bg-slate-50"
+                    >
                       <div className="flex items-center gap-3">
                         <Database className="h-4 w-4 text-slate-400" />
                         <div>
                           <p className="text-sm font-semibold text-[#0a2a4a]">{m.service}</p>
-                          <p className="text-xs text-slate-500">{m.status === 'operational' ? 'Operational' : 'Degraded'}</p>
+                          <p className="text-xs text-slate-500">
+                            {m.status === "operational" ? "Operational" : "Degraded"}
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <span className={`h-2 w-2 rounded-full ${m.status === 'operational' ? 'bg-[#4a9d23]' : 'bg-amber-500'}`} />
+                        <span
+                          className={`h-2 w-2 rounded-full ${m.status === "operational" ? "bg-[#4a9d23]" : "bg-amber-500"}`}
+                        />
                       </div>
                     </div>
                   ))
@@ -169,9 +230,11 @@ export default function OperationsCenterHome() {
         </div>
 
         {/* RECENT ACTIVITY */}
-        <div className="lg:col-span-1 space-y-4">
-          <h2 className="text-sm font-bold tracking-widest text-slate-400 uppercase mb-4">Recent Activity</h2>
-          <Card className="p-0 border-slate-200 shadow-sm">
+        <div className="space-y-4 lg:col-span-1">
+          <h2 className="mb-4 text-sm font-bold tracking-widest text-slate-400 uppercase">
+            Recent Activity
+          </h2>
+          <Card className="border-slate-200 p-0 shadow-sm">
             {loading ? (
               <div className="p-8 text-center text-xs text-slate-500">Loading activity...</div>
             ) : recentActivity.length === 0 ? (
@@ -179,27 +242,30 @@ export default function OperationsCenterHome() {
             ) : (
               <div className="divide-y divide-slate-100">
                 {recentActivity.map((log) => (
-                  <div key={log.id} className="p-4 flex gap-3 hover:bg-slate-50 transition-colors">
+                  <div key={log.id} className="flex gap-3 p-4 transition-colors hover:bg-slate-50">
                     <div className="mt-0.5 shrink-0">
                       <div className="h-2 w-2 rounded-full bg-slate-300 ring-4 ring-slate-50" />
                     </div>
                     <div className="space-y-1">
-                      <p className="text-sm text-slate-700 leading-tight">
+                      <p className="text-sm leading-tight text-slate-700">
                         <span className="font-semibold">{log.action}</span>
-                        {log.details ? ` - ${JSON.stringify(log.details)}` : ''}
+                        {log.details ? ` - ${JSON.stringify(log.details)}` : ""}
                       </p>
-                      <div className="flex items-center gap-1.5 text-[10px] text-slate-400 font-medium">
+                      <div className="flex items-center gap-1.5 text-[10px] font-medium text-slate-400">
                         <Clock className="h-3 w-3" />
-                        {new Date(log.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(log.created_at).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             )}
-            <div className="p-3 border-t border-slate-100 bg-slate-50 rounded-b-lg">
+            <div className="rounded-b-lg border-t border-slate-100 bg-slate-50 p-3">
               <Link href="/admin/audit">
-                <Button variant="ghost" className="w-full text-xs font-semibold text-slate-600 h-8">
+                <Button variant="ghost" className="h-8 w-full text-xs font-semibold text-slate-600">
                   View Full Audit Log
                 </Button>
               </Link>

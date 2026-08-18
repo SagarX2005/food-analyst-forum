@@ -35,13 +35,13 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 py-4">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div className="mx-auto max-w-4xl space-y-8 py-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div className="space-y-1">
-          <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+          <h1 className="dark:text-foreground flex items-center gap-2 text-3xl font-extrabold text-[#0a2a4a]">
             <Bell className="h-7 w-7 text-[#4a9d23]" /> Notification Center
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Stay updated with forum replies, resource approvals, and security alerts.
           </p>
         </div>
@@ -55,19 +55,25 @@ export default function NotificationsPage() {
 
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground">Your Notifications</CardTitle>
+          <CardTitle className="dark:text-foreground text-lg text-[#0a2a4a]">
+            Your Notifications
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {loading ? (
-            <div className="p-8 text-center text-xs text-muted-foreground">Loading notifications...</div>
+            <div className="text-muted-foreground p-8 text-center text-xs">
+              Loading notifications...
+            </div>
           ) : notifications.length === 0 ? (
-            <div className="p-8 text-center text-xs text-muted-foreground">No notifications found.</div>
+            <div className="text-muted-foreground p-8 text-center text-xs">
+              No notifications found.
+            </div>
           ) : (
             notifications.map((n) => (
               <div
                 key={n.id}
                 onClick={() => handleMarkSingleRead(n.id)}
-                className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
+                className={`flex cursor-pointer items-start justify-between gap-4 rounded-2xl border p-4 transition-all ${
                   !n.is_read
                     ? "border-[#4a9d23]/50 bg-[#4a9d23]/5 font-semibold"
                     : "border-border/60 hover:border-border"
@@ -75,13 +81,13 @@ export default function NotificationsPage() {
               >
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm text-[#0a2a4a] dark:text-foreground font-bold">{n.title}</p>
-                    {!n.is_read && (
-                      <span className="h-2 w-2 rounded-full bg-[#4a9d23]" />
-                    )}
+                    <p className="dark:text-foreground text-sm font-bold text-[#0a2a4a]">
+                      {n.title}
+                    </p>
+                    {!n.is_read && <span className="h-2 w-2 rounded-full bg-[#4a9d23]" />}
                   </div>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{n.content}</p>
-                  <p className="text-[10px] text-muted-foreground pt-1">
+                  <p className="text-muted-foreground text-xs leading-relaxed">{n.content}</p>
+                  <p className="text-muted-foreground pt-1 text-[10px]">
                     {new Date(n.created_at).toLocaleString("en-US", {
                       month: "short",
                       day: "numeric",
@@ -91,7 +97,11 @@ export default function NotificationsPage() {
                   </p>
                 </div>
 
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-destructive">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-muted-foreground hover:text-destructive"
+                >
                   <Trash2 className="h-4 w-4" />
                 </Button>
               </div>

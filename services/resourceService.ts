@@ -65,7 +65,8 @@ export class ResourceService {
       {
         id: "nabl-17025",
         title: "NABL & ISO 17025 Accreditation Kit",
-        description: "Complete quality manual templates, uncertainty calculation spreadsheets, and audit checklists.",
+        description:
+          "Complete quality manual templates, uncertainty calculation spreadsheets, and audit checklists.",
         badge: "Essential ISO Kit",
         resourceCount: 14,
         coverGradient: "from-[#0a2a4a] to-[#154678]",
@@ -73,7 +74,8 @@ export class ResourceService {
       {
         id: "fssai-guidelines",
         title: "FSSAI Food Safety Manuals 2026",
-        description: "Official testing protocols for pesticides, heavy metals, adulterants, and mycotoxins.",
+        description:
+          "Official testing protocols for pesticides, heavy metals, adulterants, and mycotoxins.",
         badge: "Regulatory Manuals",
         resourceCount: 22,
         coverGradient: "from-[#113a63] to-[#4a9d23]",
@@ -81,7 +83,8 @@ export class ResourceService {
       {
         id: "hplc-protocols",
         title: "HPLC & LC-MS/MS Testing SOPs",
-        description: "Method validation protocols, mobile phase preparation guides, and column care manuals.",
+        description:
+          "Method validation protocols, mobile phase preparation guides, and column care manuals.",
         badge: "Analytical Methods",
         resourceCount: 18,
         coverGradient: "from-[#0a2a4a] to-[#4a9d23]",
@@ -110,7 +113,9 @@ export class ResourceService {
     const supabase = createClient();
     const { categorySlug, search, sortBy = "latest", page = 1, limit = 15 } = options;
 
-    let query = supabase.from("resources").select("*, uploader:profiles(*), category:resource_categories(*)");
+    let query = supabase
+      .from("resources")
+      .select("*, uploader:profiles(*), category:resource_categories(*)");
 
     if (categorySlug && categorySlug !== "all") {
       const { data: cat } = await supabase
@@ -165,7 +170,10 @@ export class ResourceService {
   /**
    * Fetch single resource by ID or slug and increment view count
    */
-  public static async getResourceBySlug(slug: string, userId?: string): Promise<FullResource | null> {
+  public static async getResourceBySlug(
+    slug: string,
+    userId?: string,
+  ): Promise<FullResource | null> {
     const supabase = createClient();
 
     const { data, error } = await supabase
@@ -190,7 +198,10 @@ export class ResourceService {
     // Increment views via RPC if present
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any).rpc("increment_views", { table_name: "resources", record_id: res.id });
+      await (supabase as any).rpc("increment_views", {
+        table_name: "resources",
+        record_id: res.id,
+      });
     } catch {
       // Ignore RPC error
     }

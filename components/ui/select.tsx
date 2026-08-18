@@ -10,8 +10,8 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <select
         className={cn(
-          "flex h-11 w-full rounded-xl border border-input bg-background px-4 py-2.5 text-sm shadow-xs transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4a9d23] focus-visible:border-transparent disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer",
-          className
+          "border-input bg-background flex h-11 w-full cursor-pointer rounded-xl border px-4 py-2.5 text-sm shadow-xs transition-all duration-200 focus-visible:border-transparent focus-visible:ring-2 focus-visible:ring-[#4a9d23] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+          className,
         )}
         ref={ref}
         {...props}
@@ -25,7 +25,7 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
           : children}
       </select>
     );
-  }
+  },
 );
 Select.displayName = "Select";
 

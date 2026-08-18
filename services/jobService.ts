@@ -33,7 +33,11 @@ export class JobService {
   /**
    * Format salary range into human readable currency string
    */
-  public static formatSalaryRange(min?: number | null, max?: number | null, currency: string = "INR"): string {
+  public static formatSalaryRange(
+    min?: number | null,
+    max?: number | null,
+    currency: string = "INR",
+  ): string {
     if (min === null && max === null) return "Competitive Salary";
     if (!min && !max) return "₹8.0L - ₹14.0L / year";
     const symbol = currency === "INR" ? "₹" : "$";
@@ -237,12 +241,13 @@ export class JobService {
   /**
    * Update applicant stage status in recruiter pipeline
    */
-  public static async updateApplicationStatus(applicationId: string, status: string): Promise<void> {
+  public static async updateApplicationStatus(
+    applicationId: string,
+    status: string,
+  ): Promise<void> {
     const supabase = createClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase.from("job_applications") as any)
-      .update({ status })
-      .eq("id", applicationId);
+    await (supabase.from("job_applications") as any).update({ status }).eq("id", applicationId);
   }
 
   /**

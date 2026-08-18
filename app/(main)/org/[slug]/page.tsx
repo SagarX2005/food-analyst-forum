@@ -39,22 +39,22 @@ export default async function OrgProfilePage({ params }: PageProps) {
     <div className="space-y-8 py-4">
       <OrgHeader org={org} />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        <div className="lg:col-span-8 space-y-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <div className="space-y-8 lg:col-span-8">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+              <CardTitle className="dark:text-foreground flex items-center gap-2 text-lg text-[#0a2a4a]">
                 <Users className="h-5 w-5 text-[#4a9d23]" /> Certified Laboratory Members
               </CardTitle>
             </CardHeader>
             <CardContent>
               {org.members && org.members.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {org.members.map((member) => (
                     <Link
                       key={member.id}
                       href={`/u/${member.username || member.id}`}
-                      className="p-3 rounded-2xl border border-border/60 hover:border-[#4a9d23] transition-all flex items-center gap-3 group"
+                      className="border-border/60 group flex items-center gap-3 rounded-2xl border p-3 transition-all hover:border-[#4a9d23]"
                     >
                       <Avatar
                         src={member.avatar_url || undefined}
@@ -62,10 +62,10 @@ export default async function OrgProfilePage({ params }: PageProps) {
                         size="md"
                       />
                       <div className="space-y-0.5 truncate">
-                        <p className="text-sm font-bold text-[#0a2a4a] dark:text-foreground group-hover:text-[#4a9d23] transition-colors truncate">
+                        <p className="dark:text-foreground truncate text-sm font-bold text-[#0a2a4a] transition-colors group-hover:text-[#4a9d23]">
                           {member.full_name || "Analyst"}
                         </p>
-                        <p className="text-xs text-muted-foreground truncate">
+                        <p className="text-muted-foreground truncate text-xs">
                           {member.title || "Analyst Member"}
                         </p>
                       </div>
@@ -73,7 +73,7 @@ export default async function OrgProfilePage({ params }: PageProps) {
                   ))}
                 </div>
               ) : (
-                <p className="text-xs text-muted-foreground">
+                <p className="text-muted-foreground text-xs">
                   No public members listed for this organization yet.
                 </p>
               )}
@@ -81,14 +81,14 @@ export default async function OrgProfilePage({ params }: PageProps) {
           </Card>
         </div>
 
-        <div className="lg:col-span-4 space-y-8">
+        <div className="space-y-8 lg:col-span-4">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base text-[#0a2a4a] dark:text-foreground">
+              <CardTitle className="dark:text-foreground text-base text-[#0a2a4a]">
                 Facility Overview
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-xs text-muted-foreground">
+            <CardContent className="text-muted-foreground space-y-3 text-xs">
               <div className="flex items-center gap-2">
                 <Building2 className="h-4 w-4 text-[#4a9d23]" />
                 <span>NABL ISO/IEC 17025 Accredited</span>

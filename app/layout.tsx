@@ -32,13 +32,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
         {process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
-          <Script 
-            defer 
-            src="https://static.cloudflareinsights.com/beacon.min.js" 
+          <Script
+            defer
+            src="https://static.cloudflareinsights.com/beacon.min.js"
             data-cf-beacon={`{"token": "${process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN}"}`}
           />
         )}

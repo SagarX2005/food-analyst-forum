@@ -16,7 +16,9 @@ export async function updateSession(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(cookiesToSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>) {
+        setAll(
+          cookiesToSet: Array<{ name: string; value: string; options?: Record<string, unknown> }>,
+        ) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({
             request,
@@ -25,12 +27,12 @@ export async function updateSession(request: NextRequest) {
             supabaseResponse.cookies.set(
               name,
               value,
-              options as Parameters<typeof supabaseResponse.cookies.set>[2]
-            )
+              options as Parameters<typeof supabaseResponse.cookies.set>[2],
+            ),
           );
         },
       },
-    }
+    },
   );
 
   // Refresh user session token
@@ -42,8 +44,7 @@ export async function updateSession(request: NextRequest) {
 
   // Phase 10A: Public routes that are always accessible (never redirected)
   const isPublicInvitePath =
-    path.startsWith("/request-invite") ||
-    path.startsWith("/accept-invite");
+    path.startsWith("/request-invite") || path.startsWith("/accept-invite");
 
   if (isPublicInvitePath) {
     return supabaseResponse;

@@ -77,20 +77,20 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🛠 Available Scripts
 
-| Command | Description |
-| :--- | :--- |
-| `pnpm run dev` | Starts Next.js development server with hot-reloading |
-| `pnpm run build` | Builds optimized production bundle |
-| `pnpm run start` | Runs production server |
-| `pnpm run type-check` | Runs strict TypeScript compiler check (`tsc --noEmit`) |
-| `pnpm run lint` | Runs ESLint checks across all files |
-| `pnpm run lint:fix` | Automatically fixes auto-fixable ESLint issues |
-| `pnpm run format:check` | Verifies code formatting with Prettier |
-| `pnpm run format` | Formats codebase with Prettier |
-| `pnpm run test` | Runs unit & component tests via Vitest |
-| `pnpm run test:watch` | Runs Vitest in interactive watch mode |
-| `pnpm run test:coverage` | Generates Vitest code coverage reports |
-| `pnpm run test:e2e` | Runs end-to-end tests via Playwright |
+| Command                  | Description                                            |
+| :----------------------- | :----------------------------------------------------- |
+| `pnpm run dev`           | Starts Next.js development server with hot-reloading   |
+| `pnpm run build`         | Builds optimized production bundle                     |
+| `pnpm run start`         | Runs production server                                 |
+| `pnpm run type-check`    | Runs strict TypeScript compiler check (`tsc --noEmit`) |
+| `pnpm run lint`          | Runs ESLint checks across all files                    |
+| `pnpm run lint:fix`      | Automatically fixes auto-fixable ESLint issues         |
+| `pnpm run format:check`  | Verifies code formatting with Prettier                 |
+| `pnpm run format`        | Formats codebase with Prettier                         |
+| `pnpm run test`          | Runs unit & component tests via Vitest                 |
+| `pnpm run test:watch`    | Runs Vitest in interactive watch mode                  |
+| `pnpm run test:coverage` | Generates Vitest code coverage reports                 |
+| `pnpm run test:e2e`      | Runs end-to-end tests via Playwright                   |
 
 ---
 
@@ -99,6 +99,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 Environment variables are strictly parsed at runtime using **Zod** in [lib/env.ts](file:///d:/FAF/lib/env.ts).
 
 Required public variables:
+
 - `NEXT_PUBLIC_APP_URL`
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`

@@ -31,18 +31,18 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 py-4">
+    <div className="mx-auto max-w-4xl space-y-8 py-4">
       <div className="space-y-1">
-        <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+        <h1 className="dark:text-foreground flex items-center gap-2 text-3xl font-extrabold text-[#0a2a4a]">
           <Settings className="h-7 w-7 text-[#4a9d23]" /> Account & Security Settings
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Manage your password, login sessions, email alerts, and privacy preferences.
         </p>
       </div>
 
       {msg && (
-        <div className="p-3.5 rounded-xl bg-[#4a9d23]/10 border border-[#4a9d23]/30 text-xs font-semibold text-[#4a9d23]">
+        <div className="rounded-xl border border-[#4a9d23]/30 bg-[#4a9d23]/10 p-3.5 text-xs font-semibold text-[#4a9d23]">
           {msg}
         </div>
       )}
@@ -50,21 +50,23 @@ export default function SettingsPage() {
       {/* ACCOUNT DETAILS */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+          <CardTitle className="dark:text-foreground flex items-center gap-2 text-lg text-[#0a2a4a]">
             <Shield className="h-5 w-5 text-[#4a9d23]" /> Account Security
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label className="text-xs font-semibold text-foreground mb-1 block">Registered Email Address</label>
+            <label className="text-foreground mb-1 block text-xs font-semibold">
+              Registered Email Address
+            </label>
             <Input value={user?.email || ""} disabled className="bg-muted" />
           </div>
 
           <form onSubmit={handlePasswordChange} className="space-y-3 pt-2">
-            <h4 className="text-xs font-bold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider flex items-center gap-1.5">
+            <h4 className="dark:text-foreground flex items-center gap-1.5 text-xs font-bold tracking-wider text-[#0a2a4a] uppercase">
               <Key className="h-4 w-4 text-[#4a9d23]" /> Change Password
             </h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <Input
                 type="password"
                 placeholder="New Password"
@@ -90,20 +92,23 @@ export default function SettingsPage() {
       {/* NOTIFICATION PREFERENCES */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+          <CardTitle className="dark:text-foreground flex items-center gap-2 text-lg text-[#0a2a4a]">
             <Bell className="h-5 w-5 text-[#4a9d23]" /> Email & Notification Preferences
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-xs">
           <div className="flex items-center gap-3">
             <Checkbox id="emailForum" defaultChecked />
-            <label htmlFor="emailForum" className="font-semibold text-foreground cursor-pointer">
+            <label htmlFor="emailForum" className="text-foreground cursor-pointer font-semibold">
               Email notifications when someone replies to your forum questions
             </label>
           </div>
           <div className="flex items-center gap-3">
             <Checkbox id="emailRegulatory" defaultChecked />
-            <label htmlFor="emailRegulatory" className="font-semibold text-foreground cursor-pointer">
+            <label
+              htmlFor="emailRegulatory"
+              className="text-foreground cursor-pointer font-semibold"
+            >
               Weekly FSSAI regulatory advisories & NABL 17025 updates digest
             </label>
           </div>
@@ -113,13 +118,14 @@ export default function SettingsPage() {
       {/* DANGER ZONE */}
       <Card className="border-destructive/30">
         <CardHeader className="pb-3">
-          <CardTitle className="text-lg text-destructive flex items-center gap-2">
+          <CardTitle className="text-destructive flex items-center gap-2 text-lg">
             <Trash2 className="h-5 w-5" /> Danger Zone
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 text-xs text-muted-foreground">
+        <CardContent className="text-muted-foreground space-y-3 text-xs">
           <p>
-            Once you delete your account, your professional profile, uploaded SOP references, and certificate records will be permanently removed.
+            Once you delete your account, your professional profile, uploaded SOP references, and
+            certificate records will be permanently removed.
           </p>
           <Button variant="destructive" size="default" className="gap-2">
             <Trash2 className="h-4 w-4" /> Delete Account

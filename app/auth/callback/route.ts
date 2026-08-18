@@ -24,18 +24,21 @@ export async function GET(request: Request) {
   // Handle OAuth errors from provider (e.g., user denied access) or GoTrue DB insert failures
   if (error) {
     console.error("[OAuth Callback] Provider error:", error, errorDescription);
-    
+
     let errorMessage = errorDescription ?? error;
     const errorString = String(errorMessage || "");
-    
+
     // If the database trigger blocked the user creation, GoTrue usually returns "Database error saving new user"
-    if (errorString.includes("INVITE_REQUIRED") || errorString.includes("Database error saving new user") || errorString.includes("server_error")) {
-      errorMessage = "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
+    if (
+      errorString.includes("INVITE_REQUIRED") ||
+      errorString.includes("Database error saving new user") ||
+      errorString.includes("server_error")
+    ) {
+      errorMessage =
+        "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
     }
-    
-    return NextResponse.redirect(
-      `${origin}/login?error=${encodeURIComponent(errorMessage)}`
-    );
+
+    return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorMessage)}`);
   }
 
   if (code) {
@@ -60,23 +63,25 @@ export async function GET(request: Request) {
 
     // Code exchange failed
     console.error("[OAuth Callback] Code exchange error:", exchangeError);
-    
+
     let errorMessage = "Authentication failed. Please try again.";
-    
+
     // Check if the error is our custom Postgres trigger error
     const errorString = String(exchangeError.message || exchangeError.name || "");
-    if (errorString.includes("INVITE_REQUIRED") || errorString.includes("Database error saving new user")) {
-      errorMessage = "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
+    if (
+      errorString.includes("INVITE_REQUIRED") ||
+      errorString.includes("Database error saving new user")
+    ) {
+      errorMessage =
+        "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
     }
 
-    return NextResponse.redirect(
-      `${origin}/login?error=${encodeURIComponent(errorMessage)}`
-    );
+    return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorMessage)}`);
   }
 
   // No code present — bad request
   console.error("[OAuth Callback] No code parameter in callback URL.");
   return NextResponse.redirect(
-    `${origin}/login?error=${encodeURIComponent("Invalid authentication callback. Please try again.")}`
+    `${origin}/login?error=${encodeURIComponent("Invalid authentication callback. Please try again.")}`,
   );
 }

@@ -17,7 +17,7 @@ export function QuickApplyContainer({ job }: QuickApplyContainerProps) {
   return (
     <div className="space-y-3">
       {successMsg && (
-        <div className="p-3 rounded-xl bg-[#4a9d23]/10 border border-[#4a9d23]/30 text-xs font-semibold text-[#4a9d23]">
+        <div className="rounded-xl border border-[#4a9d23]/30 bg-[#4a9d23]/10 p-3 text-xs font-semibold text-[#4a9d23]">
           {successMsg}
         </div>
       )}

@@ -18,9 +18,9 @@ import type { ApprovalRole } from "@features/invitations/types";
 import type { Database, RoleName } from "@app-types/database.types";
 
 const acceptSchema = z.object({
-  token:     z.string().min(1, "Invalid invitation token"),
+  token: z.string().min(1, "Invalid invitation token"),
   full_name: z.string().trim().min(2).max(120),
-  password:  z
+  password: z
     .string()
     .min(8, "Password must be at least 8 characters")
     .regex(/[A-Z]/, "Must contain at least one uppercase letter")
@@ -32,7 +32,7 @@ const acceptSchema = z.object({
 /** Creates a Supabase client using the Service Role key (server-only) */
 function createAdminClient(): SupabaseClient<Database> {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const serviceKey  = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
   if (!supabaseUrl || !serviceKey) {
     throw new Error("Supabase URL or service role key is not configured.");
@@ -40,12 +40,16 @@ function createAdminClient(): SupabaseClient<Database> {
 
   return createServerClient<Database>(supabaseUrl, serviceKey, {
     cookies: {
-      getAll() { return []; },
-      setAll() { /* no-op for admin client */ },
+      getAll() {
+        return [];
+      },
+      setAll() {
+        /* no-op for admin client */
+      },
     },
     auth: {
       autoRefreshToken: false,
-      persistSession:   false,
+      persistSession: false,
     },
   }) as unknown as SupabaseClient<Database>;
 }
@@ -58,7 +62,7 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -70,10 +74,9 @@ export async function POST(request: Request) {
     const supabase = await createClient();
 
     // 2. Validate the token via SECURITY DEFINER function
-    const { data: validation, error: valError } = await supabase.rpc(
-      "validate_invitation_token",
-      { p_token_hash: tokenHash }
-    );
+    const { data: validation, error: valError } = await supabase.rpc("validate_invitation_token", {
+      p_token_hash: tokenHash,
+    });
 
     if (valError) {
       return NextResponse.json({ error: "Token validation failed." }, { status: 500 });
@@ -90,24 +93,25 @@ export async function POST(request: Request) {
     if (!v.valid) {
       const messages: Record<string, string> = {
         INVALID_TOKEN: "This invitation link is invalid.",
-        ALREADY_USED:  "This invitation has already been used.",
-        REVOKED:       "This invitation has been revoked.",
-        EXPIRED:       "This invitation has expired.",
+        ALREADY_USED: "This invitation has already been used.",
+        REVOKED: "This invitation has been revoked.",
+        EXPIRED: "This invitation has expired.",
       };
       return NextResponse.json(
         { error: messages[v.reason ?? ""] ?? "Invalid invitation." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const { email, assigned_role } = v;
 
     // 3. Confirm assigned_role is non-privileged (defense in depth)
-    if (!email || !assigned_role || !ALLOWED_APPROVAL_ROLES.includes(assigned_role as ApprovalRole)) {
-      return NextResponse.json(
-        { error: "Invalid invitation data." },
-        { status: 400 }
-      );
+    if (
+      !email ||
+      !assigned_role ||
+      !ALLOWED_APPROVAL_ROLES.includes(assigned_role as ApprovalRole)
+    ) {
+      return NextResponse.json({ error: "Invalid invitation data." }, { status: 400 });
     }
 
     // 4. Create the Supabase Auth user (admin client)
@@ -116,7 +120,7 @@ export async function POST(request: Request) {
     const { data: authData, error: createError } = await adminClient.auth.admin.createUser({
       email,
       password,
-      email_confirm: true,    // auto-confirm since they have a valid invitation
+      email_confirm: true, // auto-confirm since they have a valid invitation
       user_metadata: { full_name },
     });
 
@@ -125,7 +129,7 @@ export async function POST(request: Request) {
       if (createError?.message?.includes("already registered")) {
         return NextResponse.json(
           { error: "An account with this email already exists. Please sign in." },
-          { status: 409 }
+          { status: 409 },
         );
       }
       console.error("[accept-invite] createUser error:", createError?.message);
@@ -161,16 +165,18 @@ export async function POST(request: Request) {
     }
 
     // 7. Log Audit Event (best effort)
-    adminClient.rpc("log_audit_event", {
-      p_user_id:     newUserId,
-      p_action:      "INVITATION_ACCEPTED",
-      p_entity_type: "invitations",
-      p_entity_id:   v.invitation_id ?? "",
-      p_details:     { email, role: assigned_role },
-      p_ip_address:  request.headers.get("x-forwarded-for") ?? null,
-    }).then(({ error }) => {
-      if (error) console.error("[accept-invite] audit log error:", error.message);
-    });
+    adminClient
+      .rpc("log_audit_event", {
+        p_user_id: newUserId,
+        p_action: "INVITATION_ACCEPTED",
+        p_entity_type: "invitations",
+        p_entity_id: v.invitation_id ?? "",
+        p_details: { email, role: assigned_role },
+        p_ip_address: request.headers.get("x-forwarded-for") ?? null,
+      })
+      .then(({ error }) => {
+        if (error) console.error("[accept-invite] audit log error:", error.message);
+      });
 
     return NextResponse.json({
       success: true,

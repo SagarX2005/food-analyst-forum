@@ -13,7 +13,10 @@ export async function POST(request: Request) {
   try {
     const supabase = await createClient();
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -30,7 +33,7 @@ export async function POST(request: Request) {
     }
 
     const { error: rpcError } = await supabase.rpc("mark_request_under_review", {
-      p_request_id:  parsed.data.request_id,
+      p_request_id: parsed.data.request_id,
       p_reviewer_id: user.id,
     });
 

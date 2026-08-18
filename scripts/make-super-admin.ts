@@ -23,34 +23,37 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey, {
 
 async function makeSuperAdmin(email: string) {
   console.log(`Looking up user with email: ${email}...`);
-  
+
   // List users via Admin API
-  const { data: { users }, error: userError } = await supabase.auth.admin.listUsers();
-  
+  const {
+    data: { users },
+    error: userError,
+  } = await supabase.auth.admin.listUsers();
+
   if (userError) {
     console.error("Error fetching users:", userError.message);
     process.exit(1);
   }
-  
-  const user = users.find(u => u.email === email);
-  
+
+  const user = users.find((u) => u.email === email);
+
   if (!user) {
     console.error(`User not found with email: ${email}`);
     process.exit(1);
   }
-  
+
   console.log(`Found user ${user.id}. Updating role in profiles...`);
-  
+
   const { error: updateError } = await supabase
     .from("profiles")
     .update({ role_id: "SUPER_ADMIN" })
     .eq("id", user.id);
-    
+
   if (updateError) {
     console.error("Error updating profile role:", updateError.message);
     process.exit(1);
   }
-  
+
   console.log(`Successfully assigned SUPER_ADMIN role to ${email}.`);
 }
 

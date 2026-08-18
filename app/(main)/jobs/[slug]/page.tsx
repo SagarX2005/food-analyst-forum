@@ -1,7 +1,16 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, MapPin, Briefcase, IndianRupee, ShieldCheck, Building2, Bookmark, Clock } from "lucide-react";
+import {
+  ArrowLeft,
+  MapPin,
+  Briefcase,
+  IndianRupee,
+  ShieldCheck,
+  Building2,
+  Bookmark,
+  Clock,
+} from "lucide-react";
 import { JobService } from "@services/jobService";
 import { Badge } from "@components/ui/badge";
 import { Card } from "@components/ui/card";
@@ -87,7 +96,7 @@ export default async function JobDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 py-4">
+    <div className="mx-auto max-w-5xl space-y-8 py-4">
       {/* JSON-LD SEO */}
       <script
         type="application/ld+json"
@@ -95,47 +104,56 @@ export default async function JobDetailPage({ params }: PageProps) {
       />
 
       <div>
-        <Link href="/jobs" className="inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline mb-3">
+        <Link
+          href="/jobs"
+          className="mb-3 inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline"
+        >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to Career Portal
         </Link>
 
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <Badge variant="green" className="text-xs">{job.employment_type || "Full-Time"}</Badge>
-          <Badge variant="outline" className="text-xs border-[#4a9d23]/40 text-[#4a9d23]">Verified Partner</Badge>
-          <span className="text-xs text-muted-foreground flex items-center gap-1 font-semibold">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <Badge variant="green" className="text-xs">
+            {job.employment_type || "Full-Time"}
+          </Badge>
+          <Badge variant="outline" className="border-[#4a9d23]/40 text-xs text-[#4a9d23]">
+            Verified Partner
+          </Badge>
+          <span className="text-muted-foreground flex items-center gap-1 text-xs font-semibold">
             <Clock className="h-3.5 w-3.5" /> Posted {new Date(job.created_at).toLocaleDateString()}
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground leading-snug">
+        <h1 className="dark:text-foreground text-2xl leading-snug font-extrabold text-[#0a2a4a] sm:text-3xl">
           {job.title}
         </h1>
-        <p className="text-sm font-semibold text-muted-foreground flex items-center gap-1.5 pt-1">
-          <Building2 className="h-4 w-4 text-[#4a9d23]" /> {companyName} • <MapPin className="h-4 w-4 text-muted-foreground" /> {location}
+        <p className="text-muted-foreground flex items-center gap-1.5 pt-1 text-sm font-semibold">
+          <Building2 className="h-4 w-4 text-[#4a9d23]" /> {companyName} •{" "}
+          <MapPin className="text-muted-foreground h-4 w-4" /> {location}
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* MAIN DESCRIPTION & SKILLS */}
-        <div className="lg:col-span-8 space-y-8">
-          <Card className="p-6 space-y-6">
+        <div className="space-y-8 lg:col-span-8">
+          <Card className="space-y-6 p-6">
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4 rounded-2xl bg-accent/30 border border-border text-xs">
+            <div className="bg-accent/30 border-border grid grid-cols-2 gap-4 rounded-2xl border p-4 text-xs sm:grid-cols-3">
               <div>
                 <span className="text-muted-foreground block text-[11px]">Salary Offered</span>
-                <span className="font-extrabold text-[#4a9d23] text-sm flex items-center gap-1">
+                <span className="flex items-center gap-1 text-sm font-extrabold text-[#4a9d23]">
                   <IndianRupee className="h-3.5 w-3.5" /> {salaryFormatted}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block text-[11px]">Experience</span>
-                <span className="font-extrabold text-foreground text-sm flex items-center gap-1">
-                  <Briefcase className="h-3.5 w-3.5 text-muted-foreground" /> {job.experience_level || "3-5 Years"}
+                <span className="text-foreground flex items-center gap-1 text-sm font-extrabold">
+                  <Briefcase className="text-muted-foreground h-3.5 w-3.5" />{" "}
+                  {job.experience_level || "3-5 Years"}
                 </span>
               </div>
               <div>
                 <span className="text-muted-foreground block text-[11px]">Applicants</span>
-                <span className="font-extrabold text-foreground text-sm">
+                <span className="text-foreground text-sm font-extrabold">
                   {job.applications_count || 0} Candidates
                 </span>
               </div>
@@ -143,10 +161,10 @@ export default async function JobDetailPage({ params }: PageProps) {
 
             {/* Job Description */}
             <div className="space-y-4">
-              <h3 className="text-lg font-bold text-[#0a2a4a] dark:text-foreground">
+              <h3 className="dark:text-foreground text-lg font-bold text-[#0a2a4a]">
                 Role Description & Key Responsibilities
               </h3>
-              <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+              <p className="text-foreground text-sm leading-relaxed whitespace-pre-line">
                 {job.description}
               </p>
             </div>
@@ -154,12 +172,16 @@ export default async function JobDetailPage({ params }: PageProps) {
             {/* Skills Required */}
             {job.skills_required && (
               <div className="space-y-2 pt-2">
-                <h4 className="text-xs font-bold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider">
+                <h4 className="dark:text-foreground text-xs font-bold tracking-wider text-[#0a2a4a] uppercase">
                   Required Technical Competencies & Skills
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {job.skills_required.map((skill) => (
-                    <Badge key={skill} variant="outline" className="px-3 py-1 text-xs border-[#4a9d23]/40">
+                    <Badge
+                      key={skill}
+                      variant="outline"
+                      className="border-[#4a9d23]/40 px-3 py-1 text-xs"
+                    >
                       {skill}
                     </Badge>
                   ))}
@@ -170,28 +192,28 @@ export default async function JobDetailPage({ params }: PageProps) {
         </div>
 
         {/* COMPANY & APPLY SIDEBAR */}
-        <div className="lg:col-span-4 space-y-6">
-          <Card className="p-5 space-y-4">
+        <div className="space-y-6 lg:col-span-4">
+          <Card className="space-y-4 p-5">
             <QuickApplyContainer job={job} />
           </Card>
 
-          <Card className="p-5 space-y-4">
-            <h4 className="text-xs font-extrabold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider">
+          <Card className="space-y-4 p-5">
+            <h4 className="dark:text-foreground text-xs font-extrabold tracking-wider text-[#0a2a4a] uppercase">
               About {companyName}
             </h4>
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-2xl bg-[#0a2a4a]/10 dark:bg-primary/10 text-[#0a2a4a] dark:text-primary flex items-center justify-center border border-border">
+              <div className="dark:bg-primary/10 dark:text-primary border-border flex h-12 w-12 items-center justify-center rounded-2xl border bg-[#0a2a4a]/10 text-[#0a2a4a]">
                 <Building2 className="h-6 w-6 text-[#4a9d23]" />
               </div>
               <div>
-                <p className="font-bold text-sm text-[#0a2a4a] dark:text-foreground flex items-center gap-1">
+                <p className="dark:text-foreground flex items-center gap-1 text-sm font-bold text-[#0a2a4a]">
                   {companyName} <ShieldCheck className="h-3.5 w-3.5 text-[#4a9d23]" />
                 </p>
-                <p className="text-xs text-muted-foreground">NABL & FSSAI Partner Lab</p>
+                <p className="text-muted-foreground text-xs">NABL & FSSAI Partner Lab</p>
               </div>
             </div>
 
-            <button className="w-full py-2.5 rounded-xl border border-border flex items-center justify-center gap-2 text-xs font-bold hover:border-[#4a9d23] transition-colors">
+            <button className="border-border flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs font-bold transition-colors hover:border-[#4a9d23]">
               <Bookmark className="h-4 w-4 text-[#4a9d23]" /> Bookmark Job
             </button>
           </Card>

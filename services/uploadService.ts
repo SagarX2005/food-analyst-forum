@@ -13,7 +13,12 @@ export class UploadService {
   /**
    * Upload file to Supabase Storage bucket and return public URL
    */
-  public static async uploadFile({ bucket, file, userId, onProgress }: UploadOptions): Promise<string> {
+  public static async uploadFile({
+    bucket,
+    file,
+    userId,
+    onProgress,
+  }: UploadOptions): Promise<string> {
     const supabase = createClient();
 
     // 1. Validate file size (Max 5MB)

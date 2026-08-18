@@ -17,12 +17,15 @@ export function PostCard({ post }: PostCardProps) {
   const readingTime = ForumService.calculateReadingTime(post.content);
 
   return (
-    <Card className="hover:border-[#4a9d23] transition-all p-5 group">
+    <Card className="group p-5 transition-all hover:border-[#4a9d23]">
       <div className="space-y-3">
         {/* Top Metadata Header */}
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2">
-            <Badge variant="secondary" className="bg-[#4a9d23]/10 text-[#4a9d23] hover:bg-[#4a9d23]/20">
+            <Badge
+              variant="secondary"
+              className="bg-[#4a9d23]/10 text-[#4a9d23] hover:bg-[#4a9d23]/20"
+            >
               {categoryName}
             </Badge>
             {post.comments_count > 3 && (
@@ -38,38 +41,42 @@ export function PostCard({ post }: PostCardProps) {
 
         {/* Title */}
         <Link href={`/forum/${post.slug || post.id}`}>
-          <h2 className="text-lg sm:text-xl font-bold text-[#0a2a4a] dark:text-foreground group-hover:text-[#4a9d23] transition-colors leading-snug">
+          <h2 className="dark:text-foreground text-lg leading-snug font-bold text-[#0a2a4a] transition-colors group-hover:text-[#4a9d23] sm:text-xl">
             {post.title}
           </h2>
         </Link>
 
         {/* Snippet Preview */}
-        <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed line-clamp-2">
+        <p className="text-muted-foreground line-clamp-2 text-xs leading-relaxed sm:text-sm">
           {post.content}
         </p>
 
         {/* Footer Bar: Author & Stats */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-3 border-t border-border/60 text-xs text-muted-foreground">
+        <div className="border-border/60 text-muted-foreground flex flex-col items-start justify-between gap-4 border-t pt-3 text-xs sm:flex-row sm:items-center">
           <div className="flex items-center gap-2.5">
             <Avatar src={authorAvatar} fallback={authorName} size="sm" />
             <div className="flex flex-col">
-              <span className="font-semibold text-[#0a2a4a] dark:text-foreground">
+              <span className="dark:text-foreground font-semibold text-[#0a2a4a]">
                 {authorName}
               </span>
-              <span className="text-[10px] text-muted-foreground">
-                {authorRole} • {new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+              <span className="text-muted-foreground text-[10px]">
+                {authorRole} •{" "}
+                {new Date(post.created_at).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                })}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 font-semibold text-xs">
-            <span className="flex items-center gap-1 text-muted-foreground hover:text-[#4a9d23] transition-colors">
+          <div className="flex items-center gap-4 text-xs font-semibold">
+            <span className="text-muted-foreground flex items-center gap-1 transition-colors hover:text-[#4a9d23]">
               <ThumbsUp className="h-3.5 w-3.5" /> {post.likes_count || 0}
             </span>
-            <span className="flex items-center gap-1 text-muted-foreground hover:text-[#4a9d23] transition-colors">
+            <span className="text-muted-foreground flex items-center gap-1 transition-colors hover:text-[#4a9d23]">
               <MessageCircle className="h-3.5 w-3.5" /> {post.comments_count || 0}
             </span>
-            <span className="flex items-center gap-1 text-muted-foreground">
+            <span className="text-muted-foreground flex items-center gap-1">
               <Eye className="h-3.5 w-3.5" /> {post.views_count || 0}
             </span>
           </div>

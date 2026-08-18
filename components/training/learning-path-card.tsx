@@ -11,28 +11,28 @@ export function LearningPathCard({ path, onSelect }: LearningPathCardProps) {
   return (
     <div
       onClick={() => onSelect(path.id)}
-      className={`relative overflow-hidden rounded-3xl bg-gradient-to-r ${path.gradient} p-6 text-white shadow-xl cursor-pointer hover:scale-[1.01] transition-transform group`}
+      className={`relative overflow-hidden rounded-3xl bg-gradient-to-r ${path.gradient} group cursor-pointer p-6 text-white shadow-xl transition-transform hover:scale-[1.01]`}
     >
-      <div className="space-y-3 relative z-10">
+      <div className="relative z-10 space-y-3">
         <div className="flex items-center justify-between">
-          <Badge variant="green" className="text-xs uppercase font-bold">
+          <Badge variant="green" className="text-xs font-bold uppercase">
             {path.level} Track
           </Badge>
-          <span className="text-xs font-semibold text-gray-300 flex items-center gap-1">
-            <BookOpen className="h-3.5 w-3.5" /> {path.courseCount} Courses ({path.estimatedHours} hrs)
+          <span className="flex items-center gap-1 text-xs font-semibold text-gray-300">
+            <BookOpen className="h-3.5 w-3.5" /> {path.courseCount} Courses ({path.estimatedHours}{" "}
+            hrs)
           </span>
         </div>
 
-        <h3 className="text-xl font-extrabold text-white group-hover:text-amber-300 transition-colors">
+        <h3 className="text-xl font-extrabold text-white transition-colors group-hover:text-amber-300">
           {path.title}
         </h3>
 
-        <p className="text-xs text-gray-200 leading-relaxed line-clamp-2">
-          {path.description}
-        </p>
+        <p className="line-clamp-2 text-xs leading-relaxed text-gray-200">{path.description}</p>
 
-        <div className="pt-2 flex items-center text-xs font-bold text-amber-300 gap-1">
-          Explore Learning Track <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
+        <div className="flex items-center gap-1 pt-2 text-xs font-bold text-amber-300">
+          Explore Learning Track{" "}
+          <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
         </div>
       </div>
 

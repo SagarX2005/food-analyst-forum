@@ -10,13 +10,13 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         type="checkbox"
         ref={ref}
         className={cn(
-          "h-4 w-4 rounded border-input text-[#4a9d23] focus:ring-[#4a9d23] accent-[#4a9d23] cursor-pointer",
-          className
+          "border-input h-4 w-4 cursor-pointer rounded text-[#4a9d23] accent-[#4a9d23] focus:ring-[#4a9d23]",
+          className,
         )}
         {...props}
       />
     );
-  }
+  },
 );
 Checkbox.displayName = "Checkbox";
 

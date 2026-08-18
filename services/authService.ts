@@ -1,13 +1,7 @@
 import { createClient } from "@lib/supabase/client";
 
 export type RoleName =
-  | "Guest"
-  | "User"
-  | "Recruiter"
-  | "Trainer"
-  | "Moderator"
-  | "Admin"
-  | "Super Admin";
+  "Guest" | "User" | "Recruiter" | "Trainer" | "Moderator" | "Admin" | "Super Admin";
 
 export interface RegisterParams {
   email: string;
@@ -190,7 +184,8 @@ export class AuthService {
     const supabase = this.getClient();
     const { data, error } = await supabase
       .from("profiles")
-      .select(`
+      .select(
+        `
         *,
         roles (
           id,
@@ -204,7 +199,8 @@ export class AuthService {
           logo_url,
           verified
         )
-      `)
+      `,
+      )
       .eq("id", user.id)
       .single();
 

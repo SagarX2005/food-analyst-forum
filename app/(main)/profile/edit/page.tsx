@@ -24,7 +24,7 @@ export default function EditProfilePage() {
   const [linkedinUrl, setLinkedinUrl] = React.useState(fullProf?.linkedin_url || "");
   const [githubUrl, setGithubUrl] = React.useState(fullProf?.github_url || "");
   const [skillsStr, setSkillsStr] = React.useState(
-    Array.isArray(fullProf?.skills) ? fullProf.skills.join(", ") : "HPLC, LC-MS/MS, ISO 17025"
+    Array.isArray(fullProf?.skills) ? fullProf.skills.join(", ") : "HPLC, LC-MS/MS, ISO 17025",
   );
   const [avatarUrl, setAvatarUrl] = React.useState(fullProf?.avatar_url || null);
   const [coverUrl, setCoverUrl] = React.useState(fullProf?.cover_url || null);
@@ -72,18 +72,18 @@ export default function EditProfilePage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 py-4">
+    <div className="mx-auto max-w-4xl space-y-8 py-4">
       <div className="space-y-2">
-        <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground">
+        <h1 className="dark:text-foreground text-3xl font-extrabold text-[#0a2a4a]">
           Edit Professional Profile
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           Manage your analyst identity, credentials, laboratory affiliation, and avatar.
         </p>
       </div>
 
       {message && (
-        <div className="p-4 rounded-xl bg-[#4a9d23]/10 border border-[#4a9d23]/30 text-xs font-semibold text-[#4a9d23]">
+        <div className="rounded-xl border border-[#4a9d23]/30 bg-[#4a9d23]/10 p-4 text-xs font-semibold text-[#4a9d23]">
           {message}
         </div>
       )}
@@ -92,11 +92,11 @@ export default function EditProfilePage() {
         {/* AVATAR & COVER UPLOAD SECTION */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+            <CardTitle className="dark:text-foreground flex items-center gap-2 text-lg text-[#0a2a4a]">
               <Upload className="h-5 w-5 text-[#4a9d23]" /> Profile Images & Media
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CardContent className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <FileUploader
               bucket="avatars"
               userId={user?.id || "anonymous"}
@@ -117,18 +117,22 @@ export default function EditProfilePage() {
         {/* GENERAL INFORMATION */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+            <CardTitle className="dark:text-foreground flex items-center gap-2 text-lg text-[#0a2a4a]">
               <User className="h-5 w-5 text-[#4a9d23]" /> General Information
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
-                <label className="text-xs font-semibold text-foreground mb-1 block">Full Name</label>
+                <label className="text-foreground mb-1 block text-xs font-semibold">
+                  Full Name
+                </label>
                 <Input value={fullName} onChange={(e) => setFullName(e.target.value)} required />
               </div>
               <div>
-                <label className="text-xs font-semibold text-foreground mb-1 block">Professional Title</label>
+                <label className="text-foreground mb-1 block text-xs font-semibold">
+                  Professional Title
+                </label>
                 <Input
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
@@ -138,7 +142,9 @@ export default function EditProfilePage() {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-foreground mb-1 block">Professional Bio & Overview</label>
+              <label className="text-foreground mb-1 block text-xs font-semibold">
+                Professional Bio & Overview
+              </label>
               <Textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
@@ -148,7 +154,7 @@ export default function EditProfilePage() {
             </div>
 
             <div>
-              <label className="text-xs font-semibold text-foreground mb-1 block">Location</label>
+              <label className="text-foreground mb-1 block text-xs font-semibold">Location</label>
               <Input
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
@@ -161,13 +167,15 @@ export default function EditProfilePage() {
         {/* SKILLS & SOCIAL LINKS */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+            <CardTitle className="dark:text-foreground flex items-center gap-2 text-lg text-[#0a2a4a]">
               <Sparkles className="h-5 w-5 text-[#4a9d23]" /> Skills & Professional Links
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="text-xs font-semibold text-foreground mb-1 block">Skills (Comma Separated)</label>
+              <label className="text-foreground mb-1 block text-xs font-semibold">
+                Skills (Comma Separated)
+              </label>
               <Input
                 value={skillsStr}
                 onChange={(e) => setSkillsStr(e.target.value)}
@@ -175,9 +183,11 @@ export default function EditProfilePage() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
-                <label className="text-xs font-semibold text-foreground mb-1 block">Website / Portfolio</label>
+                <label className="text-foreground mb-1 block text-xs font-semibold">
+                  Website / Portfolio
+                </label>
                 <Input
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
@@ -185,7 +195,9 @@ export default function EditProfilePage() {
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-foreground mb-1 block">LinkedIn Profile</label>
+                <label className="text-foreground mb-1 block text-xs font-semibold">
+                  LinkedIn Profile
+                </label>
                 <Input
                   value={linkedinUrl}
                   onChange={(e) => setLinkedinUrl(e.target.value)}
@@ -193,7 +205,9 @@ export default function EditProfilePage() {
                 />
               </div>
               <div>
-                <label className="text-xs font-semibold text-foreground mb-1 block">GitHub Profile</label>
+                <label className="text-foreground mb-1 block text-xs font-semibold">
+                  GitHub Profile
+                </label>
                 <Input
                   value={githubUrl}
                   onChange={(e) => setGithubUrl(e.target.value)}

@@ -15,7 +15,6 @@ import {
   Briefcase,
   GraduationCap,
   Newspaper,
-
   Info,
   Layers,
   LogOut,
@@ -36,7 +35,8 @@ import { NotificationDropdown } from "./notification-dropdown";
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, profile, role, organization, isAuthenticated, signOut, isAdmin, isSuperAdmin } = useAuth();
+  const { user, profile, role, organization, isAuthenticated, signOut, isAdmin, isSuperAdmin } =
+    useAuth();
 
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null);
@@ -61,7 +61,7 @@ export function Header() {
         { href: "/jobs", label: "Career Opportunities", icon: Briefcase },
         { href: "/training", label: "Training & Courses", icon: GraduationCap },
         { href: "/news", label: "Regulatory News", icon: Newspaper },
-      ]
+      ],
     },
     { href: "/org", label: "Organizations", icon: Building2 },
     { href: "/people", label: "People", icon: Users },
@@ -97,11 +97,10 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-white border-b border-slate-200 shadow-sm">
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200 bg-white shadow-sm">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 shrink-0 group">
+          <Link href="/" className="group flex shrink-0 items-center gap-3">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0a2a4a] shadow-sm transition-transform group-hover:scale-105">
               <FlaskConical className="h-4.5 w-4.5 text-[#4a9d23]" />
             </div>
@@ -109,14 +108,14 @@ export function Header() {
               <span className="text-sm font-extrabold tracking-tight text-[#0a2a4a]">
                 FOOD <span className="text-[#4a9d23]">ANALYST</span> FORUM
               </span>
-              <span className="text-[9px] font-medium text-slate-400 tracking-widest uppercase hidden sm:block">
+              <span className="hidden text-[9px] font-medium tracking-widest text-slate-400 uppercase sm:block">
                 Connect · Learn · Share · Grow
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-0.5">
+          <nav className="hidden items-center gap-0.5 lg:flex">
             {navLinks.map((link) => {
               const isActive =
                 link.href === "/"
@@ -135,24 +134,29 @@ export function Header() {
                     <Link
                       href={link.href}
                       className={cn(
-                        "flex items-center gap-1 px-3 py-2 rounded-md text-[12.5px] font-semibold transition-colors",
+                        "flex items-center gap-1 rounded-md px-3 py-2 text-[12.5px] font-semibold transition-colors",
                         isActive
-                          ? "text-[#4a9d23] bg-[#4a9d23]/8"
-                          : "text-slate-600 hover:text-[#0a2a4a] hover:bg-slate-100"
+                          ? "bg-[#4a9d23]/8 text-[#4a9d23]"
+                          : "text-slate-600 hover:bg-slate-100 hover:text-[#0a2a4a]",
                       )}
                     >
                       {link.label}
-                      <ChevronDown className={cn("h-3 w-3 transition-transform duration-200", isOpen && "rotate-180")} />
+                      <ChevronDown
+                        className={cn(
+                          "h-3 w-3 transition-transform duration-200",
+                          isOpen && "rotate-180",
+                        )}
+                      />
                     </Link>
 
                     {isOpen && (
-                      <div className="absolute left-0 top-full pt-2 w-60 animate-in fade-in-50 zoom-in-95 duration-150">
+                      <div className="animate-in fade-in-50 zoom-in-95 absolute top-full left-0 w-60 pt-2 duration-150">
                         <div className="rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl">
                           {link.dropdownItems?.map((item) => (
                             <Link
                               key={item.href}
                               href={item.href}
-                              className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[12.5px] font-medium text-slate-700 hover:bg-[#4a9d23]/8 hover:text-[#4a9d23] transition-colors"
+                              className="flex items-center gap-2.5 rounded-lg px-3 py-2.5 text-[12.5px] font-medium text-slate-700 transition-colors hover:bg-[#4a9d23]/8 hover:text-[#4a9d23]"
                             >
                               <item.icon className="h-3.5 w-3.5 text-[#4a9d23]" />
                               {item.label}
@@ -170,10 +174,10 @@ export function Header() {
                   key={link.href}
                   href={link.href}
                   className={cn(
-                    "px-3 py-2 rounded-md text-[12.5px] font-semibold transition-colors",
+                    "rounded-md px-3 py-2 text-[12.5px] font-semibold transition-colors",
                     isActive
-                      ? "text-[#4a9d23] bg-[#4a9d23]/8"
-                      : "text-slate-600 hover:text-[#0a2a4a] hover:bg-slate-100"
+                      ? "bg-[#4a9d23]/8 text-[#4a9d23]"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-[#0a2a4a]",
                   )}
                 >
                   {link.label}
@@ -188,7 +192,7 @@ export function Header() {
             <button
               onClick={() => setSearchOpen(true)}
               aria-label="Search"
-              className="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 hover:text-[#0a2a4a] hover:bg-slate-100 transition-colors"
+              className="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-[#0a2a4a]"
             >
               <Search className="h-4 w-4" />
             </button>
@@ -197,7 +201,7 @@ export function Header() {
             <NotificationDropdown />
 
             {/* Divider */}
-            <div className="h-5 w-px bg-slate-200 mx-1 hidden sm:block" />
+            <div className="mx-1 hidden h-5 w-px bg-slate-200 sm:block" />
 
             {/* Auth State */}
             {isAuthenticated ? (
@@ -208,25 +212,29 @@ export function Header() {
               >
                 <button
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 rounded-lg border border-slate-200 px-2.5 py-1.5 hover:bg-slate-50 hover:border-slate-300 transition-all"
+                  className="flex items-center gap-2 rounded-lg border border-slate-200 px-2.5 py-1.5 transition-all hover:border-slate-300 hover:bg-slate-50"
                 >
                   <Avatar src={avatarUrl} fallback={fullName} size="sm" />
-                  <span className="text-xs font-semibold text-[#0a2a4a] hidden md:inline-block max-w-[100px] truncate">
+                  <span className="hidden max-w-[100px] truncate text-xs font-semibold text-[#0a2a4a] md:inline-block">
                     {fullName}
                   </span>
                   <ChevronDown className="h-3 w-3 text-slate-400" />
                 </button>
 
                 {userMenuOpen && (
-                  <div className="absolute right-0 top-full pt-2 w-60 animate-in fade-in-50 zoom-in-95 duration-150 z-50">
+                  <div className="animate-in fade-in-50 zoom-in-95 absolute top-full right-0 z-50 w-60 pt-2 duration-150">
                     <div className="rounded-xl border border-slate-200 bg-white p-2 shadow-2xl">
-                      <div className="px-3 py-2 mb-1 border-b border-slate-100">
-                        <p className="text-sm font-bold text-[#0a2a4a] truncate">{fullName}</p>
-                        <p className="text-xs text-slate-400 truncate mt-0.5">{user?.email}</p>
+                      <div className="mb-1 border-b border-slate-100 px-3 py-2">
+                        <p className="truncate text-sm font-bold text-[#0a2a4a]">{fullName}</p>
+                        <p className="mt-0.5 truncate text-xs text-slate-400">{user?.email}</p>
                         <div className="flex items-center gap-1.5 pt-2">
-                          <Badge variant="green" className="text-[10px] uppercase">{role}</Badge>
+                          <Badge variant="green" className="text-[10px] uppercase">
+                            {role}
+                          </Badge>
                           {orgName && (
-                            <span className="text-[10px] text-slate-400 truncate font-medium">· {orgName}</span>
+                            <span className="truncate text-[10px] font-medium text-slate-400">
+                              · {orgName}
+                            </span>
                           )}
                         </div>
                       </div>
@@ -236,7 +244,7 @@ export function Header() {
                           <Link
                             href="/admin"
                             onClick={() => setUserMenuOpen(false)}
-                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-[#4a9d23] hover:bg-[#4a9d23]/10 transition-colors"
+                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-[#4a9d23] transition-colors hover:bg-[#4a9d23]/10"
                           >
                             <Settings className="h-3.5 w-3.5" />
                             {isSuperAdmin() ? "Super Admin Dashboard" : "Admin Dashboard"}
@@ -252,7 +260,7 @@ export function Header() {
                             key={href}
                             href={href}
                             onClick={() => setUserMenuOpen(false)}
-                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-50 hover:text-[#0a2a4a] transition-colors"
+                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-700 transition-colors hover:bg-slate-50 hover:text-[#0a2a4a]"
                           >
                             <Icon className="h-3.5 w-3.5 text-[#4a9d23]" />
                             {label}
@@ -260,10 +268,10 @@ export function Header() {
                         ))}
                       </div>
 
-                      <div className="border-t border-slate-100 pt-1 mt-1">
+                      <div className="mt-1 border-t border-slate-100 pt-1">
                         <button
                           onClick={handleSignOut}
-                          className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-red-500 hover:bg-red-50 transition-colors"
+                          className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-semibold text-red-500 transition-colors hover:bg-red-50"
                         >
                           <LogOut className="h-3.5 w-3.5" />
                           Sign Out
@@ -274,14 +282,22 @@ export function Header() {
                 )}
               </div>
             ) : (
-              <div className="hidden sm:flex items-center gap-2">
+              <div className="hidden items-center gap-2 sm:flex">
                 <Link href="/login">
-                  <Button variant="ghost" size="sm" className="text-xs font-semibold h-8 px-3 text-slate-600 hover:text-[#0a2a4a]">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-8 px-3 text-xs font-semibold text-slate-600 hover:text-[#0a2a4a]"
+                  >
                     Sign In
                   </Button>
                 </Link>
                 <Link href="/request-invite">
-                  <Button variant="navy" size="sm" className="text-xs font-semibold h-8 px-4 shadow-md transition-transform hover:-translate-y-0.5">
+                  <Button
+                    variant="navy"
+                    size="sm"
+                    className="h-8 px-4 text-xs font-semibold shadow-md transition-transform hover:-translate-y-0.5"
+                  >
                     Request an Invitation
                   </Button>
                 </Link>
@@ -291,7 +307,7 @@ export function Header() {
             {/* Mobile Hamburger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden flex h-8 w-8 items-center justify-center rounded-md text-slate-600 hover:bg-slate-100 transition-colors ml-1"
+              className="ml-1 flex h-8 w-8 items-center justify-center rounded-md text-slate-600 transition-colors hover:bg-slate-100 lg:hidden"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -301,7 +317,7 @@ export function Header() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden fixed top-16 left-0 right-0 bottom-0 z-50 overflow-y-auto border-t border-slate-200 bg-white px-4 pb-6 pt-3 animate-in slide-in-from-top duration-200">
+          <div className="animate-in slide-in-from-top fixed top-16 right-0 bottom-0 left-0 z-50 overflow-y-auto border-t border-slate-200 bg-white px-4 pt-3 pb-6 duration-200 lg:hidden">
             <nav className="flex flex-col gap-0.5">
               {navLinks.map((link) => {
                 const isActive =
@@ -317,20 +333,20 @@ export function Header() {
                         "flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-semibold transition-colors",
                         isActive
                           ? "bg-[#0a2a4a]/5 text-[#0a2a4a]"
-                          : "text-slate-700 hover:bg-slate-100"
+                          : "text-slate-700 hover:bg-slate-100",
                       )}
                     >
                       <link.icon className="h-4 w-4" />
                       {link.label}
                     </Link>
                     {link.hasDropdown && link.dropdownItems && (
-                      <div className="pl-11 pr-4 py-1 space-y-1">
+                      <div className="space-y-1 py-1 pr-4 pl-11">
                         {link.dropdownItems.map((item) => (
                           <Link
                             key={item.label}
                             href={item.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 hover:text-[#0a2a4a] hover:bg-slate-50 transition-colors"
+                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-[#0a2a4a]"
                           >
                             <item.icon className="h-3.5 w-3.5" />
                             {item.label}
@@ -342,7 +358,7 @@ export function Header() {
                 );
               })}
             </nav>
-            <div className="mt-4 pt-4 border-t border-slate-100 flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-2 border-t border-slate-100 pt-4">
               {isAuthenticated ? (
                 <Button
                   variant="destructive"
@@ -356,10 +372,14 @@ export function Header() {
               ) : (
                 <div className="grid grid-cols-2 gap-2">
                   <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" size="lg" className="w-full justify-center">Sign In</Button>
+                    <Button variant="outline" size="lg" className="w-full justify-center">
+                      Sign In
+                    </Button>
                   </Link>
                   <Link href="/request-invite" onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="navy" size="lg" className="w-full justify-center">Request Invitation</Button>
+                    <Button variant="navy" size="lg" className="w-full justify-center">
+                      Request Invitation
+                    </Button>
                   </Link>
                 </div>
               )}
@@ -377,19 +397,19 @@ export function Header() {
       >
         <div className="space-y-4 pt-2">
           <div className="relative">
-            <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
+            <Search className="absolute top-3.5 left-3.5 h-4 w-4 text-slate-400" />
             <Input
               placeholder="Type keywords (e.g. FSSAI, HPLC, ISO 17025)..."
               className="pl-10"
               autoFocus
             />
           </div>
-          <div className="text-xs text-slate-500 flex flex-wrap gap-2 pt-1">
+          <div className="flex flex-wrap gap-2 pt-1 text-xs text-slate-500">
             <span className="font-semibold text-slate-700">Popular Searches:</span>
             {["LC-MS Pesticides", "ISO 17025 Checklist", "FSSAI Certification"].map((term) => (
               <span
                 key={term}
-                className="cursor-pointer rounded-md bg-slate-100 px-2 py-1 hover:bg-slate-200 transition-colors"
+                className="cursor-pointer rounded-md bg-slate-100 px-2 py-1 transition-colors hover:bg-slate-200"
               >
                 {term}
               </span>

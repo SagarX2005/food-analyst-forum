@@ -13,10 +13,7 @@ export async function GET(request: Request) {
     const rawToken = searchParams.get("token");
 
     if (!rawToken || rawToken.trim() === "") {
-      return NextResponse.json(
-        { valid: false, reason: "INVALID_TOKEN" },
-        { status: 400 }
-      );
+      return NextResponse.json({ valid: false, reason: "INVALID_TOKEN" }, { status: 400 });
     }
 
     // Hash the raw token — raw token never touches DB queries
@@ -30,18 +27,12 @@ export async function GET(request: Request) {
 
     if (error) {
       console.error("[validate-token] RPC error:", error.message);
-      return NextResponse.json(
-        { valid: false, reason: "SERVER_ERROR" },
-        { status: 500 }
-      );
+      return NextResponse.json({ valid: false, reason: "SERVER_ERROR" }, { status: 500 });
     }
 
     return NextResponse.json(data);
   } catch (err: unknown) {
     console.error("[validate-token] Unexpected error:", err);
-    return NextResponse.json(
-      { valid: false, reason: "SERVER_ERROR" },
-      { status: 500 }
-    );
+    return NextResponse.json({ valid: false, reason: "SERVER_ERROR" }, { status: 500 });
   }
 }

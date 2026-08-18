@@ -14,7 +14,7 @@ export default function VerifySuccessPage() {
   return (
     <div className="flex min-h-[75vh] items-center justify-center py-10">
       <AuthCard>
-        <div className="flex flex-col items-center text-center space-y-4">
+        <div className="flex flex-col items-center space-y-4 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#4a9d23]/10 text-[#4a9d23]">
             <CheckCircle2 className="h-8 w-8" />
           </div>
@@ -24,8 +24,8 @@ export default function VerifySuccessPage() {
             description="Your Food Analyst Forum account is now active and ready for use."
           />
 
-          <div className="pt-2 w-full">
-            <Link href="/login" className="w-full block">
+          <div className="w-full pt-2">
+            <Link href="/login" className="block w-full">
               <Button variant="green" size="lg" className="w-full justify-center gap-2">
                 Continue to Sign In <ArrowRight className="h-4 w-4" />
               </Button>

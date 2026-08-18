@@ -1,8 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  loginSchema,
-  calculatePasswordStrength,
-} from "../schemas";
+import { loginSchema, calculatePasswordStrength } from "../schemas";
 
 describe("Auth Validation Schemas & Helpers", () => {
   describe("loginSchema", () => {
@@ -26,8 +23,6 @@ describe("Auth Validation Schemas & Helpers", () => {
       }
     });
   });
-
-
 
   describe("calculatePasswordStrength", () => {
     it("should score weak passwords", () => {

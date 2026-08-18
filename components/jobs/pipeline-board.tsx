@@ -13,42 +13,65 @@ interface PipelineBoardProps {
 }
 
 export function PipelineBoard({ applications, onUpdateStatus }: PipelineBoardProps) {
-  const stages = ["Applied", "Under Review", "Shortlisted", "Interview Scheduled", "Selected", "Rejected"];
+  const stages = [
+    "Applied",
+    "Under Review",
+    "Shortlisted",
+    "Interview Scheduled",
+    "Selected",
+    "Rejected",
+  ];
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-bold text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
-          <UserCheck className="h-5 w-5 text-[#4a9d23]" /> Applicant Hiring Pipeline ({applications.length})
+        <h3 className="dark:text-foreground flex items-center gap-2 text-lg font-bold text-[#0a2a4a]">
+          <UserCheck className="h-5 w-5 text-[#4a9d23]" /> Applicant Hiring Pipeline (
+          {applications.length})
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-3">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-3 lg:grid-cols-6">
         {stages.map((stage) => {
           const stageApps = applications.filter((a) => (a.status || "Applied") === stage);
 
           return (
-            <div key={stage} className="rounded-2xl border border-border/80 bg-card p-3 space-y-3 shadow-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-border/60">
-                <span className="text-xs font-bold text-foreground">{stage}</span>
-                <Badge variant="outline" className="text-[10px] py-0">{stageApps.length}</Badge>
+            <div
+              key={stage}
+              className="border-border/80 bg-card space-y-3 rounded-2xl border p-3 shadow-xs"
+            >
+              <div className="border-border/60 flex items-center justify-between border-b pb-2">
+                <span className="text-foreground text-xs font-bold">{stage}</span>
+                <Badge variant="outline" className="py-0 text-[10px]">
+                  {stageApps.length}
+                </Badge>
               </div>
 
               <div className="space-y-2">
                 {stageApps.length === 0 ? (
-                  <div className="py-6 text-center text-[11px] text-muted-foreground italic">No candidates</div>
+                  <div className="text-muted-foreground py-6 text-center text-[11px] italic">
+                    No candidates
+                  </div>
                 ) : (
                   stageApps.map((app) => (
-                    <div key={app.id} className="p-3 rounded-xl border border-border bg-accent/30 space-y-2 hover:border-[#4a9d23] transition-colors">
+                    <div
+                      key={app.id}
+                      className="border-border bg-accent/30 space-y-2 rounded-xl border p-3 transition-colors hover:border-[#4a9d23]"
+                    >
                       <div className="flex items-center gap-2">
                         <Avatar
                           src={app.applicant?.avatar_url || undefined}
                           fallback={app.applicant?.full_name || "User"}
                           size="sm"
                         />
-                        <div className="flex flex-col min-w-0">
-                          <span className="text-xs font-bold text-foreground truncate">{app.applicant?.full_name || "Applicant"}</span>
-                          <span className="text-[10px] text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" /> {new Date(app.created_at).toLocaleDateString()}</span>
+                        <div className="flex min-w-0 flex-col">
+                          <span className="text-foreground truncate text-xs font-bold">
+                            {app.applicant?.full_name || "Applicant"}
+                          </span>
+                          <span className="text-muted-foreground flex items-center gap-1 text-[10px]">
+                            <Clock className="h-3 w-3" />{" "}
+                            {new Date(app.created_at).toLocaleDateString()}
+                          </span>
                         </div>
                       </div>
 
@@ -63,12 +86,14 @@ export function PipelineBoard({ applications, onUpdateStatus }: PipelineBoardPro
                         </a>
                       )}
 
-                      <div className="pt-1 flex items-center justify-between">
+                      <div className="flex items-center justify-between pt-1">
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => onUpdateStatus(app.id, stage === "Applied" ? "Shortlisted" : "Selected")}
-                          className="text-[10px] h-6 px-1.5 gap-0.5 text-[#4a9d23]"
+                          onClick={() =>
+                            onUpdateStatus(app.id, stage === "Applied" ? "Shortlisted" : "Selected")
+                          }
+                          className="h-6 gap-0.5 px-1.5 text-[10px] text-[#4a9d23]"
                         >
                           Advance <ChevronRight className="h-3 w-3" />
                         </Button>

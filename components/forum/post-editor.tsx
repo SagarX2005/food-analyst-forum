@@ -13,7 +13,12 @@ import type { ForumCategoryRow } from "@services/forumService";
 
 interface PostEditorProps {
   categories: ForumCategoryRow[];
-  onSubmit: (data: { categoryId: string; title: string; content: string; tags: string[] }) => Promise<void>;
+  onSubmit: (data: {
+    categoryId: string;
+    title: string;
+    content: string;
+    tags: string[];
+  }) => Promise<void>;
   isSubmitting?: boolean;
 }
 
@@ -69,7 +74,7 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
       {/* Category & Title */}
       <div className="space-y-4">
         <div>
-          <label className="text-xs font-bold text-foreground mb-1 block uppercase tracking-wider">
+          <label className="text-foreground mb-1 block text-xs font-bold tracking-wider uppercase">
             Category
           </label>
           <Select
@@ -80,7 +85,7 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
         </div>
 
         <div>
-          <label className="text-xs font-bold text-foreground mb-1 block uppercase tracking-wider">
+          <label className="text-foreground mb-1 block text-xs font-bold tracking-wider uppercase">
             Topic Title
           </label>
           <Input
@@ -94,8 +99,8 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
       </div>
 
       {/* Editor & Preview Header Tabs */}
-      <div className="border border-border/80 rounded-2xl overflow-hidden bg-card shadow-sm">
-        <div className="flex items-center justify-between border-b border-border/80 bg-muted/40 px-4 py-2">
+      <div className="border-border/80 bg-card overflow-hidden rounded-2xl border shadow-sm">
+        <div className="border-border/80 bg-muted/40 flex items-center justify-between border-b px-4 py-2">
           <div className="flex items-center gap-1">
             <Button
               type="button"
@@ -118,20 +123,50 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
           </div>
 
           {activeTab === "write" && (
-            <div className="hidden sm:flex items-center gap-1">
-              <Button type="button" variant="ghost" size="icon" onClick={() => insertFormat("**", "**")} title="Bold">
+            <div className="hidden items-center gap-1 sm:flex">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => insertFormat("**", "**")}
+                title="Bold"
+              >
                 <Bold className="h-4 w-4" />
               </Button>
-              <Button type="button" variant="ghost" size="icon" onClick={() => insertFormat("*", "*")} title="Italic">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => insertFormat("*", "*")}
+                title="Italic"
+              >
                 <Italic className="h-4 w-4" />
               </Button>
-              <Button type="button" variant="ghost" size="icon" onClick={() => insertFormat("```\n", "\n```")} title="Code block">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => insertFormat("```\n", "\n```")}
+                title="Code block"
+              >
                 <Code className="h-4 w-4" />
               </Button>
-              <Button type="button" variant="ghost" size="icon" onClick={() => insertFormat("\n- ")} title="Bullet list">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => insertFormat("\n- ")}
+                title="Bullet list"
+              >
                 <List className="h-4 w-4" />
               </Button>
-              <Button type="button" variant="ghost" size="icon" onClick={() => insertFormat("[Link Title](", ")")} title="Insert link">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => insertFormat("[Link Title](", ")")}
+                title="Insert link"
+              >
                 <LinkIcon className="h-4 w-4" />
               </Button>
             </div>
@@ -146,11 +181,13 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
               placeholder="Describe your technical question, analytical protocol, or laboratory observation in detail (Markdown supported)..."
               rows={10}
               required
-              className="border-0 focus-visible:ring-0 p-0 text-sm leading-relaxed"
+              className="border-0 p-0 text-sm leading-relaxed focus-visible:ring-0"
             />
           ) : (
-            <div className="min-h-[220px] text-sm text-foreground leading-relaxed whitespace-pre-line">
-              {content || <span className="text-muted-foreground italic">Nothing to preview yet...</span>}
+            <div className="text-foreground min-h-[220px] text-sm leading-relaxed whitespace-pre-line">
+              {content || (
+                <span className="text-muted-foreground italic">Nothing to preview yet...</span>
+              )}
             </div>
           )}
         </div>
@@ -158,14 +195,22 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
 
       {/* Tags Input */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-foreground block uppercase tracking-wider">
+        <label className="text-foreground block text-xs font-bold tracking-wider uppercase">
           Topic Tags (Press Enter)
         </label>
-        <div className="flex flex-wrap gap-2 mb-2">
+        <div className="mb-2 flex flex-wrap gap-2">
           {tags.map((tag) => (
-            <Badge key={tag} variant="outline" className="px-2.5 py-1 text-xs gap-1 border-[#4a9d23]/40">
+            <Badge
+              key={tag}
+              variant="outline"
+              className="gap-1 border-[#4a9d23]/40 px-2.5 py-1 text-xs"
+            >
               #{tag}
-              <button type="button" onClick={() => handleRemoveTag(tag)} className="text-muted-foreground hover:text-destructive">
+              <button
+                type="button"
+                onClick={() => handleRemoveTag(tag)}
+                className="text-muted-foreground hover:text-destructive"
+              >
                 ×
               </button>
             </Badge>
@@ -181,8 +226,9 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
 
       {/* Attachment Upload */}
       <div className="space-y-2">
-        <label className="text-xs font-bold text-foreground block uppercase tracking-wider flex items-center gap-1.5">
-          <Paperclip className="h-4 w-4 text-[#4a9d23]" /> Attach Reference Document (Optional PDF / Image)
+        <label className="text-foreground block flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase">
+          <Paperclip className="h-4 w-4 text-[#4a9d23]" /> Attach Reference Document (Optional PDF /
+          Image)
         </label>
         <FileUploader
           bucket="resources"
@@ -194,7 +240,13 @@ export function PostEditor({ categories, onSubmit, isSubmitting }: PostEditorPro
       </div>
 
       <div className="flex justify-end pt-2">
-        <Button type="submit" variant="green" size="lg" disabled={isSubmitting} className="shadow-md">
+        <Button
+          type="submit"
+          variant="green"
+          size="lg"
+          disabled={isSubmitting}
+          className="shadow-md"
+        >
           {isSubmitting ? "Publishing Topic..." : "Publish Topic"}
         </Button>
       </div>

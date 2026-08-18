@@ -14,13 +14,13 @@ export function PasswordStrength({ password }: { password?: string }) {
           {label}
         </span>
       </div>
-      <div className="grid grid-cols-4 gap-1.5 h-1.5">
+      <div className="grid h-1.5 grid-cols-4 gap-1.5">
         {[1, 2, 3, 4].map((step) => (
           <div
             key={step}
             className={cn(
               "h-full rounded-full transition-all duration-300",
-              step <= score ? color : "bg-muted"
+              step <= score ? color : "bg-muted",
             )}
           />
         ))}
@@ -39,10 +39,15 @@ export function PasswordRequirements({ password = "" }: { password?: string }) {
   ];
 
   return (
-    <div className="space-y-1 text-xs text-muted-foreground pt-1">
+    <div className="text-muted-foreground space-y-1 pt-1 text-xs">
       {reqs.map((req, idx) => (
         <div key={idx} className="flex items-center gap-1.5">
-          <span className={cn("text-xs font-bold", req.met ? "text-[#4a9d23]" : "text-muted-foreground/60")}>
+          <span
+            className={cn(
+              "text-xs font-bold",
+              req.met ? "text-[#4a9d23]" : "text-muted-foreground/60",
+            )}
+          >
             {req.met ? "✓" : "○"}
           </span>
           <span className={cn(req.met && "text-foreground font-medium")}>{req.label}</span>

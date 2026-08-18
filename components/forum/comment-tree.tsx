@@ -72,7 +72,7 @@ export function CommentTree({
   return (
     <div className="space-y-6 pt-4">
       {/* Header */}
-      <h3 className="text-xl font-bold text-[#0a2a4a] dark:text-foreground flex items-center gap-2">
+      <h3 className="dark:text-foreground flex items-center gap-2 text-xl font-bold text-[#0a2a4a]">
         <MessageSquare className="h-5 w-5 text-[#4a9d23]" />
         Discussion Comments ({comments.length})
       </h3>
@@ -88,13 +88,19 @@ export function CommentTree({
             required
           />
           <div className="flex justify-end">
-            <Button type="submit" variant="green" size="default" disabled={isSubmitting} className="gap-2">
+            <Button
+              type="submit"
+              variant="green"
+              size="default"
+              disabled={isSubmitting}
+              className="gap-2"
+            >
               <Send className="h-4 w-4" /> {isSubmitting ? "Posting..." : "Post Response"}
             </Button>
           </div>
         </form>
       ) : (
-        <div className="p-4 rounded-xl bg-muted text-xs text-muted-foreground text-center">
+        <div className="bg-muted text-muted-foreground rounded-xl p-4 text-center text-xs">
           Please sign in to participate in technical discussion comments.
         </div>
       )}
@@ -107,7 +113,7 @@ export function CommentTree({
           return (
             <div
               key={c.id}
-              className={`p-4 rounded-2xl border transition-all space-y-3 ${
+              className={`space-y-3 rounded-2xl border p-4 transition-all ${
                 isBest
                   ? "border-[#4a9d23] bg-[#4a9d23]/5 shadow-md"
                   : "border-border/60 bg-card hover:border-border"
@@ -115,7 +121,7 @@ export function CommentTree({
             >
               {/* Best Answer Banner */}
               {isBest && (
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#4a9d23] pb-2 border-b border-[#4a9d23]/30">
+                <div className="flex items-center gap-1.5 border-b border-[#4a9d23]/30 pb-2 text-xs font-bold text-[#4a9d23]">
                   <CheckCircle2 className="h-4 w-4" /> Marked as Best Answer / Solution
                 </div>
               )}
@@ -129,11 +135,12 @@ export function CommentTree({
                     size="sm"
                   />
                   <div className="flex flex-col">
-                    <span className="text-xs font-bold text-[#0a2a4a] dark:text-foreground">
+                    <span className="dark:text-foreground text-xs font-bold text-[#0a2a4a]">
                       {c.author?.full_name || "Analyst"}
                     </span>
-                    <span className="text-[10px] text-muted-foreground">
-                      {c.author?.roles?.name || "User"} • {new Date(c.created_at).toLocaleDateString()}
+                    <span className="text-muted-foreground text-[10px]">
+                      {c.author?.roles?.name || "User"} •{" "}
+                      {new Date(c.created_at).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
@@ -143,7 +150,7 @@ export function CommentTree({
                     variant="outline"
                     size="sm"
                     onClick={() => handleMarkBestAnswer(c.id)}
-                    className="text-[11px] gap-1 text-[#4a9d23] border-[#4a9d23]/40 hover:bg-[#4a9d23]/10"
+                    className="gap-1 border-[#4a9d23]/40 text-[11px] text-[#4a9d23] hover:bg-[#4a9d23]/10"
                   >
                     <CheckCircle2 className="h-3.5 w-3.5" /> Accept Solution
                   </Button>
@@ -151,19 +158,19 @@ export function CommentTree({
               </div>
 
               {/* Comment Content */}
-              <p className="text-xs sm:text-sm text-foreground leading-relaxed whitespace-pre-line">
+              <p className="text-foreground text-xs leading-relaxed whitespace-pre-line sm:text-sm">
                 {c.content}
               </p>
 
               {/* Action Toolbar */}
-              <div className="flex items-center gap-4 text-xs text-muted-foreground pt-1 font-medium">
-                <button className="flex items-center gap-1 hover:text-[#4a9d23] transition-colors">
+              <div className="text-muted-foreground flex items-center gap-4 pt-1 text-xs font-medium">
+                <button className="flex items-center gap-1 transition-colors hover:text-[#4a9d23]">
                   <ThumbsUp className="h-3.5 w-3.5" /> Like
                 </button>
                 {currentUserId && (
                   <button
                     onClick={() => setReplyingToId(replyingToId === c.id ? null : c.id)}
-                    className="flex items-center gap-1 hover:text-[#4a9d23] transition-colors"
+                    className="flex items-center gap-1 transition-colors hover:text-[#4a9d23]"
                   >
                     <Reply className="h-3.5 w-3.5" /> Reply
                   </button>
@@ -172,7 +179,7 @@ export function CommentTree({
 
               {/* Nested Reply Form */}
               {replyingToId === c.id && (
-                <div className="pt-2 pl-4 border-l-2 border-[#4a9d23]/30 space-y-2">
+                <div className="space-y-2 border-l-2 border-[#4a9d23]/30 pt-2 pl-4">
                   <Textarea
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
@@ -197,19 +204,19 @@ export function CommentTree({
 
               {/* Nested Replies Rendering */}
               {c.replies && c.replies.length > 0 && (
-                <div className="pl-6 pt-3 space-y-3 border-l-2 border-border/60">
+                <div className="border-border/60 space-y-3 border-l-2 pt-3 pl-6">
                   {c.replies.map((reply) => (
                     <div key={reply.id} className="space-y-1 text-xs">
                       <div className="flex items-center gap-2">
                         <CornerDownRight className="h-3.5 w-3.5 text-[#4a9d23]" />
-                        <span className="font-bold text-foreground">
+                        <span className="text-foreground font-bold">
                           {reply.author?.full_name || "Analyst"}
                         </span>
-                        <span className="text-[10px] text-muted-foreground">
+                        <span className="text-muted-foreground text-[10px]">
                           • {new Date(reply.created_at).toLocaleDateString()}
                         </span>
                       </div>
-                      <p className="pl-5 text-muted-foreground leading-relaxed">{reply.content}</p>
+                      <p className="text-muted-foreground pl-5 leading-relaxed">{reply.content}</p>
                     </div>
                   ))}
                 </div>

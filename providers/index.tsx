@@ -7,7 +7,12 @@ import { AuthProvider } from "./auth-provider";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="light"
+      enableSystem={false}
+      disableTransitionOnChange
+    >
       <QueryProvider>
         <AuthProvider>{children}</AuthProvider>
       </QueryProvider>

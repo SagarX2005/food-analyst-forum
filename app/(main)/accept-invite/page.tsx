@@ -19,7 +19,7 @@ interface PageProps {
 
 async function validateToken(rawToken: string): Promise<ValidateTokenResult> {
   const tokenHash = createHash("sha256").update(rawToken.trim()).digest("hex");
-  const supabase  = await createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.rpc("validate_invitation_token", {
     p_token_hash: tokenHash,
@@ -44,10 +44,10 @@ function InvalidState({
   cta?: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-[75vh] items-center justify-center py-10 px-4">
+    <div className="flex min-h-[75vh] items-center justify-center px-4 py-10">
       <AuthCard>
-        <div className="flex flex-col items-center text-center space-y-5">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted text-muted-foreground">
+        <div className="flex flex-col items-center space-y-5 text-center">
+          <div className="bg-muted text-muted-foreground flex h-14 w-14 items-center justify-center rounded-2xl">
             <Icon className="h-7 w-7" />
           </div>
           <AuthHeader title={title} description={description} />
@@ -58,7 +58,7 @@ function InvalidState({
               </Button>
             </Link>
           )}
-          <Link href="/login" className="text-xs text-muted-foreground hover:text-[#4a9d23]">
+          <Link href="/login" className="text-muted-foreground text-xs hover:text-[#4a9d23]">
             Already have an account? Sign in
           </Link>
         </div>
@@ -71,28 +71,32 @@ async function AcceptInviteContent({ rawToken }: { rawToken: string }) {
   const result = await validateToken(rawToken);
 
   if (!result.valid) {
-    const states: Record<string, { icon: React.ElementType; title: string; description: string }> = {
-      INVALID_TOKEN: {
-        icon:        ShieldX,
-        title:       "Invalid Invitation",
-        description: "This invitation link is not valid. It may have been modified or is malformed.",
-      },
-      ALREADY_USED: {
-        icon:        XCircle,
-        title:       "Invitation Already Used",
-        description: "This invitation has already been accepted. If you have an account, please sign in.",
-      },
-      REVOKED: {
-        icon:        XCircle,
-        title:       "Invitation Revoked",
-        description: "This invitation has been revoked by an administrator.",
-      },
-      EXPIRED: {
-        icon:        Clock,
-        title:       "Invitation Expired",
-        description: "This invitation has expired. Invitations are valid for 7 days. Please request a new invitation.",
-      },
-    };
+    const states: Record<string, { icon: React.ElementType; title: string; description: string }> =
+      {
+        INVALID_TOKEN: {
+          icon: ShieldX,
+          title: "Invalid Invitation",
+          description:
+            "This invitation link is not valid. It may have been modified or is malformed.",
+        },
+        ALREADY_USED: {
+          icon: XCircle,
+          title: "Invitation Already Used",
+          description:
+            "This invitation has already been accepted. If you have an account, please sign in.",
+        },
+        REVOKED: {
+          icon: XCircle,
+          title: "Invitation Revoked",
+          description: "This invitation has been revoked by an administrator.",
+        },
+        EXPIRED: {
+          icon: Clock,
+          title: "Invitation Expired",
+          description:
+            "This invitation has expired. Invitations are valid for 7 days. Please request a new invitation.",
+        },
+      };
 
     const s = states[result.reason ?? "INVALID_TOKEN"] ?? states["INVALID_TOKEN"]!;
 
@@ -117,14 +121,14 @@ async function AcceptInviteContent({ rawToken }: { rawToken: string }) {
   }
 
   return (
-    <div className="flex min-h-[75vh] items-center justify-center py-10 px-4">
+    <div className="flex min-h-[75vh] items-center justify-center px-4 py-10">
       <AuthCard className="max-w-lg">
-        <div className="space-y-1 mb-6">
-          <div className="flex items-center gap-2 mb-3">
+        <div className="mb-6 space-y-1">
+          <div className="mb-3 flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0a2a4a]">
               <FlaskConical className="h-4.5 w-4.5 text-[#4a9d23]" />
             </div>
-            <span className="text-sm font-extrabold text-[#0a2a4a] dark:text-foreground">
+            <span className="dark:text-foreground text-sm font-extrabold text-[#0a2a4a]">
               FOOD <span className="text-[#4a9d23]">ANALYST</span> FORUM
             </span>
           </div>
@@ -160,11 +164,13 @@ export default async function AcceptInvitePage({ searchParams }: PageProps) {
   }
 
   return (
-    <Suspense fallback={
-      <div className="flex min-h-[75vh] items-center justify-center">
-        <p className="text-sm text-muted-foreground">Validating invitation...</p>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex min-h-[75vh] items-center justify-center">
+          <p className="text-muted-foreground text-sm">Validating invitation...</p>
+        </div>
+      }
+    >
       <AcceptInviteContent rawToken={token} />
     </Suspense>
   );

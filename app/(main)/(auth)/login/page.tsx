@@ -6,7 +6,8 @@ import { LoginForm } from "@components/auth/login-form";
 
 export const metadata: Metadata = {
   title: "Sign In",
-  description: "Log in to your Food Analyst Forum account to access SOP downloads, training webinars, and community discussions.",
+  description:
+    "Log in to your Food Analyst Forum account to access SOP downloads, training webinars, and community discussions.",
 };
 
 export default function LoginPage() {

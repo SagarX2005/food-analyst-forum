@@ -6,7 +6,12 @@ import { PlusCircle, Search, Layers, Sparkles } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Card } from "@components/ui/card";
-import { ForumService, type FullForumPost, type ForumCategoryRow, type GetPostsOptions } from "@services/forumService";
+import {
+  ForumService,
+  type FullForumPost,
+  type ForumCategoryRow,
+  type GetPostsOptions,
+} from "@services/forumService";
 import { PostCard } from "@components/forum/post-card";
 import { ForumFilters } from "@components/forum/forum-filters";
 import { useAuth } from "@hooks/use-auth";
@@ -48,50 +53,52 @@ export default function ForumHomePage() {
   return (
     <div className="space-y-8 py-4">
       {/* HEADER CTA BANNER */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-2 border-b border-border/60">
+      <div className="border-border/60 flex flex-col items-start justify-between gap-6 border-b pb-2 md:flex-row md:items-center">
         <div>
           <div className="flex items-center gap-2">
             <Layers className="h-7 w-7 text-[#4a9d23]" />
-            <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground">
+            <h1 className="dark:text-foreground text-3xl font-extrabold text-[#0a2a4a]">
               Professional Discussion Forum
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            Connect with 5000+ certified food analysts, microbiologists, and laboratory managers across India.
+          <p className="text-muted-foreground mt-1 text-sm">
+            Connect with 5000+ certified food analysts, microbiologists, and laboratory managers
+            across India.
           </p>
         </div>
 
         <Link href="/forum/create">
-          <Button variant="green" size="lg" className="gap-2 shadow-md shrink-0">
+          <Button variant="green" size="lg" className="shrink-0 gap-2 shadow-md">
             <PlusCircle className="h-5 w-5" /> Ask Question
           </Button>
         </Link>
       </div>
 
       {/* FEATURED PINNED TOPIC BANNER */}
-      <Card className="border-2 border-[#4a9d23]/40 bg-gradient-to-r from-card via-[#4a9d23]/5 to-card p-5">
-        <div className="flex items-center gap-2 mb-2">
+      <Card className="from-card to-card border-2 border-[#4a9d23]/40 bg-gradient-to-r via-[#4a9d23]/5 p-5">
+        <div className="mb-2 flex items-center gap-2">
           <span className="flex h-2 w-2 rounded-full bg-[#4a9d23]" />
-          <span className="text-xs font-bold text-[#4a9d23] uppercase tracking-wider flex items-center gap-1">
+          <span className="flex items-center gap-1 text-xs font-bold tracking-wider text-[#4a9d23] uppercase">
             <Sparkles className="h-3.5 w-3.5" /> Featured Protocol Guidelines 2026
           </span>
         </div>
-        <h3 className="text-lg font-extrabold text-[#0a2a4a] dark:text-foreground">
+        <h3 className="dark:text-foreground text-lg font-extrabold text-[#0a2a4a]">
           NABL ISO 17025:2017 Technical Checklist Revisions for Food Labs
         </h3>
-        <p className="text-xs text-muted-foreground mt-1">
-          Review updated requirements for measurement uncertainty calculations, proficiency testing (PT), and internal audits.
+        <p className="text-muted-foreground mt-1 text-xs">
+          Review updated requirements for measurement uncertainty calculations, proficiency testing
+          (PT), and internal audits.
         </p>
       </Card>
 
       {/* SEARCH BAR */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+        <Search className="text-muted-foreground absolute top-3.5 left-3.5 h-4 w-4" />
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search technical topics, HPLC methods, FSSAI regulations..."
-          className="pl-10 h-11"
+          className="h-11 pl-10"
         />
       </div>
 
@@ -107,16 +114,17 @@ export default function ForumHomePage() {
       {/* POSTS FEED */}
       <div className="space-y-4">
         {loading ? (
-          <div className="py-16 text-center text-sm text-muted-foreground">
+          <div className="text-muted-foreground py-16 text-center text-sm">
             Loading discussions...
           </div>
         ) : posts.length === 0 ? (
-          <div className="py-16 text-center space-y-3 border-2 border-dashed border-border rounded-3xl p-8">
-            <p className="text-base font-bold text-[#0a2a4a] dark:text-foreground">
+          <div className="border-border space-y-3 rounded-3xl border-2 border-dashed p-8 py-16 text-center">
+            <p className="dark:text-foreground text-base font-bold text-[#0a2a4a]">
               No discussions found matching your criteria.
             </p>
-            <p className="text-xs text-muted-foreground">
-              Be the first to ask a technical question or share an analytical protocol with the community!
+            <p className="text-muted-foreground text-xs">
+              Be the first to ask a technical question or share an analytical protocol with the
+              community!
             </p>
             <Link href="/forum/create" className="inline-block pt-2">
               <Button variant="green" size="default" className="gap-2">
@@ -131,9 +139,9 @@ export default function ForumHomePage() {
             ))}
             {!isAuthenticated && (
               <div className="pt-8 pb-4">
-                <MembershipGate 
-                  title="Unlock Full Discussions" 
-                  description="Join 5000+ certified analysts to read full technical threads, download attachments, and ask your own questions." 
+                <MembershipGate
+                  title="Unlock Full Discussions"
+                  description="Join 5000+ certified analysts to read full technical threads, download attachments, and ask your own questions."
                 />
               </div>
             )}

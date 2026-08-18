@@ -23,6 +23,7 @@ We enforce the **Conventional Commits** standard using `commitlint` and `husky`:
 ### Format: `<type>(<scope>): <short summary>`
 
 ### Allowed Types:
+
 - `feat`: A new feature for the user.
 - `fix`: A bug fix.
 - `docs`: Documentation changes.
@@ -32,6 +33,7 @@ We enforce the **Conventional Commits** standard using `commitlint` and `husky`:
 - `chore`: Updating build tasks, package manager configs, etc.
 
 ### Examples:
+
 - `feat(food-analysis): add composition chart export`
 - `fix(auth): correct token refresh error handling in middleware`
 - `docs(readme): update quickstart setup instructions`

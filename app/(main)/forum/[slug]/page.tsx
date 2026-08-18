@@ -1,7 +1,16 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Clock, Eye, ThumbsUp, Bookmark, Share2, ShieldCheck, Building2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Clock,
+  Eye,
+  ThumbsUp,
+  Bookmark,
+  Share2,
+  ShieldCheck,
+  Building2,
+} from "lucide-react";
 import { ForumService } from "@services/forumService";
 import { Badge } from "@components/ui/badge";
 import { Avatar } from "@components/ui/avatar";
@@ -54,7 +63,9 @@ export default async function PostDetailPage({ params }: PageProps) {
   }
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const isAuthenticated = !!user;
 
   const readingTime = ForumService.calculateReadingTime(post.content);
@@ -89,7 +100,7 @@ export default async function PostDetailPage({ params }: PageProps) {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 py-4">
+    <div className="mx-auto max-w-5xl space-y-8 py-4">
       {/* JSON-LD SEO */}
       <script
         type="application/ld+json"
@@ -97,65 +108,86 @@ export default async function PostDetailPage({ params }: PageProps) {
       />
 
       <div>
-        <Link href="/forum" className="inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline mb-3">
+        <Link
+          href="/forum"
+          className="mb-3 inline-flex items-center gap-1 text-xs font-bold text-[#4a9d23] hover:underline"
+        >
           <ArrowLeft className="h-3.5 w-3.5" /> Back to Forum Feed
         </Link>
 
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <Badge variant="green" className="text-xs">{categoryName}</Badge>
-          <span className="text-xs text-muted-foreground flex items-center gap-1">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <Badge variant="green" className="text-xs">
+            {categoryName}
+          </Badge>
+          <span className="text-muted-foreground flex items-center gap-1 text-xs">
             <Clock className="h-3.5 w-3.5" /> {readingTime} min read
           </span>
-          <span className="text-xs text-muted-foreground flex items-center gap-1">
+          <span className="text-muted-foreground flex items-center gap-1 text-xs">
             <Eye className="h-3.5 w-3.5" /> {post.views_count} views
           </span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground leading-snug">
+        <h1 className="dark:text-foreground text-2xl leading-snug font-extrabold text-[#0a2a4a] sm:text-3xl">
           {post.title}
         </h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* MAIN POST BODY & COMMENTS */}
-        <div className="lg:col-span-8 space-y-8">
-          <Card className="p-6 space-y-6">
+        <div className="space-y-8 lg:col-span-8">
+          <Card className="space-y-6 p-6">
             {/* Author Meta Header */}
-            <div className="flex items-center justify-between gap-4 pb-4 border-b border-border/60">
+            <div className="border-border/60 flex items-center justify-between gap-4 border-b pb-4">
               <div className="flex items-center gap-3">
-                <Avatar src={post.author?.avatar_url || undefined} fallback={authorName} size="md" />
+                <Avatar
+                  src={post.author?.avatar_url || undefined}
+                  fallback={authorName}
+                  size="md"
+                />
                 <div className="space-y-0.5">
                   <div className="flex items-center gap-1.5">
-                    <span className="font-bold text-[#0a2a4a] dark:text-foreground text-sm">{authorName}</span>
+                    <span className="dark:text-foreground text-sm font-bold text-[#0a2a4a]">
+                      {authorName}
+                    </span>
                     <ShieldCheck className="h-4 w-4 text-[#4a9d23]" />
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                    <Badge variant="outline" className="text-[10px] py-0 uppercase">{authorRole}</Badge>
-                    {orgName && <span className="flex items-center gap-1"><Building2 className="h-3 w-3" /> {orgName}</span>}
+                  <div className="text-muted-foreground flex items-center gap-2 text-xs">
+                    <Badge variant="outline" className="py-0 text-[10px] uppercase">
+                      {authorRole}
+                    </Badge>
+                    {orgName && (
+                      <span className="flex items-center gap-1">
+                        <Building2 className="h-3 w-3" /> {orgName}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
-              <span className="text-xs text-muted-foreground">
-                {new Date(post.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+              <span className="text-muted-foreground text-xs">
+                {new Date(post.created_at).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
               </span>
             </div>
 
             {/* Post Content */}
-            <div className="text-sm text-foreground leading-relaxed whitespace-pre-line space-y-4">
+            <div className="text-foreground space-y-4 text-sm leading-relaxed whitespace-pre-line">
               {post.content}
             </div>
 
             {/* Toolbar Buttons */}
-            <div className="flex items-center justify-between pt-4 border-t border-border/60 text-xs">
+            <div className="border-border/60 flex items-center justify-between border-t pt-4 text-xs">
               <div className="flex items-center gap-3 font-semibold">
-                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent hover:bg-[#4a9d23]/10 hover:text-[#4a9d23] transition-colors">
+                <button className="bg-accent flex items-center gap-1.5 rounded-xl px-3 py-1.5 transition-colors hover:bg-[#4a9d23]/10 hover:text-[#4a9d23]">
                   <ThumbsUp className="h-4 w-4" /> <span>{post.likes_count || 0} Likes</span>
                 </button>
-                <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-accent hover:bg-accent/80 transition-colors">
+                <button className="bg-accent hover:bg-accent/80 flex items-center gap-1.5 rounded-xl px-3 py-1.5 transition-colors">
                   <Bookmark className="h-4 w-4" /> Bookmark
                 </button>
               </div>
-              <button className="flex items-center gap-1 text-muted-foreground hover:text-foreground">
+              <button className="text-muted-foreground hover:text-foreground flex items-center gap-1">
                 <Share2 className="h-4 w-4" /> Share
               </button>
             </div>
@@ -173,25 +205,29 @@ export default async function PostDetailPage({ params }: PageProps) {
         </div>
 
         {/* AUTHOR & RECOMMENDED SIDEBAR */}
-        <div className="lg:col-span-4 space-y-6">
-          <Card className="p-5 space-y-4">
-            <h4 className="text-xs font-extrabold text-[#0a2a4a] dark:text-foreground uppercase tracking-wider">
+        <div className="space-y-6 lg:col-span-4">
+          <Card className="space-y-4 p-5">
+            <h4 className="dark:text-foreground text-xs font-extrabold tracking-wider text-[#0a2a4a] uppercase">
               Topic Author
             </h4>
             <div className="flex items-center gap-3">
               <Avatar src={post.author?.avatar_url || undefined} fallback={authorName} size="lg" />
               <div>
-                <p className="font-bold text-sm text-[#0a2a4a] dark:text-foreground">{authorName}</p>
-                <p className="text-xs text-muted-foreground">{post.author?.headline || "Food Safety Specialist"}</p>
+                <p className="dark:text-foreground text-sm font-bold text-[#0a2a4a]">
+                  {authorName}
+                </p>
+                <p className="text-muted-foreground text-xs">
+                  {post.author?.headline || "Food Safety Specialist"}
+                </p>
               </div>
             </div>
             {post.author?.bio && (
-              <p className="text-xs text-muted-foreground leading-relaxed line-clamp-3">
+              <p className="text-muted-foreground line-clamp-3 text-xs leading-relaxed">
                 {post.author.bio}
               </p>
             )}
             <Link href={`/u/${post.author?.id}`} className="block">
-              <button className="w-full py-2 rounded-xl bg-accent text-xs font-bold text-[#4a9d23] hover:bg-[#4a9d23]/10 transition-colors">
+              <button className="bg-accent w-full rounded-xl py-2 text-xs font-bold text-[#4a9d23] transition-colors hover:bg-[#4a9d23]/10">
                 View Member Profile
               </button>
             </Link>

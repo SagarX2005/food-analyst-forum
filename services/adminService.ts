@@ -48,12 +48,25 @@ export class AdminService {
   public static async getPlatformStats(): Promise<PlatformStats & { pendingInvitations: number }> {
     const supabase = createClient();
 
-    const { count: usersCount } = await supabase.from("profiles").select("*", { count: "exact", head: true });
-    const { count: orgsCount } = await supabase.from("organizations").select("*", { count: "exact", head: true });
-    const { count: forumCount } = await supabase.from("forum_topics").select("*", { count: "exact", head: true });
-    const { count: resourcesCount } = await supabase.from("resources").select("*", { count: "exact", head: true });
-    const { count: jobsCount } = await supabase.from("jobs").select("*", { count: "exact", head: true });
-    const { count: pendingInvites } = await supabase.from("access_requests").select("*", { count: "exact", head: true }).eq("status", "pending");
+    const { count: usersCount } = await supabase
+      .from("profiles")
+      .select("*", { count: "exact", head: true });
+    const { count: orgsCount } = await supabase
+      .from("organizations")
+      .select("*", { count: "exact", head: true });
+    const { count: forumCount } = await supabase
+      .from("forum_topics")
+      .select("*", { count: "exact", head: true });
+    const { count: resourcesCount } = await supabase
+      .from("resources")
+      .select("*", { count: "exact", head: true });
+    const { count: jobsCount } = await supabase
+      .from("jobs")
+      .select("*", { count: "exact", head: true });
+    const { count: pendingInvites } = await supabase
+      .from("access_requests")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending");
 
     return {
       totalUsers: usersCount ?? 0,
@@ -103,15 +116,15 @@ export class AdminService {
    */
   public static async updateUserRole(userId: string, roleName: string): Promise<void> {
     const supabase = createClient();
-    
+
     // 1. Look up the role ID for the given role name
     // Match case-insensitively using ilike, as roles table might have "Admin", "User", etc.
-    const { data: roleData, error: roleError } = await supabase
+    const { data: roleData, error: roleError } = (await supabase
       .from("roles")
       .select("id")
       .ilike("name", roleName)
-      .single() as { data: { id: string } | null, error: PostgrestError | null };
-      
+      .single()) as { data: { id: string } | null; error: PostgrestError | null };
+
     if (roleError || !roleData) {
       throw new Error(`Role not found: ${roleName}`);
     }
@@ -121,7 +134,7 @@ export class AdminService {
     const { error: updateError } = await (supabase.from("profiles") as any)
       .update({ role_id: roleData.id })
       .eq("id", userId);
-      
+
     if (updateError) {
       throw new Error(`Failed to update user role: ${updateError.message}`);
     }
@@ -130,12 +143,13 @@ export class AdminService {
   /**
    * Toggle organization verification status
    */
-  public static async toggleOrganizationVerification(orgId: string, isVerified: boolean): Promise<void> {
+  public static async toggleOrganizationVerification(
+    orgId: string,
+    isVerified: boolean,
+  ): Promise<void> {
     const supabase = createClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    await (supabase.from("organizations") as any)
-      .update({ verified: isVerified })
-      .eq("id", orgId);
+    await (supabase.from("organizations") as any).update({ verified: isVerified }).eq("id", orgId);
   }
 
   /**

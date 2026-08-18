@@ -88,7 +88,8 @@ export class CourseService {
       {
         id: "iso-17025-auditor",
         title: "NABL & ISO 17025:2017 Lead Auditor Path",
-        description: "Comprehensive qualification track covering measurement uncertainty, risk analysis, and audit protocols.",
+        description:
+          "Comprehensive qualification track covering measurement uncertainty, risk analysis, and audit protocols.",
         level: "Intermediate",
         courseCount: 4,
         estimatedHours: 16,
@@ -97,7 +98,8 @@ export class CourseService {
       {
         id: "food-safety-specialist",
         title: "FSSAI Certified Food Analyst Specialist",
-        description: "Official preparation curriculum for FSSAI Board examination & chemical safety regulations.",
+        description:
+          "Official preparation curriculum for FSSAI Board examination & chemical safety regulations.",
         level: "Advanced",
         courseCount: 6,
         estimatedHours: 24,
@@ -106,7 +108,8 @@ export class CourseService {
       {
         id: "hplc-method-validation",
         title: "HPLC & LC-MS/MS Method Validation Masterclass",
-        description: "Hands-on instrumental analysis track for pesticide residue screening & method validation under ICH guidelines.",
+        description:
+          "Hands-on instrumental analysis track for pesticide residue screening & method validation under ICH guidelines.",
         level: "Advanced",
         courseCount: 5,
         estimatedHours: 20,

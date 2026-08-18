@@ -47,20 +47,21 @@ export default function CareerPortalPage() {
   return (
     <div className="space-y-8 py-4">
       {/* HEADER CTA BANNER */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-2 border-b border-border/60">
+      <div className="border-border/60 flex flex-col items-start justify-between gap-6 border-b pb-2 md:flex-row md:items-center">
         <div>
           <div className="flex items-center gap-2">
             <Briefcase className="h-7 w-7 text-[#4a9d23]" />
-            <h1 className="text-3xl font-extrabold text-[#0a2a4a] dark:text-foreground">
+            <h1 className="dark:text-foreground text-3xl font-extrabold text-[#0a2a4a]">
               Food Analyst Career & Hiring Portal
             </h1>
           </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            Discover senior analytical chemist, NABL auditor, FSSAI quality manager, and R&D roles across India.
+          <p className="text-muted-foreground mt-1 text-sm">
+            Discover senior analytical chemist, NABL auditor, FSSAI quality manager, and R&D roles
+            across India.
           </p>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex shrink-0 items-center gap-3">
           <Link href="/jobs/recruiter">
             <Button variant="outline" size="lg" className="gap-2">
               <Building2 className="h-4 w-4" /> Recruiter Dashboard
@@ -75,35 +76,36 @@ export default function CareerPortalPage() {
       </div>
 
       {applySuccess && (
-        <div className="p-4 rounded-2xl bg-[#4a9d23]/10 border border-[#4a9d23]/30 text-xs font-semibold text-[#4a9d23]">
+        <div className="rounded-2xl border border-[#4a9d23]/30 bg-[#4a9d23]/10 p-4 text-xs font-semibold text-[#4a9d23]">
           {applySuccess}
         </div>
       )}
 
       {/* URGENT HIRING FEATURE BANNER */}
-      <Card className="border-2 border-[#4a9d23]/40 bg-gradient-to-r from-card via-[#4a9d23]/5 to-card p-5">
-        <div className="flex items-center gap-2 mb-2">
+      <Card className="from-card to-card border-2 border-[#4a9d23]/40 bg-gradient-to-r via-[#4a9d23]/5 p-5">
+        <div className="mb-2 flex items-center gap-2">
           <span className="flex h-2 w-2 rounded-full bg-[#4a9d23]" />
-          <span className="text-xs font-bold text-[#4a9d23] uppercase tracking-wider flex items-center gap-1">
+          <span className="flex items-center gap-1 text-xs font-bold tracking-wider text-[#4a9d23] uppercase">
             <Sparkles className="h-3.5 w-3.5" /> Featured Hiring Focus 2026
           </span>
         </div>
-        <h3 className="text-lg font-extrabold text-[#0a2a4a] dark:text-foreground">
+        <h3 className="dark:text-foreground text-lg font-extrabold text-[#0a2a4a]">
           Eurofins Scientific & SGS hiring Senior Residue Chemists & Microbiologists
         </h3>
-        <p className="text-xs text-muted-foreground mt-1">
-          Accredited testing facilities in Mumbai, Delhi NCR, and Bengaluru seeking specialists in LC-MS/MS & GC-MS pesticide screening.
+        <p className="text-muted-foreground mt-1 text-xs">
+          Accredited testing facilities in Mumbai, Delhi NCR, and Bengaluru seeking specialists in
+          LC-MS/MS & GC-MS pesticide screening.
         </p>
       </Card>
 
       {/* SEARCH BAR */}
       <div className="relative">
-        <Search className="absolute left-3.5 top-3.5 h-4 w-4 text-muted-foreground" />
+        <Search className="text-muted-foreground absolute top-3.5 left-3.5 h-4 w-4" />
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search job title, company name, skills (HPLC, FSSAI), or location..."
-          className="pl-10 h-11"
+          className="h-11 pl-10"
         />
       </div>
 
@@ -120,15 +122,15 @@ export default function CareerPortalPage() {
       {/* JOBS FEED */}
       <div className="space-y-4">
         {loading ? (
-          <div className="py-16 text-center text-sm text-muted-foreground">
+          <div className="text-muted-foreground py-16 text-center text-sm">
             Loading job postings...
           </div>
         ) : jobs.length === 0 ? (
-          <div className="py-16 text-center space-y-3 border-2 border-dashed border-border rounded-3xl p-8">
-            <p className="text-base font-bold text-[#0a2a4a] dark:text-foreground">
+          <div className="border-border space-y-3 rounded-3xl border-2 border-dashed p-8 py-16 text-center">
+            <p className="dark:text-foreground text-base font-bold text-[#0a2a4a]">
               No open roles found matching your search.
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-muted-foreground text-xs">
               Try adjusting your search keywords or clear filters to view all open analytical roles.
             </p>
           </div>
@@ -136,7 +138,7 @@ export default function CareerPortalPage() {
           <div
             className={
               viewMode === "grid"
-                ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                ? "grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
                 : "space-y-4"
             }
           >
@@ -157,7 +159,11 @@ export default function CareerPortalPage() {
         job={selectedJob}
         isOpen={isApplyModalOpen}
         onClose={() => setIsApplyModalOpen(false)}
-        onSuccess={() => setApplySuccess("Application submitted successfully! Track progress in Candidate Dashboard.")}
+        onSuccess={() =>
+          setApplySuccess(
+            "Application submitted successfully! Track progress in Candidate Dashboard.",
+          )
+        }
       />
     </div>
   );

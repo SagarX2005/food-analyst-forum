@@ -5,7 +5,12 @@ export class ApiError extends Error {
   public readonly status: number;
   public readonly details?: unknown;
 
-  constructor(message: string, code: string = "INTERNAL_ERROR", status: number = 500, details?: unknown) {
+  constructor(
+    message: string,
+    code: string = "INTERNAL_ERROR",
+    status: number = 500,
+    details?: unknown,
+  ) {
     super(message);
     this.name = "ApiError";
     this.code = code;

@@ -18,7 +18,10 @@ export async function POST(request: Request) {
     const supabase = await createClient();
 
     // 1. Auth check
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -35,7 +38,7 @@ export async function POST(request: Request) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: "Validation error", details: parsed.error.flatten().fieldErrors },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -45,12 +48,12 @@ export async function POST(request: Request) {
     if (!ALLOWED_APPROVAL_ROLES.includes(approved_role)) {
       return NextResponse.json(
         { error: "Invalid role. Admin and Super Admin cannot be assigned through this workflow." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // 5. Generate cryptographically secure token
-    const rawToken  = randomBytes(32).toString("hex"); // 256 bits of entropy
+    const rawToken = randomBytes(32).toString("hex"); // 256 bits of entropy
     const tokenHash = createHash("sha256").update(rawToken).digest("hex");
 
     const expiresAt = new Date();
@@ -58,11 +61,11 @@ export async function POST(request: Request) {
 
     // 6. Approve via SECURITY DEFINER RPC (stores hash, not raw token)
     const { data: result, error: rpcError } = await supabase.rpc("approve_access_request", {
-      p_request_id:  request_id,
+      p_request_id: request_id,
       p_reviewer_id: user.id,
-      p_role:        approved_role,
-      p_token_hash:  tokenHash,
-      p_expires_at:  expiresAt.toISOString(),
+      p_role: approved_role,
+      p_token_hash: tokenHash,
+      p_expires_at: expiresAt.toISOString(),
     });
 
     if (rpcError) {
@@ -84,19 +87,17 @@ export async function POST(request: Request) {
       .single();
 
     if (reqData) {
-      const appUrl    = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
       const acceptUrl = `${appUrl}/accept-invite?token=${encodeURIComponent(rawToken)}`;
 
       // Send invitation email with RAW token in link — only this one occurrence
       EmailService.sendInvitationEmail({
-        to:           reqData.email as string,
-        name:         reqData.full_name as string,
+        to: reqData.email as string,
+        name: reqData.full_name as string,
         rawToken,
         assignedRole: approved_role,
         expiresAt,
-      }).catch((err: unknown) =>
-        console.error("[approve] Email send failed:", err)
-      );
+      }).catch((err: unknown) => console.error("[approve] Email send failed:", err));
 
       // Log the accept URL in dev for testing without email
       if (process.env.NODE_ENV === "development") {
@@ -106,7 +107,7 @@ export async function POST(request: Request) {
 
     // 8. Return ONLY the invitation_id — raw token is NOT included in response
     return NextResponse.json({
-      success:       true,
+      success: true,
       invitation_id: rpcResult.invitation_id,
     });
   } catch (err: unknown) {

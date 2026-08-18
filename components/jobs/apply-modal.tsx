@@ -54,30 +54,37 @@ export function ApplyModal({ job, isOpen, onClose, onSuccess }: ApplyModalProps)
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto">
-      <div className="relative w-full max-w-lg rounded-3xl bg-card border border-border p-6 shadow-2xl space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-xs">
+      <div className="bg-card border-border relative w-full max-w-lg space-y-6 rounded-3xl border p-6 shadow-2xl">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <span className="text-xs font-bold text-[#4a9d23] uppercase tracking-wider">Quick Application</span>
-            <h3 className="text-xl font-extrabold text-[#0a2a4a] dark:text-foreground leading-snug">
+            <span className="text-xs font-bold tracking-wider text-[#4a9d23] uppercase">
+              Quick Application
+            </span>
+            <h3 className="dark:text-foreground text-xl leading-snug font-extrabold text-[#0a2a4a]">
               {job.title}
             </h3>
-            <p className="text-xs text-muted-foreground">{job.organization?.name || "Accredited Laboratory"}</p>
+            <p className="text-muted-foreground text-xs">
+              {job.organization?.name || "Accredited Laboratory"}
+            </p>
           </div>
-          <button onClick={onClose} className="p-1 rounded-full hover:bg-muted text-muted-foreground">
+          <button
+            onClick={onClose}
+            className="hover:bg-muted text-muted-foreground rounded-full p-1"
+          >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {error && (
-          <div className="p-3.5 rounded-xl bg-destructive/10 border border-destructive/20 text-xs font-semibold text-destructive">
+          <div className="bg-destructive/10 border-destructive/20 text-destructive rounded-xl border p-3.5 text-xs font-semibold">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-xs font-bold text-foreground mb-1 block uppercase tracking-wider flex items-center gap-1">
+            <label className="text-foreground mb-1 block flex items-center gap-1 text-xs font-bold tracking-wider uppercase">
               <FileText className="h-4 w-4 text-[#4a9d23]" /> Attach Resume / CV (PDF or DOCX)
             </label>
             <FileUploader
@@ -91,7 +98,7 @@ export function ApplyModal({ job, isOpen, onClose, onSuccess }: ApplyModalProps)
           </div>
 
           <div>
-            <label className="text-xs font-bold text-foreground mb-1 block uppercase tracking-wider">
+            <label className="text-foreground mb-1 block text-xs font-bold tracking-wider uppercase">
               Cover Letter & Brief Bio Summary
             </label>
             <Textarea
@@ -106,7 +113,13 @@ export function ApplyModal({ job, isOpen, onClose, onSuccess }: ApplyModalProps)
             <Button type="button" variant="ghost" onClick={onClose}>
               Cancel
             </Button>
-            <Button type="submit" variant="green" size="default" disabled={isSubmitting} className="gap-2 shadow-md">
+            <Button
+              type="submit"
+              variant="green"
+              size="default"
+              disabled={isSubmitting}
+              className="gap-2 shadow-md"
+            >
               <Send className="h-4 w-4" /> {isSubmitting ? "Submitting..." : "Submit Application"}
             </Button>
           </div>
