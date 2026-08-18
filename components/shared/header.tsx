@@ -4,7 +4,6 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Search,
   Menu,
   X,
   ChevronDown,
@@ -25,8 +24,6 @@ import {
 } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { cn } from "@lib/utils";
-import { Dialog } from "@components/ui/dialog";
-import { Input } from "@components/ui/input";
 import { useAuth } from "@hooks/use-auth";
 import { Avatar } from "@components/ui/avatar";
 import { Badge } from "@components/ui/badge";
@@ -41,7 +38,6 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null);
   const [userMenuOpen, setUserMenuOpen] = React.useState(false);
-  const [searchOpen, setSearchOpen] = React.useState(false);
 
   const handleSignOut = async () => {
     setUserMenuOpen(false);
@@ -188,15 +184,6 @@ export function Header() {
 
           {/* Right-side Actions */}
           <div className="flex items-center gap-1.5">
-            {/* Quick Search */}
-            <button
-              onClick={() => setSearchOpen(true)}
-              aria-label="Search"
-              className="flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-[#0a2a4a]"
-            >
-              <Search className="h-4 w-4" />
-            </button>
-
             {/* Notifications */}
             <NotificationDropdown />
 
@@ -387,36 +374,6 @@ export function Header() {
           </div>
         )}
       </header>
-
-      {/* Quick Search Modal */}
-      <Dialog
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        title="Search Food Analyst Forum"
-        description="Find SOPs, analytical methods, regulatory news, job postings, and discussions."
-      >
-        <div className="space-y-4 pt-2">
-          <div className="relative">
-            <Search className="absolute top-3.5 left-3.5 h-4 w-4 text-slate-400" />
-            <Input
-              placeholder="Type keywords (e.g. FSSAI, HPLC, ISO 17025)..."
-              className="pl-10"
-              autoFocus
-            />
-          </div>
-          <div className="flex flex-wrap gap-2 pt-1 text-xs text-slate-500">
-            <span className="font-semibold text-slate-700">Popular Searches:</span>
-            {["LC-MS Pesticides", "ISO 17025 Checklist", "FSSAI Certification"].map((term) => (
-              <span
-                key={term}
-                className="cursor-pointer rounded-md bg-slate-100 px-2 py-1 transition-colors hover:bg-slate-200"
-              >
-                {term}
-              </span>
-            ))}
-          </div>
-        </div>
-      </Dialog>
     </>
   );
 }
