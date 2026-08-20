@@ -25,11 +25,8 @@ export async function GET(request: Request) {
   if (error) {
     console.error("[OAuth Callback] Provider error:", error, errorDescription);
 
-    const errorMessage = errorDescription ?? error;
+    let errorMessage = errorDescription ?? error;
     const errorString = String(errorMessage || "");
-
-    const supabase = await createClient();
-    await supabase.auth.signOut();
 
     // If the database trigger blocked the user creation, GoTrue usually returns "Database error saving new user"
     if (
@@ -37,9 +34,8 @@ export async function GET(request: Request) {
       errorString.includes("Database error saving new user") ||
       errorString.includes("server_error")
     ) {
-      // Clear any existing session to prevent hydration mismatches and unwanted redirects.
-      // E.g. if the user was already logged in as someone else, but tested an uninvited account.
-      return NextResponse.redirect(`${origin}/invitation-required`);
+      errorMessage =
+        "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
     }
 
     return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorMessage)}`);
@@ -68,9 +64,7 @@ export async function GET(request: Request) {
     // Code exchange failed
     console.error("[OAuth Callback] Code exchange error:", exchangeError);
 
-    const errorMessage = "An unexpected error occurred during authentication. Please try again.";
-
-    await supabase.auth.signOut();
+    let errorMessage = "Authentication failed. Please try again.";
 
     // Check if the error is our custom Postgres trigger error
     const errorString = String(exchangeError.message || exchangeError.name || "");
@@ -78,7 +72,8 @@ export async function GET(request: Request) {
       errorString.includes("INVITE_REQUIRED") ||
       errorString.includes("Database error saving new user")
     ) {
-      return NextResponse.redirect(`${origin}/invitation-required`);
+      errorMessage =
+        "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
     }
 
     return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorMessage)}`);
