@@ -17,7 +17,7 @@ import { FormError } from "./form-error";
 export function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/";
+  const redirectTo = searchParams.get("redirectTo") || "/dashboard";
 
   const { login, signInWithGoogle } = useAuth();
   const [showPassword, setShowPassword] = React.useState(false);

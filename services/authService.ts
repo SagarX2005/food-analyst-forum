@@ -104,10 +104,6 @@ export class AuthService {
       provider: "google",
       options: {
         redirectTo: `${appUrl}/auth/callback?next=${encodeURIComponent(next)}`,
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
       },
     });
 
