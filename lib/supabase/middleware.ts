@@ -50,14 +50,6 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // Skip session refresh on the OAuth callback route — the middleware's getUser()
-  // would wipe the PKCE code_verifier cookie (maxAge:0) before the route handler
-  // can call exchangeCodeForSession(), causing AuthPKCECodeVerifierMissingError.
-  // The callback route handles its own Supabase client and session exchange.
-  if (path.startsWith("/auth/callback")) {
-    return supabaseResponse;
-  }
-
   // 1. Unauthenticated user trying to access login/register
   const isAuthPage =
     path.startsWith("/login") ||
