@@ -25,7 +25,7 @@ export async function GET(request: Request) {
   if (error) {
     console.error("[OAuth Callback] Provider error:", error, errorDescription);
 
-    let errorMessage = errorDescription ?? error;
+    const errorMessage = errorDescription ?? error;
     const errorString = String(errorMessage || "");
 
     // If the database trigger blocked the user creation, GoTrue usually returns "Database error saving new user"
@@ -34,8 +34,7 @@ export async function GET(request: Request) {
       errorString.includes("Database error saving new user") ||
       errorString.includes("server_error")
     ) {
-      errorMessage =
-        "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
+      return NextResponse.redirect(`${origin}/invitation-required`);
     }
 
     return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorMessage)}`);
@@ -64,7 +63,8 @@ export async function GET(request: Request) {
     // Code exchange failed
     console.error("[OAuth Callback] Code exchange error:", exchangeError);
 
-    let errorMessage = "Authentication failed. Please try again.";
+    const errorMessage =
+      "An unexpected error occurred during authentication. Please try again.";
 
     // Check if the error is our custom Postgres trigger error
     const errorString = String(exchangeError.message || exchangeError.name || "");
@@ -72,8 +72,7 @@ export async function GET(request: Request) {
       errorString.includes("INVITE_REQUIRED") ||
       errorString.includes("Database error saving new user")
     ) {
-      errorMessage =
-        "Access Denied: This email address has not been invited to FAF. Please request an invitation to join.";
+      return NextResponse.redirect(`${origin}/invitation-required`);
     }
 
     return NextResponse.redirect(`${origin}/login?error=${encodeURIComponent(errorMessage)}`);
