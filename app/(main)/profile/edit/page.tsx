@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
 import { User, Save, Upload, Sparkles } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
 import { Button } from "@components/ui/button";
@@ -12,7 +11,6 @@ import { ProfileService, type FullProfile } from "@services/profileService";
 import { FileUploader } from "@components/shared/file-uploader";
 
 export default function EditProfilePage() {
-  const router = useRouter();
   const { user, profile } = useAuth();
   const fullProf = profile as unknown as FullProfile | null;
 
@@ -60,14 +58,12 @@ export default function EditProfilePage() {
         cover_url: coverUrl,
       });
 
-      setMessage("Profile updated successfully!");
+      setMessage("Changes saved successfully.");
       setTimeout(() => {
-        const username = fullProf?.username || fullProf?.id || user.id;
-        router.push(`/u/${username}`);
-      }, 1500);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to update profile";
-      setMessage(msg);
+        setMessage(null);
+      }, 3000);
+    } catch {
+      setMessage("Failed to save changes. Please try again.");
     } finally {
       setIsSaving(false);
     }
