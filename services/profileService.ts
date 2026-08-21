@@ -68,6 +68,18 @@ export class ProfileService {
   ): Promise<FullProfile> {
     const supabase = createClient();
 
+    if (updates.username) {
+      const { data: existingUser } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("username", updates.username as string)
+        .maybeSingle();
+
+      if (existingUser && (existingUser as { id: string }).id !== userId) {
+        throw new Error("Username taken.");
+      }
+    }
+
     // Build the DB payload — only include keys that the DB actually has.
     // All extended columns are written through here.
     const dbPayload: Record<string, unknown> = {
@@ -96,6 +108,9 @@ export class ProfileService {
       .single();
 
     if (error) {
+      if (error.code === "23505" || error.message?.includes("unique constraint")) {
+        throw new Error("Username taken.");
+      }
       throw new Error(`Profile update failed: ${error.message}`);
     }
 

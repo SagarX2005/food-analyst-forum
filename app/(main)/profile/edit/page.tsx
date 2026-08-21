@@ -68,8 +68,21 @@ export default function EditProfilePage() {
         .map((s: string) => s.trim())
         .filter(Boolean);
 
+      const normalizedUsername = fullName
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+
+      if (!normalizedUsername) {
+        setMessage("Invalid username.");
+        setIsSaving(false);
+        return;
+      }
+
       await ProfileService.updateProfile(user.id, {
         full_name: fullName,
+        username: normalizedUsername,
         headline,
         bio,
         location,
@@ -85,8 +98,12 @@ export default function EditProfilePage() {
       setTimeout(() => {
         setMessage(null);
       }, 3000);
-    } catch {
-      setMessage("Failed to save changes. Please try again.");
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === "Username taken.") {
+        setMessage("Username taken.");
+      } else {
+        setMessage("Failed to save changes. Please try again.");
+      }
     } finally {
       setIsSaving(false);
     }
@@ -146,7 +163,7 @@ export default function EditProfilePage() {
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label className="text-foreground mb-1 block text-xs font-semibold">
-                  Full Name
+                  Username
                 </label>
                 <Input value={fullName} onChange={(e) => setFullName(e.target.value)} required />
               </div>

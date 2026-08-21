@@ -19,9 +19,10 @@ describe("ProfileService", () => {
     vi.clearAllMocks();
 
     mockSingle = vi.fn();
+    const mockMaybeSingle = vi.fn().mockResolvedValue({ data: null, error: null });
     mockIs = vi.fn(() => ({ single: mockSingle }));
-    mockEq = vi.fn(() => ({ is: mockIs, select: mockSelect }));
-    mockSelect = vi.fn(() => ({ eq: mockEq, single: mockSingle }));
+    mockEq = vi.fn(() => ({ is: mockIs, select: mockSelect, single: mockSingle, maybeSingle: mockMaybeSingle }));
+    mockSelect = vi.fn(() => ({ eq: mockEq, single: mockSingle, maybeSingle: mockMaybeSingle }));
     mockUpdate = vi.fn(() => ({ eq: mockEq }));
     mockFrom = vi.fn(() => ({
       select: mockSelect,
@@ -80,7 +81,7 @@ describe("ProfileService", () => {
       const mockData = { id: userId, ...updates };
       mockSingle.mockResolvedValue({ data: mockData, error: null });
       // update -> eq -> select -> single
-      mockEq.mockReturnValue({ select: mockSelect });
+      mockEq.mockReturnValue({ select: mockSelect, maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }) });
 
       const res = await ProfileService.updateProfile(userId, updates as unknown as ProfileUpdate);
 
@@ -104,7 +105,7 @@ describe("ProfileService", () => {
     it("should throw error if update fails", async () => {
       const userId = "user-1";
       mockSingle.mockResolvedValue({ data: null, error: new Error("Update failed") });
-      mockEq.mockReturnValue({ select: mockSelect });
+      mockEq.mockReturnValue({ select: mockSelect, maybeSingle: vi.fn().mockResolvedValue({ data: null, error: null }) });
 
       await expect(
         ProfileService.updateProfile(userId, {} as unknown as ProfileUpdate)
