@@ -244,6 +244,14 @@ export interface Database {
           created_at: string;
           updated_at: string;
           deleted_at: string | null;
+          // Extended columns added in 20260821000007_profiles_extended_columns
+          username: string | null;
+          location: string | null;
+          website: string | null;
+          linkedin_url: string | null;
+          github_url: string | null;
+          cover_url: string | null;
+          skills: string[];
         };
         Insert: {
           id: string;
@@ -258,6 +266,14 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
           deleted_at?: string | null;
+          // Extended columns
+          username?: string | null;
+          location?: string | null;
+          website?: string | null;
+          linkedin_url?: string | null;
+          github_url?: string | null;
+          cover_url?: string | null;
+          skills?: string[];
         };
         Update: {
           id?: string;
@@ -272,6 +288,14 @@ export interface Database {
           created_at?: string;
           updated_at?: string;
           deleted_at?: string | null;
+          // Extended columns
+          username?: string | null;
+          location?: string | null;
+          website?: string | null;
+          linkedin_url?: string | null;
+          github_url?: string | null;
+          cover_url?: string | null;
+          skills?: string[];
         };
         Relationships: [
           {
@@ -288,6 +312,7 @@ export interface Database {
           },
         ];
       };
+
 
       forum_categories: {
         Row: {

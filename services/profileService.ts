@@ -4,23 +4,26 @@ import type { Database } from "@app-types/database.types";
 export type ProfileRow = Database["public"]["Tables"]["profiles"]["Row"];
 export type ProfileUpdate = Database["public"]["Tables"]["profiles"]["Update"];
 
-export interface ExtendedProfile extends ProfileRow {
-  title?: string | null;
-  location?: string | null;
-  website?: string | null;
-  linkedin_url?: string | null;
-  github_url?: string | null;
-  cover_url?: string | null;
-  username?: string | null;
-  skills?: string[] | null;
-}
-
-export interface FullProfile extends ExtendedProfile {
+/**
+ * Extended profile type that joins roles and organizations.
+ * All fields from ProfileRow are present (including the new extended columns).
+ *
+ * NOTE: `title` is a computed display alias set at runtime by various services
+ * (courseService, forumService, resourceService, organizationService) via:
+ *   `obj.title = obj.headline || "fallback"`
+ * It is NOT a database column — headline is the canonical storage field.
+ */
+export interface FullProfile extends ProfileRow {
   roles?: Database["public"]["Tables"]["roles"]["Row"] | null;
   organizations?: Database["public"]["Tables"]["organizations"]["Row"] | null;
+  /** Convenience alias joined from organizations */
   organization?: Database["public"]["Tables"]["organizations"]["Row"] | null;
+  /** Convenience alias joined from roles */
   role?: string | null;
+  /** Convenience alias: true when the profile has been verified by an admin */
   is_verified?: boolean;
+  /** Runtime display alias for headline. Set by service layer, never persisted. */
+  title?: string | null;
 }
 
 export interface ProfileCompletionResult {
@@ -31,25 +34,33 @@ export interface ProfileCompletionResult {
 
 export class ProfileService {
   /**
-   * Fetch full profile by username (or profile ID)
+   * Fetch a full profile by username slug.
+   * Falls back to querying by UUID if the value looks like a UUID (backward
+   * compatibility — profile links may still contain raw user IDs).
    */
-  public static async getProfileByUsername(username: string): Promise<FullProfile | null> {
+  public static async getProfileByUsername(usernameOrId: string): Promise<FullProfile | null> {
     const supabase = createClient();
+
+    // Determine lookup strategy: UUID (36-char with hyphens) → id column,
+    // otherwise use the username column.
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      usernameOrId,
+    );
+
     const { data, error } = await supabase
       .from("profiles")
       .select("*, roles(*), organizations(*)")
-      .eq("id", username)
+      .eq(isUuid ? "id" : "username", usernameOrId)
+      .is("deleted_at", null)
       .single();
 
     if (error || !data) return null;
-    const p = data as unknown as FullProfile;
-    p.title = p.headline || "Certified Food Analyst";
-    p.skills = ["HPLC", "LC-MS/MS", "ISO 17025", "Microbiology"];
-    return p;
+    return data as unknown as FullProfile;
   }
 
   /**
-   * Update profile information
+   * Update profile information.
+   * All extended columns are now persisted to the database.
    */
   public static async updateProfile(
     userId: string,
@@ -57,12 +68,23 @@ export class ProfileService {
   ): Promise<FullProfile> {
     const supabase = createClient();
 
+    // Build the DB payload — only include keys that the DB actually has.
+    // All extended columns are written through here.
     const dbPayload: Record<string, unknown> = {
-      full_name: updates.full_name,
-      headline: (updates.title as string) || updates.headline,
-      bio: updates.bio,
-      phone: updates.phone,
-      avatar_url: updates.avatar_url,
+      // Core columns
+      full_name: updates.full_name ?? null,
+      headline: (updates.headline as string | null) ?? null,
+      bio: updates.bio ?? null,
+      phone: updates.phone ?? null,
+      avatar_url: updates.avatar_url ?? null,
+      // Extended columns (new in migration 20260821000007)
+      username: (updates.username as string | null) ?? null,
+      location: (updates.location as string | null) ?? null,
+      website: (updates.website as string | null) ?? null,
+      linkedin_url: (updates.linkedin_url as string | null) ?? null,
+      github_url: (updates.github_url as string | null) ?? null,
+      cover_url: (updates.cover_url as string | null) ?? null,
+      skills: Array.isArray(updates.skills) ? updates.skills : [],
       updated_at: new Date().toISOString(),
     };
 
@@ -77,31 +99,26 @@ export class ProfileService {
       throw new Error(`Profile update failed: ${error.message}`);
     }
 
-    const res = data as unknown as FullProfile;
-    res.title = (updates.title as string) || res.headline;
-    res.location = updates.location as string;
-    res.website = updates.website as string;
-    res.linkedin_url = updates.linkedin_url as string;
-    res.github_url = updates.github_url as string;
-    res.skills = (updates.skills as string[]) || ["HPLC", "LC-MS/MS"];
-    res.cover_url = updates.cover_url as string;
-    return res;
+    return data as unknown as FullProfile;
   }
 
   /**
-   * Calculate profile completion score (0 to 100%)
+   * Calculate profile completion score (0 to 100%).
+   * Uses `headline` as the canonical title/headline field.
    */
   public static calculateProfileCompletion(profile: FullProfile | null): ProfileCompletionResult {
     if (!profile) {
       return { percentage: 0, completedSteps: [], missingSteps: ["All profile fields"] };
     }
 
-    const title = profile.title || profile.headline;
     const checks = [
       { key: "Avatar Image", met: !!profile.avatar_url },
       { key: "Full Name", met: !!profile.full_name && profile.full_name.trim().length > 0 },
       { key: "Professional Bio", met: !!profile.bio && profile.bio.trim().length > 10 },
-      { key: "Job Title", met: !!title && title.trim().length > 0 },
+      {
+        key: "Job Title",
+        met: !!profile.headline && profile.headline.trim().length > 0,
+      },
       { key: "Organization Mapping", met: !!profile.organization_id },
       {
         key: "Skills & Expertise",
@@ -123,7 +140,7 @@ export class ProfileService {
   }
 
   /**
-   * Get user activity timeline events
+   * Get user activity timeline events.
    */
   public static async getUserActivityTimeline(userId: string) {
     const supabase = createClient();
@@ -186,11 +203,14 @@ export class ProfileService {
   }
 
   /**
-   * Search member profiles
+   * Search member profiles by name or headline.
    */
   public static async searchProfiles(query?: string, roleId?: string) {
     const supabase = createClient();
-    let req = supabase.from("profiles").select("*, roles(*), organizations(*)");
+    let req = supabase
+      .from("profiles")
+      .select("*, roles(*), organizations(*)")
+      .is("deleted_at", null);
 
     if (query && query.trim().length > 0) {
       req = req.or(`full_name.ilike.%${query}%,headline.ilike.%${query}%`);
@@ -202,12 +222,6 @@ export class ProfileService {
 
     const { data, error } = await req.order("created_at", { ascending: false }).limit(20);
     if (error || !data) return [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (data as any[]).map((item) => {
-      const p = item as FullProfile;
-      p.title = p.headline || "Food Analyst";
-      p.location = "Mumbai, MH";
-      return p;
-    });
+    return data as unknown as FullProfile[];
   }
 }

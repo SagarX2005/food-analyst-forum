@@ -17,14 +17,16 @@ export default function EditProfilePage() {
   const fullProf = profile as unknown as FullProfile | null;
 
   const [fullName, setFullName] = React.useState(fullProf?.full_name || "");
-  const [title, setTitle] = React.useState(fullProf?.title || fullProf?.headline || "");
+  const [headline, setHeadline] = React.useState(fullProf?.headline || "");
   const [bio, setBio] = React.useState(fullProf?.bio || "");
   const [location, setLocation] = React.useState(fullProf?.location || "");
   const [website, setWebsite] = React.useState(fullProf?.website || "");
   const [linkedinUrl, setLinkedinUrl] = React.useState(fullProf?.linkedin_url || "");
   const [githubUrl, setGithubUrl] = React.useState(fullProf?.github_url || "");
   const [skillsStr, setSkillsStr] = React.useState(
-    Array.isArray(fullProf?.skills) ? fullProf.skills.join(", ") : "HPLC, LC-MS/MS, ISO 17025",
+    Array.isArray(fullProf?.skills) && fullProf.skills.length > 0
+      ? fullProf.skills.join(", ")
+      : "",
   );
   const [avatarUrl, setAvatarUrl] = React.useState(fullProf?.avatar_url || null);
   const [coverUrl, setCoverUrl] = React.useState(fullProf?.cover_url || null);
@@ -47,7 +49,7 @@ export default function EditProfilePage() {
 
       await ProfileService.updateProfile(user.id, {
         full_name: fullName,
-        title,
+        headline,
         bio,
         location,
         website,
@@ -134,8 +136,8 @@ export default function EditProfilePage() {
                   Professional Title
                 </label>
                 <Input
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={headline}
+                  onChange={(e) => setHeadline(e.target.value)}
                   placeholder="e.g. Senior Analytical Chemist (HPLC)"
                 />
               </div>

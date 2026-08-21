@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   const name = profile.full_name || "Food Analyst Professional";
-  const title = profile.title || profile.headline || "Food Analyst & Laboratory Specialist";
+  const title = profile.headline || "Food Analyst & Laboratory Specialist";
   const description =
     profile.bio ||
     `${name} is a certified food analyst and laboratory professional on Food Analyst Forum.`;
@@ -55,7 +55,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
     "@context": "https://schema.org",
     "@type": "Person",
     name: profile.full_name,
-    jobTitle: profile.title || profile.headline,
+    jobTitle: profile.headline || "Food Analyst & Laboratory Specialist",
     worksFor: profile.organizations
       ? {
           "@type": "Organization",
