@@ -1,4 +1,5 @@
 import { createClient } from "@lib/supabase/client";
+import { getBaseUrl } from "@lib/utils";
 
 export type RoleName =
   "Guest" | "User" | "Recruiter" | "Trainer" | "Moderator" | "Admin" | "Super Admin";
@@ -96,9 +97,7 @@ export class AuthService {
    */
   static async signInWithGoogle(next = "/dashboard") {
     const supabase = this.getClient();
-    const appUrl =
-      process.env.NEXT_PUBLIC_APP_URL ??
-      (typeof window !== "undefined" ? window.location.origin : "http://localhost:3000");
+    const appUrl = getBaseUrl();
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
