@@ -67,6 +67,12 @@ export default async function PublicProfilePage({ params }: PageProps) {
     description: profile.bio,
   };
 
+  const supabase = await (await import("@lib/supabase/server")).createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const isOwner = user?.id === profile.id;
+
   return (
     <div className="space-y-8 py-4">
       {/* JSON-LD SEO */}
@@ -75,7 +81,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <ProfileHeader profile={profile} />
+      <ProfileHeader profile={profile} isOwner={isOwner} />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="space-y-8 lg:col-span-8">

@@ -78,7 +78,7 @@ export function ProfileHeader({ profile, isOwner }: ProfileHeaderProps) {
               </Badge>
             </div>
             <p className="text-muted-foreground text-sm font-semibold">
-              {profile.title || "Certified Food Safety & Analytical Specialist"}
+              {profile.title || profile.headline || "Certified Food Safety & Analytical Specialist"}
             </p>
           </div>
 
