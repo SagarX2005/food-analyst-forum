@@ -29,6 +29,29 @@ export default function EditProfilePage() {
   const [avatarUrl, setAvatarUrl] = React.useState(fullProf?.avatar_url || null);
   const [coverUrl, setCoverUrl] = React.useState(fullProf?.cover_url || null);
 
+  const [hasInitialized, setHasInitialized] = React.useState(false);
+
+  React.useEffect(() => {
+    if (fullProf && !hasInitialized) {
+      setFullName(fullProf.full_name || "");
+      setHeadline(fullProf.headline || "");
+      setBio(fullProf.bio || "");
+      setLocation(fullProf.location || "");
+      setWebsite(fullProf.website || "");
+      setLinkedinUrl(fullProf.linkedin_url || "");
+      setGithubUrl(fullProf.github_url || "");
+      setSkillsStr(
+        Array.isArray(fullProf.skills) && fullProf.skills.length > 0
+          ? fullProf.skills.join(", ")
+          : ""
+      );
+      setAvatarUrl(fullProf.avatar_url || null);
+      setCoverUrl(fullProf.cover_url || null);
+      
+      setHasInitialized(true);
+    }
+  }, [fullProf, hasInitialized]);
+
   const [isSaving, setIsSaving] = React.useState(false);
   const [message, setMessage] = React.useState<string | null>(null);
 
