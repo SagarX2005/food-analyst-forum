@@ -45,6 +45,31 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
+  // Catch Supabase OAuth errors that fall back to the root SITE_URL in production.
+  // When a database trigger fails during OAuth, Supabase often strips the redirectTo path
+  // and redirects to the base domain with the error in the query string.
+  const errorParam = request.nextUrl.searchParams.get("error");
+  const errorDesc = request.nextUrl.searchParams.get("error_description") || "";
+  
+  if (
+    errorParam === "server_error" &&
+    (errorDesc.includes("Database error saving new user") || errorDesc.includes("INVITE_REQUIRED"))
+  ) {
+    const redirectUrl = new URL("/invitation-required", request.url);
+    const response = NextResponse.redirect(redirectUrl);
+    
+    // Explicitly clear all Supabase auth cookies to prevent stale sessions
+    const allCookies = request.cookies.getAll();
+    allCookies.forEach((cookie) => {
+      if (cookie.name.startsWith("sb-")) {
+        response.cookies.delete(cookie.name);
+      }
+    });
+    
+    return response;
+  }
+
+
   // Skip session refresh on the OAuth callback route — the callback route
   // handles its own Supabase client, session exchange, and cookie cleanup.
   if (path.startsWith("/auth/callback")) {
