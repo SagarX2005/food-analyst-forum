@@ -35,11 +35,6 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Refresh user session token
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const path = request.nextUrl.pathname;
 
   // Phase 10A: Public routes that are always accessible (never redirected)
@@ -50,13 +45,16 @@ export async function updateSession(request: NextRequest) {
     return supabaseResponse;
   }
 
-  // Skip session refresh on the OAuth callback route — the middleware's getUser()
-  // would wipe the PKCE code_verifier cookie (maxAge:0) before the route handler
-  // can call exchangeCodeForSession(), causing AuthPKCECodeVerifierMissingError.
-  // The callback route handles its own Supabase client and session exchange.
+  // Skip session refresh on the OAuth callback route — the callback route
+  // handles its own Supabase client, session exchange, and cookie cleanup.
   if (path.startsWith("/auth/callback")) {
     return supabaseResponse;
   }
+
+  // Refresh user session token
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // 1. Unauthenticated user trying to access login/register
   const isAuthPage =
