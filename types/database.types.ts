@@ -1,7 +1,7 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type RoleName =
-  "Guest" | "User" | "Recruiter" | "Trainer" | "Moderator" | "Admin" | "Super Admin";
+  "User" | "Recruiter" | "Admin" | "Super Admin";
 
 export type OrganizationType = "Laboratories" | "Companies" | "Institutes" | "Training Centers";
 
@@ -20,7 +20,7 @@ export type ContactMessageStatus = "new" | "in_progress" | "resolved" | "archive
 export type AccessRequestStatus =
   "pending" | "under_review" | "approved" | "rejected" | "invitation_sent" | "accepted" | "expired";
 export type InvitationStatus = "pending" | "sent" | "accepted" | "expired" | "revoked";
-export type InvitationApprovalRole = "User" | "Recruiter" | "Trainer" | "Moderator";
+export type InvitationApprovalRole = "User" | "Recruiter";
 
 export interface Database {
   public: {

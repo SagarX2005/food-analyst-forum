@@ -8,7 +8,7 @@ export const INVITATION_EXPIRY_DAYS = 7;
 
 /** Roles that can be assigned through the normal invitation approval workflow.
  *  Admin and Super Admin are intentionally excluded — those are Phase 10C. */
-export const ALLOWED_APPROVAL_ROLES = ["User", "Recruiter", "Trainer", "Moderator"] as const;
+export const ALLOWED_APPROVAL_ROLES = ["User", "Recruiter"] as const;
 
 export type ApprovalRole = (typeof ALLOWED_APPROVAL_ROLES)[number];
 

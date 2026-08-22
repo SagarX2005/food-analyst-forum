@@ -54,8 +54,6 @@ export default function UserManagementPage() {
     { slug: "all", label: "All Roles" },
     { slug: "user", label: "Users" },
     { slug: "recruiter", label: "Recruiters" },
-    { slug: "trainer", label: "Trainers" },
-    { slug: "moderator", label: "Moderators" },
     { slug: "admin", label: "Admins" },
   ];
 

@@ -21,7 +21,7 @@ export default function UnauthorizedPage() {
 
           <AuthHeader
             title="403 — Access Denied"
-            description="You do not have the required role or permissions (Recruiter, Trainer, Moderator, Admin) to view this resource."
+            description="You do not have the required role or permissions (Recruiter, Admin) to view this resource."
           />
 
           <div className="w-full space-y-2 pt-2">

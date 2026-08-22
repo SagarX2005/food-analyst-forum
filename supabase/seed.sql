@@ -6,11 +6,8 @@
 --------------------------------------------------------------------------------
 INSERT INTO public.roles (id, name, description)
 VALUES
-    ('a0000000-0000-0000-0000-000000000001', 'Guest', 'Anonymous user with read-only public access'),
     ('a0000000-0000-0000-0000-000000000002', 'User', 'Standard registered analyst community member'),
     ('a0000000-0000-0000-0000-000000000003', 'Recruiter', 'Corporate recruiter managing job postings'),
-    ('a0000000-0000-0000-0000-000000000004', 'Trainer', 'Certified instructor creating lab & analysis courses'),
-    ('a0000000-0000-0000-0000-000000000005', 'Moderator', 'Community moderator managing posts and news'),
     ('a0000000-0000-0000-0000-000000000006', 'Admin', 'Platform administrator managing operations'),
     ('a0000000-0000-0000-0000-000000000007', 'Super Admin', 'Full system access bypassing RLS')
 ON CONFLICT (name) DO UPDATE SET description = EXCLUDED.description;
@@ -36,9 +33,7 @@ INSERT INTO auth.users (id, instance_id, email, encrypted_password, email_confir
 VALUES
     ('c0000000-0000-0000-0000-000000000001', '00000000-0000-0000-0000-000000000000', 'superadmin@foodanalyst.org', '$2a$10$abcdefghijklmnopqrstuvwxyz0123456789ABCDEF', now(), '{"full_name": "Dr. Sarah Jenkins"}', 'authenticated', 'authenticated', now(), now()),
     ('c0000000-0000-0000-0000-000000000002', '00000000-0000-0000-0000-000000000000', 'admin@foodanalyst.org', '$2a$10$abcdefghijklmnopqrstuvwxyz0123456789ABCDEF', now(), '{"full_name": "Marcus Vance"}', 'authenticated', 'authenticated', now(), now()),
-    ('c0000000-0000-0000-0000-000000000003', '00000000-0000-0000-0000-000000000000', 'moderator@foodanalyst.org', '$2a$10$abcdefghijklmnopqrstuvwxyz0123456789ABCDEF', now(), '{"full_name": "Elena Rostova"}', 'authenticated', 'authenticated', now(), now()),
     ('c0000000-0000-0000-0000-000000000004', '00000000-0000-0000-0000-000000000000', 'recruiter@eurofins.com', '$2a$10$abcdefghijklmnopqrstuvwxyz0123456789ABCDEF', now(), '{"full_name": "David Sterling"}', 'authenticated', 'authenticated', now(), now()),
-    ('c0000000-0000-0000-0000-000000000005', '00000000-0000-0000-0000-000000000000', 'trainer@gfstacademy.com', '$2a$10$abcdefghijklmnopqrstuvwxyz0123456789ABCDEF', now(), '{"full_name": "Prof. Alan Turing"}', 'authenticated', 'authenticated', now(), now()),
     ('c0000000-0000-0000-0000-000000000006', '00000000-0000-0000-0000-000000000006', 'analyst@foodlab.com', '$2a$10$abcdefghijklmnopqrstuvwxyz0123456789ABCDEF', now(), '{"full_name": "Priya Sharma"}', 'authenticated', 'authenticated', now(), now())
 ON CONFLICT (id) DO NOTHING;
 
@@ -46,9 +41,7 @@ INSERT INTO public.profiles (id, email, full_name, avatar_url, headline, bio, ro
 VALUES
     ('c0000000-0000-0000-0000-000000000001', 'superadmin@foodanalyst.org', 'Dr. Sarah Jenkins', 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150', 'Chief Food Safety Scientist & Super Admin', '20+ years of experience in food microbiology and global regulatory standards.', 'a0000000-0000-0000-0000-000000000007', 'b0000000-0000-0000-0000-000000000003'),
     ('c0000000-0000-0000-0000-000000000002', 'admin@foodanalyst.org', 'Marcus Vance', 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150', 'Operations Lead & System Admin', 'Managing lab verification and enterprise partner integrations.', 'a0000000-0000-0000-0000-000000000006', 'b0000000-0000-0000-0000-000000000003'),
-    ('c0000000-0000-0000-0000-000000000003', 'moderator@foodanalyst.org', 'Elena Rostova', 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150', 'Senior Quality Assurance Specialist', 'Community manager passionate about ISO 17025 compliance.', 'a0000000-0000-0000-0000-000000000005', 'b0000000-0000-0000-0000-000000000002'),
     ('c0000000-0000-0000-0000-000000000004', 'recruiter@eurofins.com', 'David Sterling', 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150', 'Talent Acquisition Manager at Eurofins', 'Connecting food analysts with leading laboratory careers.', 'a0000000-0000-0000-0000-000000000003', 'b0000000-0000-0000-0000-000000000001'),
-    ('c0000000-0000-0000-0000-000000000005', 'trainer@gfstacademy.com', 'Prof. Alan Turing', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150', 'Principal Analytical Chemist & Lead Instructor', 'Specializing in HPLC-MS/MS pesticide residue analysis.', 'a0000000-0000-0000-0000-000000000004', 'b0000000-0000-0000-0000-000000000004'),
     ('c0000000-0000-0000-0000-000000000006', 'analyst@foodlab.com', 'Priya Sharma', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150', 'Food Microbiology Analyst', 'Conducting pathogen testing and shelf-life studies in accredited laboratories.', 'a0000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000001')
 ON CONFLICT (id) DO UPDATE SET
     full_name = EXCLUDED.full_name,
@@ -80,13 +73,13 @@ ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.forum_comments (id, post_id, author_id, content)
 VALUES
-    ('f0000000-0000-0000-0000-000000000001', 'e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000005', 'We switched to dSPE with d-PSA and C18 sorbents for QuEChERS, which dramatically improved recovery for organophosphates without co-extracting chlorophyll.')
+    ('f0000000-0000-0000-0000-000000000001', 'e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000006', 'We switched to dSPE with d-PSA and C18 sorbents for QuEChERS, which dramatically improved recovery for organophosphates without co-extracting chlorophyll.')
 ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO public.forum_likes (post_id, user_id)
 VALUES
-    ('e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000005'),
-    ('e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003')
+    ('e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000006'),
+    ('e0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002')
 ON CONFLICT DO NOTHING;
 
 --------------------------------------------------------------------------------
@@ -102,7 +95,7 @@ ON CONFLICT (slug) DO NOTHING;
 INSERT INTO public.resources (id, uploader_id, category_id, title, description, file_url, file_type, file_size_bytes, access_level, downloads_count)
 VALUES
     ('80000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000001', '70000000-0000-0000-0000-000000000002', 'ISO/IEC 17025:2017 Internal Audit Checklist Template', 'Comprehensive checklist covering Clause 4 to Clause 8 for food testing laboratory accreditation.', 'https://storage.foodanalyst.org/resources/iso-17025-audit-checklist.pdf', 'application/pdf', 1048576, 'public', 342),
-    ('80000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000005', '70000000-0000-0000-0000-000000000003', 'HPLC Method Validation Protocol (ICH & AOAC Compliant)', 'Complete Excel template calculating accuracy, precision (RSD), LOD, LOQ, and linearity.', 'https://storage.foodanalyst.org/resources/hplc-validation-template.xlsx', 'application/vnd.ms-excel', 524288, 'authenticated', 189)
+    ('80000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000006', '70000000-0000-0000-0000-000000000003', 'HPLC Method Validation Protocol (ICH & AOAC Compliant)', 'Complete Excel template calculating accuracy, precision (RSD), LOD, LOQ, and linearity.', 'https://storage.foodanalyst.org/resources/hplc-validation-template.xlsx', 'application/vnd.ms-excel', 524288, 'authenticated', 189)
 ON CONFLICT (id) DO NOTHING;
 
 --------------------------------------------------------------------------------
@@ -111,7 +104,7 @@ ON CONFLICT (id) DO NOTHING;
 INSERT INTO public.jobs (id, organization_id, recruiter_id, title, slug, description, location, job_type, experience_level, salary_range, status)
 VALUES
     ('90000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000004', 'Senior Analytical Chemist (HPLC/LC-MS)', 'senior-analytical-chemist-hplc-lcms', 'Eurofins is seeking an experienced Analytical Chemist to lead pesticide and contaminant testing. Must have 5+ years experience in ISO 17025 environment.', 'Boston, MA (On-site)', 'full_time', 'Senior Level', '$85,000 - $110,000', 'active'),
-    ('90000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000003', 'Food Safety & Hygiene Auditor', 'food-safety-hygiene-auditor', 'Conduct supplier audit inspections, HACCP verifications, and pathogen risk assessments across regional supply chains.', 'Chicago, IL (Hybrid)', 'full_time', 'Mid Level', '$75,000 - $90,000', 'active')
+    ('90000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000002', 'c0000000-0000-0000-0000-000000000002', 'Food Safety & Hygiene Auditor', 'food-safety-hygiene-auditor', 'Conduct supplier audit inspections, HACCP verifications, and pathogen risk assessments across regional supply chains.', 'Chicago, IL (Hybrid)', 'full_time', 'Mid Level', '$75,000 - $90,000', 'active')
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.job_applications (id, job_id, applicant_id, resume_url, cover_letter, status)
@@ -124,8 +117,8 @@ ON CONFLICT (job_id, applicant_id) DO NOTHING;
 --------------------------------------------------------------------------------
 INSERT INTO public.courses (id, organization_id, trainer_id, title, slug, description, cover_image_url, level, duration_hours, price, status)
 VALUES
-    ('b1000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000004', 'c0000000-0000-0000-0000-000000000005', 'Masterclass in HPLC Method Development for Food Contaminants', 'masterclass-hplc-method-development', 'Learn mobile phase optimization, column selection, sample extraction, and method validation according to AOAC standards.', 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600', 'intermediate', 16.50, 199.00, 'published'),
-    ('b1000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000004', 'c0000000-0000-0000-0000-000000000005', 'ISO/IEC 17025 Lead Auditor Certification Course', 'iso-17025-lead-auditor-certification', 'Comprehensive guide to quality management systems, measurement uncertainty, proficiency testing, and internal audits.', 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600', 'advanced', 24.00, 349.00, 'published')
+    ('b1000000-0000-0000-0000-000000000001', 'b0000000-0000-0000-0000-000000000004', 'c0000000-0000-0000-0000-000000000006', 'Masterclass in HPLC Method Development for Food Contaminants', 'masterclass-hplc-method-development', 'Learn mobile phase optimization, column selection, sample extraction, and method validation according to AOAC standards.', 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600', 'intermediate', 16.50, 199.00, 'published'),
+    ('b1000000-0000-0000-0000-000000000002', 'b0000000-0000-0000-0000-000000000004', 'c0000000-0000-0000-0000-000000000006', 'ISO/IEC 17025 Lead Auditor Certification Course', 'iso-17025-lead-auditor-certification', 'Comprehensive guide to quality management systems, measurement uncertainty, proficiency testing, and internal audits.', 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600', 'advanced', 24.00, 349.00, 'published')
 ON CONFLICT (slug) DO NOTHING;
 
 INSERT INTO public.course_enrollments (id, course_id, student_id, status, progress_percent)
@@ -138,7 +131,7 @@ ON CONFLICT (course_id, student_id) DO NOTHING;
 --------------------------------------------------------------------------------
 INSERT INTO public.news (id, author_id, title, slug, summary, content, image_url, status)
 VALUES
-    ('d1000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000003', 'FSSAI Updates Maximum Residue Limits (MRLs) for Spices and Culinary Herbs', 'fssai-updates-mrls-spices-herbs', 'Regulatory authority releases revised guidelines for ethylene oxide and pesticide limits in exported spices.', 'The Food Safety and Standards Authority of India (FSSAI) has published updated regulations tightening MRL standards for spices. Testing laboratories are advised to update their screening suites immediately.', 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600', 'published')
+    ('d1000000-0000-0000-0000-000000000001', 'c0000000-0000-0000-0000-000000000002', 'FSSAI Updates Maximum Residue Limits (MRLs) for Spices and Culinary Herbs', 'fssai-updates-mrls-spices-herbs', 'Regulatory authority releases revised guidelines for ethylene oxide and pesticide limits in exported spices.', 'The Food Safety and Standards Authority of India (FSSAI) has published updated regulations tightening MRL standards for spices. Testing laboratories are advised to update their screening suites immediately.', 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=600', 'published')
 ON CONFLICT (slug) DO NOTHING;
 
 --------------------------------------------------------------------------------

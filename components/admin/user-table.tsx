@@ -88,8 +88,6 @@ export function UserTable({ users, onRoleChange, onDeleteUser }: UserTableProps)
                     >
                       <option value="user">User</option>
                       <option value="recruiter">Recruiter</option>
-                      <option value="trainer">Trainer</option>
-                      <option value="moderator">Moderator</option>
                       <option value="admin">Admin</option>
                       <option value="super admin">Super Admin</option>
                     </select>
