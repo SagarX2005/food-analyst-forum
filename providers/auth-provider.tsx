@@ -200,6 +200,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     hasRole,
     isAdmin,
     isSuperAdmin,
+    reloadProfile: loadUserAndProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

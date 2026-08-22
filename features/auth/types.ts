@@ -31,4 +31,5 @@ export interface AuthContextValue extends AuthState {
   hasRole: (requiredRole: RoleName) => boolean;
   isAdmin: () => boolean;
   isSuperAdmin: () => boolean;
+  reloadProfile: () => Promise<void>;
 }

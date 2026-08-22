@@ -11,7 +11,7 @@ import { ProfileService, type FullProfile } from "@services/profileService";
 import { FileUploader } from "@components/shared/file-uploader";
 
 export default function EditProfilePage() {
-  const { user, profile } = useAuth();
+  const { user, profile, reloadProfile } = useAuth();
   const fullProf = profile as unknown as FullProfile | null;
 
   const [fullName, setFullName] = React.useState(fullProf?.full_name || "");
@@ -93,6 +93,8 @@ export default function EditProfilePage() {
         avatar_url: avatarUrl,
         cover_url: coverUrl,
       });
+
+      await reloadProfile();
 
       setMessage("Changes saved successfully.");
       setTimeout(() => {
