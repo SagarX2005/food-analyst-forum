@@ -27,6 +27,7 @@ export interface GetJobsOptions {
   sortBy?: "latest" | "salary" | "urgent";
   page?: number;
   limit?: number;
+  recruiterId?: string;
 }
 
 export class JobService {
@@ -63,9 +64,13 @@ export class JobService {
    */
   public static async getJobs(options: GetJobsOptions = {}): Promise<FullJob[]> {
     const supabase = createClient();
-    const { search, sortBy = "latest", page = 1, limit = 15 } = options;
+    const { search, sortBy = "latest", page = 1, limit = 15, recruiterId } = options;
 
     const query = supabase.from("jobs").select("*, organization:organizations(*)");
+
+    if (recruiterId) {
+      query.eq("recruiter_id", recruiterId);
+    }
 
     if (search && search.trim().length > 0) {
       query.or(`title.ilike.%${search}%,description.ilike.%${search}%,location.ilike.%${search}%`);
@@ -88,11 +93,6 @@ export class JobService {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (data as any[]).map((item) => {
       const job = item as FullJob;
-      job.employment_type = job.job_type || "Full-Time";
-      job.salary_min = 800000;
-      job.salary_max = 1400000;
-      job.skills_required = ["HPLC", "LC-MS/MS", "FSSAI", "ISO 17025"];
-      job.applications_count = 8;
       return job;
     });
   }
@@ -112,11 +112,6 @@ export class JobService {
     if (error || !data) return null;
 
     const job = data as unknown as FullJob;
-    job.employment_type = job.job_type || "Full-Time";
-    job.salary_min = 800000;
-    job.salary_max = 1400000;
-    job.skills_required = ["HPLC", "LC-MS/MS", "FSSAI Compliance", "ISO 17025 Auditing"];
-    job.applications_count = 14;
 
     // Check if user bookmarked
     if (userId) {
@@ -170,11 +165,6 @@ export class JobService {
     }
 
     const job = data as unknown as FullJob;
-    job.employment_type = payload.employmentType;
-    job.salary_min = payload.salaryMin || 800000;
-    job.salary_max = payload.salaryMax || 1400000;
-    job.skills_required = ["HPLC", "LC-MS/MS", "FSSAI"];
-    job.applications_count = 0;
     return job;
   }
 
@@ -196,7 +186,7 @@ export class JobService {
         applicant_id: payload.applicantId,
         resume_url: payload.resumeUrl,
         cover_letter: payload.coverLetter || null,
-        status: "Applied",
+        status: "submitted",
       })
       .select("*, job:jobs(*), applicant:profiles(*)")
       .single();
