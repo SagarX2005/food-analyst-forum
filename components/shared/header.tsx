@@ -237,6 +237,16 @@ export function Header() {
                             {isSuperAdmin() ? "Super Admin Dashboard" : "Admin Dashboard"}
                           </Link>
                         )}
+                        {role === "Recruiter" && (
+                          <Link
+                            href="/jobs/recruiter"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-xs font-bold text-[#0a2a4a] bg-blue-50/50 transition-colors hover:bg-blue-100/50"
+                          >
+                            <Briefcase className="h-3.5 w-3.5 text-[#0a2a4a]" />
+                            Recruiter Dashboard
+                          </Link>
+                        )}
                         {[
                           { href: "/dashboard", icon: FlaskConical, label: "My Dashboard" },
                           { href: `/u/${username}`, icon: UserIcon, label: "Public Profile" },
