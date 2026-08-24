@@ -1086,6 +1086,10 @@ export interface Database {
         Args: { p_app_id: string; p_request: string };
         Returns: void;
       };
+      resubmit_recruiter_application: {
+        Args: { p_app_id: string; p_new_evidence: string };
+        Returns: void;
+      };
       get_user_role: {
         Args: { p_user_id?: string };
         Returns: string;

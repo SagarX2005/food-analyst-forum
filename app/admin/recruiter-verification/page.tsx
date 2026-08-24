@@ -5,6 +5,7 @@ import { RecruiterVerificationService } from "@services/recruiterVerificationSer
 import { RecruiterApplicationTable } from "./_components/recruiter-application-table";
 import { Card } from "@components/ui/card";
 import { Badge } from "@components/ui/badge";
+import { createClient } from "@lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Recruiter Verification — Admin",
@@ -30,7 +31,8 @@ function StatCard({ label, value, status }: { label: string; value: number; stat
 }
 
 export default async function RecruiterVerificationPage() {
-  const { data: applications } = await RecruiterVerificationService.getApplications({ status: "all", limit: 100 });
+  const supabase = await createClient();
+  const { data: applications } = await RecruiterVerificationService.getApplications({ status: "all", limit: 100 }, supabase);
 
   const stats = {
     total: applications.length,

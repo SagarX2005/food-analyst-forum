@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RecruiterVerificationService } from "@services/recruiterVerificationService";
 import { RecruiterApplicationDetails } from "./_components/recruiter-application-details";
+import { createClient } from "@lib/supabase/server";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -11,7 +12,8 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   try {
-    const app = await RecruiterVerificationService.getApplicationById(id);
+    const supabase = await createClient();
+    const app = await RecruiterVerificationService.getApplicationById(id, supabase);
     return {
       title: `Review: ${app.user?.full_name || "Applicant"} — Admin`,
     };
@@ -28,7 +30,8 @@ export default async function RecruiterVerificationDetailPage({ params }: PagePr
   const { id } = await params;
   
   try {
-    const application = await RecruiterVerificationService.getApplicationById(id);
+    const supabase = await createClient();
+    const application = await RecruiterVerificationService.getApplicationById(id, supabase);
     
     if (!application) {
       notFound();

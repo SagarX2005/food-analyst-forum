@@ -2,10 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { RecruiterVerificationService } from "@services/recruiterVerificationService";
+import { createClient } from "@lib/supabase/server";
 
 export async function approveApplicationAction(id: string) {
   try {
-    await RecruiterVerificationService.approveApplication(id);
+    const supabase = await createClient();
+    await RecruiterVerificationService.approveApplication(id, supabase);
     revalidatePath("/admin/recruiter-verification");
     revalidatePath(`/admin/recruiter-verification/${id}`);
     revalidatePath("/admin");
@@ -21,7 +23,8 @@ export async function rejectApplicationAction(id: string, reason: string) {
     if (!reason || reason.trim() === "") {
       return { success: false, error: "Rejection reason is required" };
     }
-    await RecruiterVerificationService.rejectApplication(id, reason);
+    const supabase = await createClient();
+    await RecruiterVerificationService.rejectApplication(id, reason, supabase);
     revalidatePath("/admin/recruiter-verification");
     revalidatePath(`/admin/recruiter-verification/${id}`);
     revalidatePath("/admin");
@@ -37,7 +40,8 @@ export async function requestMoreInfoAction(id: string, requestMsg: string) {
     if (!requestMsg || requestMsg.trim() === "") {
       return { success: false, error: "More info request message is required" };
     }
-    await RecruiterVerificationService.requestMoreInfo(id, requestMsg);
+    const supabase = await createClient();
+    await RecruiterVerificationService.requestMoreInfo(id, requestMsg, supabase);
     revalidatePath("/admin/recruiter-verification");
     revalidatePath(`/admin/recruiter-verification/${id}`);
     revalidatePath("/admin");

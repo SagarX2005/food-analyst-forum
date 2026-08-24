@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Briefcase, Search, PlusCircle, Sparkles, Building2 } from "lucide-react";
+import { Briefcase, Search, PlusCircle, Sparkles } from "lucide-react";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Card } from "@components/ui/card";
@@ -62,11 +62,7 @@ export default function CareerPortalPage() {
         </div>
 
         <div className="flex shrink-0 items-center gap-3">
-          <Link href="/jobs/recruiter">
-            <Button variant="outline" size="lg" className="gap-2">
-              <Building2 className="h-4 w-4" /> Recruiter Dashboard
-            </Button>
-          </Link>
+
           <Link href="/jobs/create">
             <Button variant="green" size="lg" className="gap-2 shadow-md">
               <PlusCircle className="h-5 w-5" /> Post a Job

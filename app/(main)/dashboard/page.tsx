@@ -14,6 +14,8 @@ import {
 } from "@services/profileService";
 import { ProfileCompletion } from "@components/profile/profile-completion";
 
+import { RecruiterVerificationService, type RecruiterApplicationRow } from "@services/recruiterVerificationService";
+
 export default function DashboardPage() {
   const { user, profile, role, organization } = useAuth();
   const [completion, setCompletion] = React.useState<ProfileCompletionResult>({
@@ -21,6 +23,15 @@ export default function DashboardPage() {
     completedSteps: [],
     missingSteps: [],
   });
+  const [recruiterApp, setRecruiterApp] = React.useState<RecruiterApplicationRow | null>(null);
+
+  React.useEffect(() => {
+    if (user && role !== "Recruiter" && role !== "Super Admin") {
+      RecruiterVerificationService.getUserActiveApplication(user.id)
+        .then((app) => setRecruiterApp(app))
+        .catch(console.error);
+    }
+  }, [user, role]);
 
   React.useEffect(() => {
     if (profile) {
@@ -63,6 +74,41 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* RECRUITER VERIFICATION BANNER */}
+      {role === "User" && (
+        <Card className={`border ${recruiterApp?.status === 'rejected' ? 'border-rose-200 bg-rose-50' : recruiterApp?.status === 'more_information_required' ? 'border-amber-200 bg-amber-50' : recruiterApp?.status === 'pending' ? 'border-indigo-200 bg-indigo-50' : 'border-slate-200'}`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between p-6 gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <Briefcase className={`h-5 w-5 ${recruiterApp?.status === 'rejected' ? 'text-rose-600' : recruiterApp?.status === 'more_information_required' ? 'text-amber-600' : recruiterApp?.status === 'pending' ? 'text-indigo-600' : 'text-slate-700'}`} />
+                <h3 className="font-bold text-lg text-slate-900">
+                  {!recruiterApp ? "Become a Recruiter" : 
+                   recruiterApp.status === "pending" ? "Recruiter Application Under Review" :
+                   recruiterApp.status === "rejected" ? "Application Rejected" :
+                   recruiterApp.status === "more_information_required" ? "More Information Requested" : 
+                   "Become a Recruiter"}
+                </h3>
+              </div>
+              <p className="text-sm text-slate-600">
+                {!recruiterApp && "Recruiter status is verified by Food Analyst Forum and requires Super Admin approval. Post jobs and find top talent."}
+                {recruiterApp?.status === "pending" && "Your application is currently being reviewed by a Super Admin. We will notify you once a decision is made."}
+                {recruiterApp?.status === "rejected" && "Your previous application was rejected. You may apply again if circumstances have changed."}
+                {recruiterApp?.status === "more_information_required" && "The Super Admin has requested additional information before approving your application."}
+              </p>
+            </div>
+            <div>
+              {(!recruiterApp || recruiterApp.status === "rejected" || recruiterApp.status === "more_information_required") && (
+                <Link href="/apply-recruiter">
+                  <Button className="whitespace-nowrap">
+                    {!recruiterApp ? "Apply Now" : recruiterApp.status === "rejected" ? "Reapply" : "Provide Information"}
+                  </Button>
+                </Link>
+              )}
+            </div>
+          </div>
+        </Card>
+      )}
 
       {/* 2-COLUMN LAYOUT: QUICK STATS & PROFILE COMPLETION */}
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">

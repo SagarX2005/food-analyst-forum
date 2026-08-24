@@ -1,4 +1,5 @@
 import { createClient } from "@lib/supabase/client";
+import { type SupabaseClient } from "@supabase/supabase-js";
 import type { Database, RecruiterApplicationStatus } from "@app-types/database.types";
 
 export type RecruiterApplicationRow = Database["public"]["Tables"]["recruiter_applications"]["Row"];
@@ -15,6 +16,11 @@ export interface FullRecruiterApplication extends RecruiterApplicationRow {
   } | null;
 }
 
+export type SubmitRecruiterApplicationPayload = Omit<
+  Database["public"]["Tables"]["recruiter_applications"]["Insert"],
+  "id" | "status" | "rejection_reason" | "more_info_request" | "reviewed_by" | "reviewed_at" | "created_at" | "updated_at"
+>;
+
 export interface GetApplicationsOptions {
   status?: RecruiterApplicationStatus | "all";
   page?: number;
@@ -26,9 +32,10 @@ export class RecruiterVerificationService {
    * Fetch recruiter applications with pagination and filtering
    */
   public static async getApplications(
-    options: GetApplicationsOptions = {}
+    options: GetApplicationsOptions = {},
+    client?: SupabaseClient<Database>
   ): Promise<{ data: FullRecruiterApplication[]; count: number }> {
-    const supabase = createClient();
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
     const { status = "pending", page = 1, limit = 20 } = options;
 
     let query = supabase
@@ -63,8 +70,8 @@ export class RecruiterVerificationService {
   /**
    * Fetch a single recruiter application by ID
    */
-  public static async getApplicationById(id: string): Promise<FullRecruiterApplication> {
-    const supabase = createClient();
+  public static async getApplicationById(id: string, client?: SupabaseClient<Database>): Promise<FullRecruiterApplication> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
     const { data, error } = await supabase
       .from("recruiter_applications")
       .select(`
@@ -87,8 +94,8 @@ export class RecruiterVerificationService {
   /**
    * Approve a recruiter application
    */
-  public static async approveApplication(id: string): Promise<void> {
-    const supabase = createClient();
+  public static async approveApplication(id: string, client?: SupabaseClient<Database>): Promise<void> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await supabase.rpc("approve_recruiter_application" as any, {
       p_app_id: id,
@@ -100,8 +107,8 @@ export class RecruiterVerificationService {
   /**
    * Reject a recruiter application
    */
-  public static async rejectApplication(id: string, reason: string): Promise<void> {
-    const supabase = createClient();
+  public static async rejectApplication(id: string, reason: string, client?: SupabaseClient<Database>): Promise<void> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await supabase.rpc("reject_recruiter_application" as any, {
       p_app_id: id,
@@ -114,12 +121,59 @@ export class RecruiterVerificationService {
   /**
    * Request more information for a recruiter application
    */
-  public static async requestMoreInfo(id: string, request: string): Promise<void> {
-    const supabase = createClient();
+  public static async requestMoreInfo(id: string, request: string, client?: SupabaseClient<Database>): Promise<void> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await supabase.rpc("request_more_info_recruiter_application" as any, {
       p_app_id: id,
       p_request: request,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any);
+    if (error) throw error;
+  }
+
+  /**
+   * Fetch the active or most recent application for a user
+   */
+  public static async getUserActiveApplication(userId: string, client?: SupabaseClient<Database>): Promise<RecruiterApplicationRow | null> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
+    const { data, error } = await supabase
+      .from("recruiter_applications")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (error) throw error;
+    return data;
+  }
+
+  /**
+   * Submit a new recruiter application
+   */
+  public static async submitApplication(payload: SubmitRecruiterApplicationPayload, client?: SupabaseClient<Database>): Promise<RecruiterApplicationRow> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
+    const { data, error } = await supabase
+      .from("recruiter_applications")
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .insert([payload as any])
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
+  /**
+   * Resubmit a recruiter application that requires more information
+   */
+  public static async resubmitApplication(id: string, newEvidence: string, client?: SupabaseClient<Database>): Promise<void> {
+    const supabase = (client || createClient()) as SupabaseClient<Database>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await supabase.rpc("resubmit_recruiter_application" as any, {
+      p_app_id: id,
+      p_new_evidence: newEvidence,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
     if (error) throw error;
