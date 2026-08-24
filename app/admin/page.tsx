@@ -25,9 +25,9 @@ import {
 import { KpiCard } from "@components/admin/kpi-card";
 
 export default function OperationsCenterHome() {
-  const [stats, setStats] = React.useState<(PlatformStats & { pendingInvitations: number }) | null>(
-    null,
-  );
+  const [stats, setStats] = React.useState<
+    (PlatformStats & { pendingInvitations: number; pendingRecruiterApplications: number }) | null
+  >(null);
   const [healthMetrics, setHealthMetrics] = React.useState<HealthMetric[]>([]);
   const [recentActivity, setRecentActivity] = React.useState<AuditLogRow[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -80,7 +80,7 @@ export default function OperationsCenterHome() {
       </div>
 
       {/* NEEDS ATTENTION */}
-      {stats && stats.pendingInvitations > 0 && (
+      {stats && (stats.pendingInvitations > 0 || stats.pendingRecruiterApplications > 0) && (
         <section>
           <h2 className="mb-4 text-sm font-bold tracking-widest text-slate-400 uppercase">
             Needs Your Attention
@@ -107,6 +107,30 @@ export default function OperationsCenterHome() {
                 </Link>
               </div>
             </Card>
+
+            {stats.pendingRecruiterApplications > 0 && (
+              <Card className="border-indigo-200 bg-indigo-50/50 p-4 shadow-sm transition-all hover:shadow-md">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="mb-1 flex items-center gap-2 text-indigo-600">
+                      <Briefcase className="h-4 w-4" />
+                      <span className="font-bold">{stats.pendingRecruiterApplications}</span>
+                    </div>
+                    <p className="text-sm font-medium text-slate-700">Recruiter Applications</p>
+                    <p className="mt-0.5 text-xs text-slate-500">Awaiting Super Admin review</p>
+                  </div>
+                  <Link href="/admin/recruiter-verification">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 text-xs font-semibold text-indigo-700 hover:bg-indigo-100 hover:text-indigo-800"
+                    >
+                      Review <ArrowRight className="ml-1 h-3 w-3" />
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            )}
 
             <Card className="border-rose-200 bg-rose-50/50 p-4 shadow-sm transition-all hover:shadow-md">
               <div className="flex items-start justify-between">

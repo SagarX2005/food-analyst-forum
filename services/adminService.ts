@@ -45,7 +45,7 @@ export class AdminService {
   /**
    * Fetch executive platform KPIs
    */
-  public static async getPlatformStats(): Promise<PlatformStats & { pendingInvitations: number }> {
+  public static async getPlatformStats(): Promise<PlatformStats & { pendingInvitations: number; pendingRecruiterApplications: number }> {
     const supabase = createClient();
 
     const { count: usersCount } = await supabase
@@ -68,6 +68,11 @@ export class AdminService {
       .select("*", { count: "exact", head: true })
       .eq("status", "pending");
 
+    const { count: pendingRecruiterApplications } = await supabase
+      .from("recruiter_applications")
+      .select("*", { count: "exact", head: true })
+      .eq("status", "pending");
+
     return {
       totalUsers: usersCount ?? 0,
       activeOrganizations: orgsCount ?? 0,
@@ -78,6 +83,7 @@ export class AdminService {
       storageUsedBytes: 0,
       healthScore: 99.9,
       pendingInvitations: pendingInvites ?? 0,
+      pendingRecruiterApplications: pendingRecruiterApplications ?? 0,
     };
   }
 

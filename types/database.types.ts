@@ -22,6 +22,8 @@ export type AccessRequestStatus =
 export type InvitationStatus = "pending" | "sent" | "accepted" | "expired" | "revoked";
 export type InvitationApprovalRole = "User" | "Recruiter";
 
+export type RecruiterApplicationStatus = "pending" | "approved" | "rejected" | "more_information_required";
+
 export interface Database {
   public: {
     Tables: {
@@ -94,6 +96,75 @@ export interface Database {
             referencedRelation: "profiles";
             referencedColumns: ["id"];
           },
+        ];
+      };
+      recruiter_applications: {
+        Row: {
+          id: string;
+          user_id: string;
+          organization_name: string;
+          organization_website: string | null;
+          organization_type: string | null;
+          location: string | null;
+          position: string;
+          evidence: string | null;
+          status: RecruiterApplicationStatus;
+          rejection_reason: string | null;
+          more_info_request: string | null;
+          reviewed_by: string | null;
+          reviewed_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          organization_name: string;
+          organization_website?: string | null;
+          organization_type?: string | null;
+          location?: string | null;
+          position: string;
+          evidence?: string | null;
+          status?: RecruiterApplicationStatus;
+          rejection_reason?: string | null;
+          more_info_request?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          organization_name?: string;
+          organization_website?: string | null;
+          organization_type?: string | null;
+          location?: string | null;
+          position?: string;
+          evidence?: string | null;
+          status?: RecruiterApplicationStatus;
+          rejection_reason?: string | null;
+          more_info_request?: string | null;
+          reviewed_by?: string | null;
+          reviewed_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "recruiter_applications_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "recruiter_applications_reviewed_by_fkey";
+            columns: ["reviewed_by"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          }
         ];
       };
       invitations: {
@@ -1003,6 +1074,18 @@ export interface Database {
       [_ in never]: never;
     };
     Functions: {
+      approve_recruiter_application: {
+        Args: { p_app_id: string };
+        Returns: void;
+      };
+      reject_recruiter_application: {
+        Args: { p_app_id: string; p_reason: string };
+        Returns: void;
+      };
+      request_more_info_recruiter_application: {
+        Args: { p_app_id: string; p_request: string };
+        Returns: void;
+      };
       get_user_role: {
         Args: { p_user_id?: string };
         Returns: string;
