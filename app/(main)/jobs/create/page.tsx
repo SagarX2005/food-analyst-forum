@@ -37,9 +37,17 @@ export default function CreateJobPage() {
     try {
       setIsSubmitting(true);
       setError(null);
+      const resolvedOrgId = profile?.organization_id || organization?.id;
+
+      if (!resolvedOrgId) {
+        setError("You need to join an organization before posting a job. Please contact support to set up your organization.");
+        setIsSubmitting(false);
+        return;
+      }
+
       const job = await JobService.createJob({
         postedById: user.id,
-        organizationId: profile?.organization_id || organization?.id || "org_default",
+        organizationId: resolvedOrgId,
         title,
         description,
         employmentType,
