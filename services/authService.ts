@@ -103,6 +103,9 @@ export class AuthService {
       provider: "google",
       options: {
         redirectTo: `${appUrl}/auth/callback?next=${encodeURIComponent(next)}`,
+        queryParams: {
+          prompt: "select_account",
+        },
       },
     });
 
