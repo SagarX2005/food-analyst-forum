@@ -102,7 +102,7 @@ export class AuthService {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${appUrl}/auth/callback?next=${encodeURIComponent(next)}`,
+        redirectTo: `${appUrl}/auth/callback`,
         queryParams: {
           prompt: "select_account",
         },
