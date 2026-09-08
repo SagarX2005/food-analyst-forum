@@ -96,6 +96,9 @@ export class AuthService {
    * Supabase will redirect to /auth/callback after authentication.
    */
   static async signInWithGoogle(next = "/dashboard") {
+    // Avoid TS unused variable error, since we removed it from redirectTo to avoid Supabase exact match failure
+    void next;
+
     const supabase = this.getClient();
     const appUrl = getBaseUrl();
 
